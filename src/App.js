@@ -1,17 +1,33 @@
 import React from 'react'
 import {QueryClient, QueryClientProvider} from "react-query";
-import Dumy from './features/test/dumy'
-import DumyDisplay from './features/test/dumyDisplay'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import {TicketsList} from './pages/ticket'
+import TicketDetailsWarpper from './pages/ticket/ticketDetails'
+
 
 export const queryClient = new QueryClient()
 
 function App() {
   return (
     <>
-      <QueryClientProvider client={queryClient}>   
-        <Dumy />
-        <DumyDisplay />
+      <Router>
+      <QueryClientProvider client={queryClient}> 
+      <Switch>
+          <Route path="/:ticketUuid">
+            <TicketDetailsWarpper />
+          </Route>
+          <Route path="/">
+            <TicketsList />
+          </Route>   
+        </Switch>  
+        
       </QueryClientProvider>
+      </Router>
     </>
   );
 }
