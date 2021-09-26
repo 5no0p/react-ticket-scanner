@@ -14,6 +14,7 @@ import TicketDetailsWarpper from './pages/ticket/ticketDetails'
 import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
 import TicketQrcodeDetailsWarpper from './features/test/qrTicketWarper'
 import Scan from './components/scan/scan'
+import Navbar from './components/navbar'
 
 export const queryClient = new QueryClient()
 
@@ -24,6 +25,9 @@ function App() {
       <AlertProvider template={AlertTemplate}>
   
       <QueryClientProvider client={queryClient}> 
+      <div>
+      <Navbar />
+      </div>
       <Switch>
           <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
