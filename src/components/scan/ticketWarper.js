@@ -58,7 +58,7 @@ console.log("histoooo: ",history)
       */}
       {ticketData && 
     <div style={{
-      margin: "3.75rem 2.5rem"
+      margin: "10vh 10vw"
   }}>
       <div className="row">
         <div className="col-9">{/* event name */}
