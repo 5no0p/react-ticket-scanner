@@ -123,7 +123,9 @@ export default function TicketDetailsWarpper(){
   console.log("param: ",useRouteMatch())
   return(
     <>
-    <div>
+    <div style={{
+      margin: "10vh 1vw"
+    }}>
     <TicketDetails ticketUuid={ticketUuid} />
     </div>
     </>
