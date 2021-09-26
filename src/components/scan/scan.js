@@ -19,6 +19,7 @@ class Scan extends Component {
   }
   render() {
     return (
+      <>
       <div>
         <QrReader
           delay={300}
@@ -26,13 +27,15 @@ class Scan extends Component {
           onScan={this.handleScan}
           style={{ width: '100%' }}
         />
-
+      </div>
+      <div className="mt-3">
         {this.state.result==="No result"
         ?<p>{this.state.result}</p>
-        :<div><TicketQrcodeDetails ticketQrcode={this.state.result} /></div>
+        :<div className="mx-5"><TicketQrcodeDetails ticketQrcode={this.state.result} /></div>
         }
-        
       </div>
+      
+      </>
     )
   }
 }
