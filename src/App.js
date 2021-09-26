@@ -29,18 +29,19 @@ function App() {
       <Navbar />
       </div>
       <Switch>
-          <Route path="/test/:qrcode">
+          {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
-          </Route>
-          <Route path="/scan">
-            <Scan />
-          </Route>
-          <Route path="/:ticketUuid">
+          </Route> */}
+          
+          <Route path="/tickets/:ticketUuid">
             <TicketDetailsWarpper />
           </Route>
-          <Route path="/">
+          <Route path="/tickets">
             <TicketsList />
           </Route>   
+          <Route path="/">
+            <Scan />
+          </Route>
         </Switch>  
         
       </QueryClientProvider>
