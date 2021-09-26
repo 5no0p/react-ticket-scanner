@@ -32,9 +32,11 @@ function App() {
           <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route>
-          
-          <Route path="/tickets/:ticketUuid">
+          <Route path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
+          </Route>
+          <Route path="/tickets/:ticketUuid">
+            <TicketGeneralWarpper />
           </Route>
           <Route path="/tickets">
             <TicketsList />

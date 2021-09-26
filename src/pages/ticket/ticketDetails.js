@@ -125,7 +125,7 @@ console.log("FINAL",ticketData)
 export default function TicketDetailsWarpper(){
     //      1.get the ticket uuid
   let { ticketUuid } = useParams();
-  console.log("param: ",useRouteMatch())
+  console.log("param: ",useParams())
   return(
     <>
     <div className="mx-4">

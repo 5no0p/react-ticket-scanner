@@ -6,7 +6,7 @@ import QRCode from "react-qr-code";
 //       3. import queryClient
 import {queryClient} from '../../App'
 //       4. import useParams
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 //       5. import TicketByIdQuery
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
 
