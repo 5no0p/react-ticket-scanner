@@ -28,7 +28,7 @@ function App() {
             <Scan />
           </Route>
           <Route path="/:ticketUuid">
-            <TicketGeneralWarpper />
+            <TicketDetailsWarpper />
           </Route>
           <Route path="/">
             <TicketsList />

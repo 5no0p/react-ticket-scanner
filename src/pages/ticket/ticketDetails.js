@@ -11,11 +11,9 @@ import { TicketByIdQuery } from '../../features/ticket/ticket.query';
 
 //
 // TODO: make function to display ticket details
-export function TicketDetails(){
+export function TicketDetails({ticketUuid}){
 // TODO: declear variables
-//      1.get the ticket uuid
-  let { ticketUuid } = useParams();
-  console.log("param: ",useRouteMatch())
+
 //      2. declear variable to check cached data
   let isCached = true
 //      3. declear variable to hold data from query
@@ -107,8 +105,6 @@ console.log("FINAL",ticketData)
         <div>{/* ticket nuumber data*/}<p><strong>{ticketData.uuid}</strong></p></div>
       </div>
 
-      <div className="d-flex justify-content-center">{/* ticket QRcode image */}{ticketData.ticket_qrcode[0].qrimage}</div>
-
       <div>{/* ticket more details */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
         <div>{/* ticket nuumber data*/}<p><strong>{ticketData.extral_info.Table}</strong></p></div>
@@ -122,11 +118,13 @@ console.log("FINAL",ticketData)
 }
 
 export default function TicketDetailsWarpper(){
-
+    //      1.get the ticket uuid
+  let { ticketUuid } = useParams();
+  console.log("param: ",useRouteMatch())
   return(
     <>
     <div>
-    <TicketDetails />
+    <TicketDetails ticketUuid={ticketUuid} />
     </div>
     </>
     
