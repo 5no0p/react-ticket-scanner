@@ -54,7 +54,9 @@ console.log("FINAL",ticketData)
         FRAME : Ticket Details
       */}
       {ticketData && 
-      <div style={{marginTop:"3.75rem"}}>
+      <div style={{
+        margin: "10vh 1vw"
+      }}>
       <div className="row">
         <div className="col-9">{/* event name */}
           <div className="ticket-warper">{/* ticket event warper*/}
@@ -123,9 +125,7 @@ export default function TicketDetailsWarpper(){
   console.log("param: ",useRouteMatch())
   return(
     <>
-    <div style={{
-      margin: "10vh 1vw"
-    }}>
+    <div className="mx-4">
     <TicketDetails ticketUuid={ticketUuid} />
     </div>
     </>

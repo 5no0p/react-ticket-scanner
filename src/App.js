@@ -29,9 +29,9 @@ function App() {
       <Navbar />
       </div>
       <Switch>
-          {/* <Route path="/test/:qrcode">
+          <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
-          </Route> */}
+          </Route>
           
           <Route path="/tickets/:ticketUuid">
             <TicketDetailsWarpper />
