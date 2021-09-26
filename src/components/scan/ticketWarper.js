@@ -5,7 +5,7 @@ import React from 'react'
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
 import { GetQrcodesQueryById } from '../../features/scan/qrcode.query';
-
+import {Link, useLocation } from "react-router-dom";
 
 //
 // TODO: make function to display ticket details
@@ -45,6 +45,11 @@ const data = getData?('status' in getData)?getData.data:getData:getData
 const ticketData = isCached?data?.find(d => d.qrcode === ticketQrcode):data
 console.log("FINAL",ticketData)
  
+//test
+let history = useLocation();
+console.log("histoooo: ",history)
+//
+//test
   return(
     <>
       {/* Ticket details
@@ -52,7 +57,9 @@ console.log("FINAL",ticketData)
         FRAME : Ticket Details
       */}
       {ticketData && 
-      <div style={{marginTop:"3.75rem"}}>
+    <div style={{
+      margin: "3.75rem 2.5rem"
+  }}>
       <div className="row">
         <div className="col-9">{/* event name */}
           <div className="ticket-warper">{/* ticket event warper*/}
@@ -64,33 +71,16 @@ console.log("FINAL",ticketData)
             </div>
             </div>
         </div>
-          <div className="col d-flex justify-content-end">{/* ticket date */}
+        <div className="col d-flex justify-content-end">{/* ticket date */}
             <div className="ticket-warper">{/* ticket date warper*/}
-              <div>{/* ticket date tage*/}
-                <p className="m-0"><small>Date</small></p>
-              </div>
-              <div>{/* ticket date data*/}
-              {/* <p><strong>{new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).format(new Date(ticketData.payment_info.purchased_at))}</strong></p> */}
-              </div>
+                <div className="Category-warper">
+                    <div>{/* ticket category data*/}<p><strong>{ticketData.ticket.category.name}</strong></p></div>
+                </div>
+                <div className="Extra-warper">
+                    <div>{/* ticket nuumber data*/}<p><strong>T-{ticketData.ticket.extral_info.Table}</strong></p></div>
+                </div>
             </div>
           </div>
-      </div>
-
-      <div className="row">
-        <div className="col-9">{/* ticket payment */}
-          <div className="ticket-warper">{/* ticket Payment warper*/}
-            <div>{/* ticket payment tage*/}<p className="m-0"><small>Payment</small></p></div>
-            <div>{/* ticket payment data*/}
-            {/* <p><strong>{ticketData.payment_info.amount_of_payment}</strong></p> */}
-            </div>
-          </div>
-        </div>
-        <div className="col d-flex justify-content-end">{/* ticket category */}
-          <div className="ticket-warper">{/* ticket category warper*/}
-            <div>{/* ticket category tage*/}<p className="m-0"><small>Category</small></p></div>
-            <div>{/* ticket category data*/}<p><strong>{ticketData.ticket.category.name}</strong></p></div>
-          </div>
-        </div>
       </div>
 
       <div>{/* ticket name */}
@@ -98,16 +88,12 @@ console.log("FINAL",ticketData)
           <p className="m-0"><small>Name</small></p>
         </div>
         <div>{/* ticket name data*/}
-        <p><strong>{ticketData.ticket.name}</strong></p>
-        </div></div>
+          <p><strong>{ticketData.ticket.name}</strong></p>
+        </div>
+      </div>
       <div>{/* ticket number */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
-        <div>{/* ticket nuumber data*/}<p><strong>{ticketData.ticket.uuid}</strong></p></div>
-      </div>
-
-      <div>{/* ticket more details */}
-        <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
-        <div>{/* ticket nuumber data*/}<p><strong>{ticketData.ticket.extral_info.Table}</strong></p></div>
+        <div>{/* ticket nuumber data*/}<Link to={`/${ticketData.ticket.uuid}`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
     </div>
     

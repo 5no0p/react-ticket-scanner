@@ -12,6 +12,7 @@ import AlertTemplate from 'react-alert-template-basic'
 import {TicketsList} from './pages/ticket/index'
 import TicketDetailsWarpper from './pages/ticket/ticketDetails'
 import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
+import TicketQrcodeDetailsWarpper from './features/test/qrTicketWarper'
 import Scan from './components/scan/scan'
 
 export const queryClient = new QueryClient()
@@ -24,6 +25,9 @@ function App() {
   
       <QueryClientProvider client={queryClient}> 
       <Switch>
+          {/* <Route path="/test/:qrcode">
+            <TicketQrcodeDetailsWarpper />
+          </Route> */}
           <Route path="/scan">
             <Scan />
           </Route>
