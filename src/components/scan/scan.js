@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import QrReader from 'react-qr-reader'
 
-class Test extends Component {
+class Scan extends Component {
   state = {
     result: 'No result'
   }
@@ -30,3 +30,5 @@ class Test extends Component {
     )
   }
 }
+
+export default Scan
