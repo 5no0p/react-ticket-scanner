@@ -29,17 +29,20 @@ const Scan = () => {
   }
 
     return (
-      <div>
+      <>
         <p>QR code scanner</p>
-        <QrReader
-          delay={300}
-          onError={e=>handleError(e)}
-          onScan={e=>handleScan(e)}
-          onLoade={()=>handleLoad()}
-          style={{ width: '100%' }}
-        />
+        <div>
+          
+          <QrReader
+            delay={300}
+            onError={e=>handleError(e)}
+            onScan={e=>handleScan(e)}
+            onLoade={()=>handleLoad()}
+            style={{ width: '100%' }}
+          />
+        </div>
         <div>{result}</div>
-      </div>
+      </>
     )
 }
 
