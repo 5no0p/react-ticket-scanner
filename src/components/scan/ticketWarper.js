@@ -1,11 +1,15 @@
 // TODO: impotr dependences
 //       1.import react
-import React from 'react'
+import React, {useState} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
 import { GetQrcodesQueryById } from '../../features/scan/qrcode.query';
 import {Link, useLocation } from "react-router-dom";
+
+import useSound from 'use-sound';
+import error_mp3 from '../../assets/sounds/ES_MM_Error.mp3';
+import valid_mp3 from '../../assets/sounds/ES_Multimedia.mp3';
 
 //
 // TODO: make function to display ticket details
@@ -48,6 +52,8 @@ console.log("FINAL",ticketData)
 //test
 let history = useLocation();
 console.log("histoooo: ",history)
+const [sound, setSound] = useState(valid_mp3)
+const [play] = useSound(sound)
 //
 //test
   return(
@@ -96,6 +102,8 @@ console.log("histoooo: ",history)
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
+      {ticketData.ticket.validity===true?"":setSound(error_mp3)}
+      <button onClick={play}>Boop!</button>
     </div>
       }
       
