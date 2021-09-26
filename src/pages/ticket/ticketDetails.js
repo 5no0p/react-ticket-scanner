@@ -54,9 +54,12 @@ console.log("FINAL",ticketData)
         FRAME : Ticket Details
       */}
       {ticketData && 
-      <div style={{
+       <div style={{
         margin: "10vh 1vw"
       }}>
+      <div className={`${ticketData.validity?"bg-success":"bg-danger"} h-auto w-100`}>
+      {ticketData.validity?"valid":"expire"}
+      </div>
       <div className="row">
         <div className="col-9">{/* event name */}
           <div className="ticket-warper">{/* ticket event warper*/}
@@ -112,7 +115,7 @@ console.log("FINAL",ticketData)
         <div>{/* ticket nuumber data*/}<p><strong>{ticketData.extral_info.Table}</strong></p></div>
       </div>
     </div>
-    
+
       }
       
     </>
