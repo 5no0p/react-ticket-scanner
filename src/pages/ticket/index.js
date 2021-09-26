@@ -40,7 +40,7 @@ export const TicketsList = () => {
       <div>
         {ticketsData?.map((ticket) => (
           <ul key={ticket.uuid}>
-            <li>number: <Link to={`/${ticket.uuid}`}>{ticket.uuid}</Link></li>
+            <li>number: <Link to={`/tickets/${ticket.uuid}`}>{ticket.uuid}</Link></li>
             <li>name: {ticket.name}</li>
             <li>category: {ticket.category.name}</li>
             <li>valid: {ticket.validity ? 'valid' : 'expierd'}</li>

@@ -89,7 +89,7 @@ console.log("FINAL",ticketData)
 
       <div>{/* ticket more details */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Details</small></p></div>
-        <div>{/* ticket nuumber data*/}<p><strong>{"-->"}</strong></p></div>
+        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{"-->"}</strong></p></Link></div>
       </div>
     </div>
     
