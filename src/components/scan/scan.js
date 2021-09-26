@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import QrReader from 'react-qr-reader'
+import {TicketQrcodeDetails} from './ticketWarper'
 
 class Scan extends Component {
   state = {
@@ -25,7 +26,12 @@ class Scan extends Component {
           onScan={this.handleScan}
           style={{ width: '100%' }}
         />
-        <p>{this.state.result}</p>
+
+        {this.state.result==="No result"
+        ?<p>{this.state.result}</p>
+        :<div><TicketQrcodeDetails ticketQrcode={this.state.result} /></div>
+        }
+        
       </div>
     )
   }
