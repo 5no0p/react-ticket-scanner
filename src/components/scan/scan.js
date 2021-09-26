@@ -28,7 +28,7 @@ class Scan extends Component {
           style={{ width: '100%' }}
         />
       </div>
-      <div className="mt-3">
+      <div className="mt-4">
         {this.state.result==="No result"
         ?<p>{this.state.result}</p>
         :<div className="mx-2">
