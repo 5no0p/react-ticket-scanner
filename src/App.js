@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 import {TicketsList} from './pages/ticket'
 import TicketDetailsWarpper from './pages/ticket/ticketDetails'
-
+import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
+import Scan from './components/scan/scan'
 
 export const queryClient = new QueryClient()
 
@@ -18,8 +19,11 @@ function App() {
       <Router>
       <QueryClientProvider client={queryClient}> 
       <Switch>
+          <Route path="/scan">
+            <Scan />
+          </Route>
           <Route path="/:ticketUuid">
-            <TicketDetailsWarpper />
+            <TicketGeneralWarpper />
           </Route>
           <Route path="/">
             <TicketsList />
