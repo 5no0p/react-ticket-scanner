@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import {TicketsList} from './pages/ticket'
+import {TicketsList} from './pages/ticket/index'
 import TicketDetailsWarpper from './pages/ticket/ticketDetails'
 import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
 import Scan from './components/scan/scan'
