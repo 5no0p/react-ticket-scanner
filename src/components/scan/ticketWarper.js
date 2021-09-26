@@ -57,6 +57,8 @@ console.log("histoooo: ",history)
         FRAME : Ticket Details
       */}
       {ticketData && 
+      <>
+    <div className={ticketData.ticket.validity?"bg-success":"bg-danger"}></div>
     <div style={{margin: "10vh 1vw"}}>
       <div className="row">
         <div className="col-9">{/* event name */}
@@ -94,7 +96,7 @@ console.log("histoooo: ",history)
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
     </div>
-    
+    </>
       }
       
     </>
