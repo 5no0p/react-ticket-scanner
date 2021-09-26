@@ -30,7 +30,7 @@ const Scan = () => {
 
     return (
       <div>
-        QR code scanner
+        <p>QR code scanner</p>
         <QrReader
           delay={300}
           onError={e=>handleError(e)}
