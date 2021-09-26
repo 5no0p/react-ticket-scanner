@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import QrReader from 'react-qr-reader'
 import { useAlert } from 'react-alert'
 
@@ -6,6 +6,9 @@ const Scan = () => {
     const [result,setResult] = useState('No result')
     const alert = useAlert()
 
+    useEffect(()=>{
+      alert.show("data")
+    },[])
 
     const handleScan = data => {
     if (data) {
