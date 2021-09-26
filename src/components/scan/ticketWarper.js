@@ -57,9 +57,7 @@ console.log("histoooo: ",history)
         FRAME : Ticket Details
       */}
       {ticketData && 
-    <div style={{
-      margin: "10vh 1vw"
-  }}>
+    <div>
       <div className="row">
         <div className="col-9">{/* event name */}
           <div className="ticket-warper">{/* ticket event warper*/}

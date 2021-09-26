@@ -31,7 +31,9 @@ class Scan extends Component {
       <div className="mt-3">
         {this.state.result==="No result"
         ?<p>{this.state.result}</p>
-        :<div className="mx-5"><TicketQrcodeDetails ticketQrcode={this.state.result} /></div>
+        :<div style={{margin: "10vh 1vw"}}>
+            <TicketQrcodeDetails ticketQrcode={this.state.result} />
+          </div>
         }
       </div>
       
