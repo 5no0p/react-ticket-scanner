@@ -4,6 +4,7 @@ import { useAlert } from 'react-alert'
 
 const Scan = () => {
     const [result,setResult] = useState('No result')
+    const [loading, setLoading] = useState(true)
     const alert = useAlert()
 
     useEffect(()=>{
@@ -22,12 +23,19 @@ const Scan = () => {
     console.error(err)
   }
 
+  const handleLoad = () => {
+    setLoading(false)
+    console.log(loading)
+  }
+
     return (
       <div>
+        QR code scanner
         <QrReader
           delay={300}
           onError={e=>handleError(e)}
           onScan={e=>handleScan(e)}
+          onLoade={()=>handleLoad()}
           style={{ width: '100%' }}
         />
         <div>{result}</div>
