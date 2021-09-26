@@ -1,30 +1,32 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 import QrReader from 'react-qr-reader'
 
-const Scan = () => {
-    const [result,setResult] = useState('No result')
-    
+class Test extends Component {
+  state = {
+    result: 'No result'
+  }
 
-    const handleScan = data => {
+  handleScan = data => {
     if (data) {
-        setResult({data})
+      this.setState({
+        result: data
+      })
     }
   }
-  const handleError = err => {
+  handleError = err => {
     console.error(err)
   }
-
+  render() {
     return (
       <div>
         <QrReader
           delay={300}
-          onError={e=>handleError(e)}
-          onScan={e=>handleScan(e)}
+          onError={this.handleError}
+          onScan={this.handleScan}
           style={{ width: '100%' }}
         />
-        <div>{result}</div>
+        <p>{this.state.result}</p>
       </div>
     )
+  }
 }
-
-export default Scan;
