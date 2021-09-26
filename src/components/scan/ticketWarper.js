@@ -58,7 +58,7 @@ console.log("histoooo: ",history)
       */}
       {ticketData && 
     <div style={{margin: "10vh 1vw"}}>
-      <div className={`${ticketData.ticket.validity?"bg-success":"bg-danger"} h-auto w-100`}>
+      <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100`}>
         {ticketData.validity?"valid":"expire"}
       </div>
       <div className="row">
