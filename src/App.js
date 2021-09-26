@@ -6,6 +6,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
+
 import {TicketsList} from './pages/ticket/index'
 import TicketDetailsWarpper from './pages/ticket/ticketDetails'
 import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
@@ -17,6 +20,8 @@ function App() {
   return (
     <>
       <Router>
+      <AlertProvider template={AlertTemplate}>
+  
       <QueryClientProvider client={queryClient}> 
       <Switch>
           <Route path="/scan">
@@ -31,6 +36,7 @@ function App() {
         </Switch>  
         
       </QueryClientProvider>
+      </AlertProvider>
       </Router>
     </>
   );
