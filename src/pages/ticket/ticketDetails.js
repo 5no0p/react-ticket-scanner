@@ -57,7 +57,7 @@ console.log("FINAL",ticketData)
        <div style={{
         margin: "10vh 1vw"
       }}>
-      <div className={`${ticketData.validity===true?"bg-success":"bg-danger"} min-vh-1 w-100`}>
+      <div className={`${ticketData.validity===true?"bg-success":"bg-danger"} min-vh-1 w-100 d-flex justify-content-center`}>
       {ticketData.validity?"valid":"expired"}
       </div>
       <div className="row">
