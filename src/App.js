@@ -25,9 +25,9 @@ function App() {
   
       <QueryClientProvider client={queryClient}> 
       <Switch>
-          {/* <Route path="/test/:qrcode">
+          <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
-          </Route> */}
+          </Route>
           <Route path="/scan">
             <Scan />
           </Route>
