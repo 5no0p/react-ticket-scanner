@@ -1,0 +1,45 @@
+<div style={{marginTop:"3.75rem"}}>
+        <div>
+          <div>{/* event name */}
+            <div>{/* event name tage*/}
+              Event
+            </div>
+            <div>{/* event name data*/}
+              {ticketData.category.event.name}
+          </div>
+        </div>
+        <div>{/* ticket date */}
+          <div>{/* ticket date tage*/}
+            Date
+          </div>
+          <div>{/* ticket date data*/}
+            {ticketData.payment_info.purchased_at}
+          </div></div>
+        </div>
+
+        <div>
+          <div>{/* ticket payment */}
+            <div>{/* ticket payment tage*/}Payment</div>
+            <div>{/* ticket payment data*/}{ticketData.payment_info.amount_of_payment}</div>
+          </div>
+          <div>{/* ticket category */}
+            <div>{/* ticket category tage*/}Category</div>
+            <div>{/* ticket category data*/}{ticketData.category.name}</div>
+          </div>
+        </div>
+
+        <div>{/* ticket name */}
+          <div>{/* ticket name tage*/}
+            Name
+          </div>
+          <div>{/* ticket name data*/}
+            {ticketData.name}
+          </div></div>
+        <div>{/* ticket number */}
+          <div>{/* ticket nuumber tage*/}Number</div>
+          <div>{/* ticket nuumber data*/}{ticketData.uuid}</div></div>
+
+        <div>{/* ticket QRcode image */}{ticketData.ticket_qrcode[0].qrimage}</div>
+
+        <div>{/* ticket more details */}{ticketData.extral_info.Table}</div>
+      </div>
