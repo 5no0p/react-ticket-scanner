@@ -38,8 +38,10 @@ if(queryClient.getQueryData(queryKey) !== undefined){
 }else{
 //      no cached data
   isCached = false
+// get the token
+  const token = localStorage.getItem('token')??""
 //       send api with ticket uuiid
-  const {data} = GetQrcodesQueryById(ticketQrcode)
+  const {data} = GetQrcodesQueryById(ticketQrcode,token)
 //       hold the data object in data holder
   getData = data
   console.log("data from api",getData)

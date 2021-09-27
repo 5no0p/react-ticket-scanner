@@ -8,7 +8,7 @@ export const GetQrcodesQuery = () => useQuery('qrcodes',GetQrcodes,{
   refetchOnWindowFocus: false,
 }) 
 // TODO: make qrcode query
-export const GetQrcodesQueryById = (id) => useQuery(['qrcode',id],()=>GetQrcodeById(id),{
+export const GetQrcodesQueryById = (id,token) => useQuery(['qrcode',id,token],()=>GetQrcodeById(id,token),{
   // disable window focus refetching
     refetchOnWindowFocus: false,
   })

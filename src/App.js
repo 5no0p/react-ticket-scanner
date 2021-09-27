@@ -15,6 +15,7 @@ import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
 import TicketQrcodeDetailsWarpper from './features/test/qrTicketWarper'
 import Scan from './components/scan/scan'
 import Navbar from './components/navbar'
+import {Login} from './components/login/login'
 
 export const queryClient = new QueryClient()
 
@@ -29,6 +30,9 @@ function App() {
       <Navbar />
       </div>
       <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
           <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route>
