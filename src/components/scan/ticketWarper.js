@@ -1,6 +1,6 @@
 // TODO: impotr dependences
 //       1.import react
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
@@ -22,6 +22,11 @@ export function TicketQrcodeDetails({ticketQrcode}){
   let getData
 //      4.get qrcodes query key
   const queryKey = "qrcodes"
+
+
+  useEffect(()=>{
+    playHandler()
+  },[getData])
 //      
 // TODO: check if data is in query cache, if not make api request
 //      1.get data from cached qrcodes query if undefine gi step 2
@@ -52,11 +57,10 @@ console.log("FINAL",ticketData)
 //test
 let history = useLocation();
 console.log("histoooo: ",history)
-const [sound, setSound] = useState(valid_mp3)
-const [play] = useSound(sound)
+const validSound= new Audio(valid_mp3)//useSound(valid_mp3)
+const erroreSound= new Audio(error_mp3)//useSound(error_mp3)
 const playHandler = () => {
-  ticketData.ticket.validity===true?"":setSound(error_mp3),
-  play()
+  ticketData && ticketData.ticket.validity===true?validSound.play():erroreSound.play()
 }
 //
 //test
@@ -68,6 +72,7 @@ const playHandler = () => {
       */}
       {ticketData && 
     <div style={{margin: "10vh 1vw"}}>
+      
       <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.ticket.validity===true?"valid":"expired"}
       </div>
