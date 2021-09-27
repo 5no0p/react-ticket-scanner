@@ -54,6 +54,10 @@ let history = useLocation();
 console.log("histoooo: ",history)
 const [sound, setSound] = useState(valid_mp3)
 const [play] = useSound(sound)
+const playHandler = () => {
+  ticketData.ticket.validity===true?"":setSound(error_mp3),
+  play()
+}
 //
 //test
   return(
@@ -102,8 +106,8 @@ const [play] = useSound(sound)
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
-      {ticketData.ticket.validity===true?"":setSound(error_mp3)}
-      <button onClick={play}>Boop!</button>
+      
+      <button onClick={playHandler}>Boop!</button>
     </div>
       }
       
