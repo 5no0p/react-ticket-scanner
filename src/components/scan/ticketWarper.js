@@ -24,9 +24,7 @@ export function TicketQrcodeDetails({ticketQrcode}){
   const queryKey = "qrcodes"
 
 
-  useEffect(()=>{
-    playHandler()
-  },[getData])
+ 
 //      
 // TODO: check if data is in query cache, if not make api request
 //      1.get data from cached qrcodes query if undefine gi step 2
@@ -62,6 +60,7 @@ const erroreSound= new Audio(error_mp3)//useSound(error_mp3)
 const playHandler = () => {
   ticketData && ticketData.ticket.validity===true?validSound.play():erroreSound.play()
 }
+playHandler()
 //
 //test
   return(
