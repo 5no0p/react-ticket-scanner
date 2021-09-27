@@ -1,70 +1,87 @@
 // TODO: impotr dependences
 //       1.import react
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 //       2. import queryClient
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
-import { GetQrcodesQueryById } from '../../features/scan/qrcode.query';
+
 import {Link, useLocation } from "react-router-dom";
 
-import useSound from 'use-sound';
+import {GetQrcodeData} from './getQrcodeData'
+import Sound from './playSound'
 import error_mp3 from '../../assets/sounds/ES_MM_Error.mp3';
 import valid_mp3 from '../../assets/sounds/ES_Multimedia.mp3';
 
 //
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode}){
-// TODO: declear variables
+// declear variables
 
-//      2. declear variable to check cached data
-  let isCached = true
-//      3. declear variable to hold data from query
-  let getData
-//      4.get qrcodes query key
-  const queryKey = "qrcodes"
+// declear variable to hold user from query
+  let getUser
+
+// get user query key
+  const userqueryKey = "user"
 
 
- 
-//      
-// TODO: check if data is in query cache, if not make api request
-//      1.get data from cached qrcodes query if undefine gi step 2
-if(queryClient.getQueryData(queryKey) !== undefined){
-//      get the data object from cached query  
-  const {data} = queryClient.getQueryData(queryKey)
-//      hold the data object to data holder
-  getData = data
-  console.log("data from cashe",getData)
-//      2. make api request to get ticket details
-}else{
-//      no cached data
-  isCached = false
-// get the token
-  const token = localStorage.getItem('token')??""
-//       send api with ticket uuiid
-  const {data} = GetQrcodesQueryById(ticketQrcode,token)
-//       hold the data object in data holder
-  getData = data
-  console.log("data from api",getData)
-}
+const {data,isCached} = GetQrcodeData(ticketQrcode)
 
 //       make sure to get data object
-const data = getData?('status' in getData)?getData.data:getData:getData
+const getData = data?('status' in data)?data.data:data:data
 
 //       if data holder hold cached data find ticket by uuid
-const ticketData = isCached?data?.find(d => d.qrcode === ticketQrcode):data
+const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
 console.log("FINAL",ticketData)
+
+Sound(ticketData)
+
+//ticketData?setIsData(true):setIsData(false)
+
  
 //test
 let history = useLocation();
 console.log("histoooo: ",history)
-const validSound= new Audio(valid_mp3)//useSound(valid_mp3)
-const erroreSound= new Audio(error_mp3)//useSound(error_mp3)
-const playHandler = () => {
-  ticketData && ticketData.ticket.validity===true?validSound.play():erroreSound.play()
+const validSound= new Audio(valid_mp3) //useSound(valid_mp3)
+const erroreSound= new Audio(error_mp3) //useSound(error_mp3)
+
+    
+
+const playValidSound = () => {
+  const playPromise = validSound.play()
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(_ => {
+            console.log("valid played auto");
+          })
+          .catch(error => {
+            console.log("valid playback prevented: ",error);
+          });
+      }
+
 }
-useEffect(()=>{
-  playHandler()
-},[getData])
+const playErrorSound = () => {
+  const playPromise = erroreSound.play()
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(_ => {
+            console.log("error played auto");
+          })
+          .catch(error => {
+            console.log("error playback prevented");
+          });
+      }
+
+}
+const playHandler = () => {
+  ticketData && ticketData.ticket.validity===true?playValidSound():playErrorSound()
+}
+
+
+// useEffect(()=>{
+//   playHandler()
+// },[])
 //
 //test
   return(
@@ -75,7 +92,7 @@ useEffect(()=>{
       */}
       {ticketData && 
     <div style={{margin: "10vh 1vw"}}>
-      
+      {ticketData.ticket.validity===true?playValidSound():playErrorSound()}
       <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.ticket.validity===true?"valid":"expired"}
       </div>

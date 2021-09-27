@@ -26,3 +26,23 @@ export const GetQrcodeById = async(id,token) => {
   console.log("axios:qrcode  by id")
   return res
 }
+//
+//  TODO: make api for scanlogs
+export const GetScanlogs = async() => {
+  const res = await axios.get(scanlogApiUrl)
+  console.log("axios")
+  return res
+}
+//
+//  TODO: make api to add scanlog
+export const AddScanlog = async(log_data,token) => {
+  const res = await axios.post(scanlogApiUrl,log_data,
+    {
+      headers: {
+        'Authorization': `Token ${token}` 
+      }
+    }
+    )
+  console.log("axios")
+  return res
+}
