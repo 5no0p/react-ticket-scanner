@@ -60,7 +60,9 @@ const erroreSound= new Audio(error_mp3)//useSound(error_mp3)
 const playHandler = () => {
   ticketData && ticketData.ticket.validity===true?validSound.play():erroreSound.play()
 }
-playHandler()
+useEffect(()=>{
+  playHandler()
+},[getData])
 //
 //test
   return(
