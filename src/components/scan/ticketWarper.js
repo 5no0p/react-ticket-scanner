@@ -1,6 +1,6 @@
 // TODO: impotr dependences
 //       1.import react
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
@@ -45,19 +45,21 @@ Sound(ticketData)
 
 //ticketData?setIsData(true):setIsData(false)
 
-if(ticketData && ticketData.ticket.validity===true && !isUpdate){
-  updateTicket = {
-    id:ticketData.ticket.uuid,
-    data:{
-      validity:false
-    },
-    token:localStorage.getItem('token')
-  }
-  mutation.mutate(updateTicket)
-  setIsUpdate(true)
-}
+// if(ticketData && ticketData.ticket.validity===true && !isUpdate){
+//   updateTicket = {
+//     id:ticketData.ticket.uuid,
+//     data:{
+//       validity:false
+//     },
+//     token:localStorage.getItem('token')
+//   }
+//   mutation.mutate(updateTicket)
+//   setIsUpdate(true)
+// }
+
 
 const checkTicket = () => {
+  Sound(ticketData)
 }
 
 
@@ -69,7 +71,6 @@ const checkTicket = () => {
       */}
       {ticketData && 
     <div style={{margin: "10vh 1vw"}}>
-      
       <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.ticket.validity===true?"valid":"expired"}
       </div>
