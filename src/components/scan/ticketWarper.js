@@ -1,24 +1,28 @@
 // TODO: impotr dependences
 //       1.import react
-import React from 'react'
+import React,{useState} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
 
-import {Link, useLocation } from "react-router-dom";
+import {CheckTicket} from './updateTicket'
+
+import {Link } from "react-router-dom";
 
 import {GetQrcodeData} from './getQrcodeData'
+
 import Sound from './playSound'
-import error_mp3 from '../../assets/sounds/ES_MM_Error.mp3';
-import valid_mp3 from '../../assets/sounds/ES_Multimedia.mp3';
+
 
 //
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode}){
 // declear variables
-
+const [isUpdate, setIsUpdate] = useState(false)
 // declear variable to hold user from query
   let getUser
+
+  let updateTicket = {}
 
 // get user query key
   const userqueryKey = "user"
@@ -37,53 +41,22 @@ Sound(ticketData)
 
 //ticketData?setIsData(true):setIsData(false)
 
- 
-//test
-let history = useLocation();
-console.log("histoooo: ",history)
-const validSound= new Audio(valid_mp3) //useSound(valid_mp3)
-const erroreSound= new Audio(error_mp3) //useSound(error_mp3)
-
-    
-
-const playValidSound = () => {
-  const playPromise = validSound.play()
-
-      if (playPromise !== undefined) {
-        playPromise
-          .then(_ => {
-            console.log("valid played auto");
-          })
-          .catch(error => {
-            console.log("valid playback prevented: ",error);
-          });
-      }
-
+if(ticketData && ticketData.ticket.validity===true && !isUpdate){
+  updateTicket = {
+    id:ticketData.ticket.uuid,
+    data:{
+      validity:false
+    },
+    token:localStorage.getItem('token')
+  }
+  CheckTicket(updateTicket)
+  setIsUpdate(true)
 }
-const playErrorSound = () => {
-  const playPromise = erroreSound.play()
 
-      if (playPromise !== undefined) {
-        playPromise
-          .then(_ => {
-            console.log("error played auto");
-          })
-          .catch(error => {
-            console.log("error playback prevented");
-          });
-      }
-
-}
-const playHandler = () => {
-  ticketData && ticketData.ticket.validity===true?playValidSound():playErrorSound()
+const checkTicket = () => {
 }
 
 
-// useEffect(()=>{
-//   playHandler()
-// },[])
-//
-//test
   return(
     <>
       {/* Ticket details
@@ -92,7 +65,7 @@ const playHandler = () => {
       */}
       {ticketData && 
     <div style={{margin: "10vh 1vw"}}>
-      {ticketData.ticket.validity===true?playValidSound():playErrorSound()}
+      
       <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.ticket.validity===true?"valid":"expired"}
       </div>
@@ -132,7 +105,7 @@ const playHandler = () => {
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
       
-      <button onClick={playHandler}>Boop!</button>
+      <button onClick={checkTicket}>Boop!</button>
     </div>
       }
       

@@ -21,3 +21,16 @@ export const GetTicketById = async(id) => {
   console.log("axios by id")
   return res
 }
+
+export const UpdateTicket = async(data) => {
+  console.log("data update ticket: ",data)
+  const res = await axios.patch(`${ticketApiUrl}/${data.id}/`,data.data,
+  {
+    headers: {
+      'Authorization': `Token ${data.token}` 
+    }
+  }
+  )
+  console.log("axios for update tiket: ",res)
+  return res
+}

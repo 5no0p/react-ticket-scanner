@@ -4,9 +4,9 @@ import React, {useState} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
-import {useMutation} from 'react-query'  //import useQuery
-import {GetUser, LoginRequest} from '../../features/user/user.api' //import user feching function
-import { LoginQuery } from '../../features/user/user.query';
+import {useMutation} from 'react-query'  //import useMutation
+import {LoginRequest} from '../../features/user/user.api' //import user feching function
+
 
 
 export function Login() {
@@ -19,11 +19,11 @@ export function Login() {
         e.preventDefault();
         const usernfo = {
             "username":username,
-            "password":password}
+            "password":password
+        }
         mutation.mutate(usernfo)
         }
     
-
     return(
         <>
         <div className="mt-5">
