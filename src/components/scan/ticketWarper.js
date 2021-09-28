@@ -13,6 +13,9 @@ import {GetQrcodeData} from './getQrcodeData'
 
 import Sound from './playSound'
 
+import {useMutation} from 'react-query'  //import useMutation
+import {UpdateTicket} from '../../features/ticket/ticket.api'
+
 
 //
 // TODO: make function to display ticket details
@@ -23,6 +26,7 @@ const [isUpdate, setIsUpdate] = useState(false)
   let getUser
 
   let updateTicket = {}
+  const mutation = useMutation(usernfo => UpdateTicket(usernfo))
 
 // get user query key
   const userqueryKey = "user"
@@ -49,7 +53,7 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate){
     },
     token:localStorage.getItem('token')
   }
-  CheckTicket(updateTicket)
+  mutation.mutate(updateTicket)
   setIsUpdate(true)
 }
 
