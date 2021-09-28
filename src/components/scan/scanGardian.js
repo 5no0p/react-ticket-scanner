@@ -12,7 +12,7 @@ class ScanGuardian extends Component {
       this.setState({
         result: {
           data:data,
-          token:"13c077b1ba26051d090fefb06578e9ee7969b1b3"
+          
         }
       })
     }

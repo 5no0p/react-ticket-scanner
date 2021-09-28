@@ -17,13 +17,13 @@ export function TicketQrcodeDetailsGurdian({ticketQrcode}){
 // declear variables
 const [isUpdate, setIsUpdate] = useState(false)
 // declear variable to hold user from query
-  let getUser
+  let getToken = "13c077b1ba26051d090fefb06578e9ee7969b1b3"
 
   let ticketUpdate = {}
   const mutation = useMutation(usernfo => UpdateTicket(usernfo))
 
 
-  const {data} = GetQrcodesQueryById(ticketQrcode.data,ticketQrcode.token)
+  const {data} = GetQrcodesQueryById(ticketQrcode.data,getToken)
 
 
 
@@ -35,13 +35,13 @@ const ticketData = data?('status' in data)?data.data:data:data
 console.log("FINAL",ticketData)
 
 
-if(ticketData && ticketData.ticket.validity===true && !isUpdate && ticketQrcode.token){
+if(ticketData && ticketData.ticket.validity===true && !isUpdate && getToken){
   ticketUpdate = {
     id:ticketData.ticket.uuid,
     data:{
       validity:false
     },
-    token:ticketQrcode.token
+    token:getToken
   }
   mutation.mutate(ticketUpdate)
   setIsUpdate(true)

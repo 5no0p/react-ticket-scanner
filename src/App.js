@@ -27,9 +27,9 @@ function App() {
       <AlertProvider template={AlertTemplate}>
   
       <QueryClientProvider client={queryClient}> 
-      <div>
+      {/* <div>
       <Navbar />
-      </div>
+      </div> */}
       <Switch>
           <Route path="/login">
             <Login />
