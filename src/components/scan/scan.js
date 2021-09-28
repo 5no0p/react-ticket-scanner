@@ -22,7 +22,7 @@ class Scan extends Component {
       <>
       <div className="mt-5">
         <QrReader
-          delay={700}
+          delay={300}
           onError={this.handleError}
           onScan={this.handleScan}
           style={{ width: '100%' }}
