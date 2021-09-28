@@ -46,7 +46,7 @@ function App() {
           <Route path="/tickets">
             <TicketsList />
           </Route> 
-          <Route path="/guardian">
+          <Route path="/g">
             <ScanGuardian />
           </Route>  
           <Route path="/">

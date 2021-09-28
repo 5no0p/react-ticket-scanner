@@ -1,17 +1,11 @@
 // TODO: impotr dependences
 //       1.import react
-import React,{useState,useEffect} from 'react'
-//       2. import queryClient
-import {queryClient} from '../../App'
-//       3. import GetQrcodesQueryById
+import React,{useState} from 'react'
 
-import {CheckTicket} from './updateTicket'
+import { GetQrcodesQueryById } from '../../features/scan/qrcode.query' //import GetQrcodesQueryById
+
 
 import {Link } from "react-router-dom";
-
-import {GetQrcodeData} from './getQrcodeData'
-
-import Sound from './playSound'
 
 import {useMutation} from 'react-query'  //import useMutation
 import {UpdateTicket} from '../../features/ticket/ticket.api'
@@ -28,19 +22,16 @@ const [isUpdate, setIsUpdate] = useState(false)
   let ticketUpdate = {}
   const mutation = useMutation(usernfo => UpdateTicket(usernfo))
 
-// get user query key
-  const userqueryKey = "user"
 
+  const {data} = GetQrcodesQueryById(ticketQrcode.data,ticketQrcode.token)
 
-const {data,isCached} = GetQrcodeData(ticketQrcode.data)
 
 
 
 //       make sure to get data object
-const getData = data?('status' in data)?data.data:data:data
+const ticketData = data?('status' in data)?data.data:data:data
 
-//       if data holder hold cached data find ticket by uuid
-const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode.data):getData
+
 console.log("FINAL",ticketData)
 
 
@@ -55,12 +46,7 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && ticketQrcode.
   mutation.mutate(ticketUpdate)
   setIsUpdate(true)
 }
-
-const [valid,expired] = Sound(ticketData)
-      const playHandler = () => {
-        
-      }
-    
+ 
 
 
 
@@ -111,7 +97,7 @@ const [valid,expired] = Sound(ticketData)
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
       
-      <button onClick={valid}>Boop!</button>
+      {/* <button onClick={valid}>Boop!</button> */}
     </div>
       }
       
