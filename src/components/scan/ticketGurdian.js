@@ -1,26 +1,27 @@
 // TODO: impotr dependences
 //       1.import react
 import React,{useState} from 'react'
-
+import {queryClient} from '../../App'
 import { GetQrcodesQueryById } from '../../features/scan/qrcode.query' //import GetQrcodesQueryById
 
 
 import {Link } from "react-router-dom";
-
-import {useMutation} from 'react-query'  //import useMutation
 import {UpdateTicket} from '../../features/ticket/ticket.api'
+import {useMutation} from 'react-query'  //import useMutation
+
 
 
 //
 // TODO: make function to display ticket details
 export function TicketQrcodeDetailsGurdian({ticketQrcode}){
 // declear variables
+queryClient.invalidateQueries('qrcode')
 const [isUpdate, setIsUpdate] = useState(false)
 // declear variable to hold user from query
   let getToken = "13c077b1ba26051d090fefb06578e9ee7969b1b3"
 
   let ticketUpdate = {}
-  const mutation = useMutation(usernfo => UpdateTicket(usernfo))
+
 
 
   const {data} = GetQrcodesQueryById(ticketQrcode.data,getToken)
@@ -43,7 +44,7 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && getToken){
     },
     token:getToken
   }
-  mutation.mutate(ticketUpdate)
+  UpdateTicket(ticketUpdate)
   setIsUpdate(true)
 }
  

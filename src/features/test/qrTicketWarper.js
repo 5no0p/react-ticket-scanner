@@ -8,7 +8,6 @@ export default function TicketQrcodeDetailsWarpper(){
     let { qrcode } = useParams();
     const qr = {
       data:qrcode,
-      token:"13c077b1ba26051d090fefb06578e9ee7969b1b3"
     }
     return(
       <>
