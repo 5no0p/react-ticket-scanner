@@ -12,7 +12,13 @@ export function Login() {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const mutation = useMutation(usernfo => LoginRequest(usernfo))
+    const mutation = useMutation(usernfo => LoginRequest(usernfo),
+        {
+            onSuccess: () => {
+                history.push("/")
+            }
+        }
+    )
    
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,9 +30,9 @@ export function Login() {
         console.log('auth res',mutation)
         
         }
-        if(mutation.status==="success"){
-            history.push("/")
-        }
+        // if(mutation.status==="success"){
+        //     history.push("/")
+        // }
     
     return(
         <>
