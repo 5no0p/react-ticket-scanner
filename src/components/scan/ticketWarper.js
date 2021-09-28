@@ -21,6 +21,7 @@ import {UpdateTicket} from '../../features/ticket/ticket.api'
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode}){
 // declear variables
+queryClient.invalidateQueries('qrcode')
 const [isUpdate, setIsUpdate] = useState(false)
 // declear variable to hold user from query
   let getUser

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import QrReader from 'react-qr-reader'
 import {TicketQrcodeDetails} from './ticketWarper'
 
+
+
 class Scan extends Component {
   state = {
     result: 'No result'

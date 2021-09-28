@@ -49,7 +49,17 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && getToken){
 }
  
 
-
+const validatingTicket = () => {
+  ticketUpdate = {
+    id:ticketData.ticket.uuid,
+    data:{
+      validity:true
+    },
+    token:getToken
+  }
+  UpdateTicket(ticketUpdate)
+  setIsUpdate(false)
+}
 
   return(
     <>
@@ -98,7 +108,7 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && getToken){
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
       
-      {/* <button onClick={valid}>Boop!</button> */}
+      <button onClick={validatingTicket}>Boop!</button>
     </div>
       }
       
