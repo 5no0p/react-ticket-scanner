@@ -19,7 +19,7 @@ export default function Sound(ticketData) {
                   console.log("valid played auto");
                 })
                 .catch(error => {
-                  console.log("valid playback prevented: ",error);
+                  console.log("valid playback prevented");
                 });
             }
       
@@ -33,7 +33,7 @@ export default function Sound(ticketData) {
                   console.log("error played auto");
                 })
                 .catch(error => {
-                  console.log("error playback prevented: ",error);
+                  console.log("error playback prevented");
                 });
             }
       
@@ -45,5 +45,5 @@ export default function Sound(ticketData) {
   useEffect(() => {
     playHandler();
   }, []);
-  return null;
+  return playHandler;
 }
