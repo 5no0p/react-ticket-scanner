@@ -20,9 +20,15 @@ export const GetQrcodes = async() => {
 //  TODO: make api for qrcode by id
 export const GetQrcodeById = async(id,token) => {
   console.log("id:qrcode=> ",id)
-  const res = await axios.get(`${qrcodeApiUrl}${id}`,
-  { headers: { Authorization: `Token ${token}`}}
-  )
+  let header
+  localStorage.getItem('token')
+  ?header = {
+    headers: {
+      'Authorization': `Token ${token}` 
+            }
+          }
+  :header = {}
+  const res = await axios.get(`${qrcodeApiUrl}${id}`,header)
   console.log("axios:qrcode  by id")
   return res
 }

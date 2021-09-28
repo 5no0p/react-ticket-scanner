@@ -1,15 +1,14 @@
 // TODO: impotr dependences
-//       1.import react
-import React, {useState} from 'react'
-//       2. import queryClient
-import {queryClient} from '../../App'
-//       3. import GetQrcodesQueryById
+
+import React, {useState} from 'react'//import react
+import { useHistory } from "react-router-dom";//import useHistory
 import {useMutation} from 'react-query'  //import useMutation
 import {LoginRequest} from '../../features/user/user.api' //import user feching function
 
 
 
 export function Login() {
+    let history = useHistory();
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -22,6 +21,11 @@ export function Login() {
             "password":password
         }
         mutation.mutate(usernfo)
+        console.log('auth res',mutation)
+        
+        }
+        if(mutation.status==="success"){
+            history.push("/")
         }
     
     return(

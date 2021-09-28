@@ -7,9 +7,6 @@ import {queryClient} from '../../App'
 
 import {CheckTicket} from './updateTicket'
 
-import error_mp3 from '../../assets/sounds/ES_MM_Error.mp3';
-import valid_mp3 from '../../assets/sounds/ES_Multimedia.mp3';
-
 import {Link } from "react-router-dom";
 
 import {GetQrcodeData} from './getQrcodeData'
@@ -28,7 +25,7 @@ const [isUpdate, setIsUpdate] = useState(false)
 // declear variable to hold user from query
   let getUser
 
-  let updateTicketeffect = {}
+  let ticketUpdate = {}
   const mutation = useMutation(usernfo => UpdateTicket(usernfo))
 
 // get user query key
@@ -36,6 +33,8 @@ const [isUpdate, setIsUpdate] = useState(false)
 
 
 const {data,isCached} = GetQrcodeData(ticketQrcode)
+
+
 
 //       make sure to get data object
 const getData = data?('status' in data)?data.data:data:data
@@ -45,63 +44,24 @@ const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getDat
 console.log("FINAL",ticketData)
 
 
-//ticketData?setIsData(true):setIsData(false)
-
-// if(ticketData && ticketData.ticket.validity===true && !isUpdate){
-//   updateTicket = {
-//     id:ticketData.ticket.uuid,
-//     data:{
-//       validity:false
-//     },
-//     token:localStorage.getItem('token')
-//   }
-//   mutation.mutate(updateTicket)
-//   setIsUpdate(true)
-// }
-
-    const validSound= new Audio(valid_mp3) //useSound(valid_mp3)
-    const erroreSound= new Audio(error_mp3) //useSound(error_mp3)
-
-    //validSound.muted = true
-    //erroreSound.muted = true
-
-    const playValidSound = () => {
-        const playPromise = validSound.play()
-      
-            if (playPromise !== undefined) {
-              playPromise
-                .then(_ => {
-                  console.log("valid played auto");
-                })
-                .catch(error => {
-                  console.log("valid playback prevented");
-                });
-            }
-      
-      }
-      const playErrorSound = () => {
-        const playPromise = erroreSound.play()
-      
-            if (playPromise !== undefined) {
-              playPromise
-                .then(_ => {
-                  console.log("error played auto");
-                })
-                .catch(error => {
-                  console.log("error playback prevented");
-                });
-            }
-      
-      }
-      const playHandler = () => {
-        ticketData && ticketData.ticket.validity===true?playValidSound():playErrorSound()
-      }
-      
-      playHandler()
-      
-const checkTicket = () => {
-  Sound(ticketData)
+if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.getItem('token')){
+  ticketUpdate = {
+    id:ticketData.ticket.uuid,
+    data:{
+      validity:false
+    },
+    token:localStorage.getItem('token')
+  }
+  mutation.mutate(ticketUpdate)
+  setIsUpdate(true)
 }
+
+const [valid,expired] = Sound(ticketData)
+      const playHandler = () => {
+        
+      }
+    
+
 
 
   return(
@@ -151,7 +111,7 @@ const checkTicket = () => {
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
       
-      <button onClick={playHandler}>Boop!</button>
+      <button onClick={valid}>Boop!</button>
     </div>
       }
       

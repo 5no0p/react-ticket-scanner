@@ -42,8 +42,6 @@ export default function Sound(ticketData) {
         ticketData && ticketData.ticket.validity===true?playValidSound():playErrorSound()
       }
 
-  useEffect(() => {
-    playHandler();
-  }, []);
-  return playHandler;
+
+  return [playValidSound,playErrorSound];
 }
