@@ -30,9 +30,8 @@ export function Login() {
         console.log('auth res',mutation)
         
         }
-        // if(mutation.status==="success"){
-        //     history.push("/")
-        // }
+        console.log('auth res2',mutation)
+       
     
     return(
         <>

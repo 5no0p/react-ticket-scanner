@@ -14,6 +14,8 @@ import TicketDetailsWarpper from './pages/ticket/ticketDetails'
 import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
 import TicketQrcodeDetailsWarpper from './features/test/qrTicketWarper'
 import Scan from './components/scan/scan'
+import ScanGuardian from './components/scan/scanGardian'
+import TicketQrcodeDetailsGuardian from './components/scan/scan'
 import Navbar from './components/navbar'
 import {Login} from './components/login/login'
 
@@ -44,7 +46,10 @@ function App() {
           </Route>
           <Route path="/tickets">
             <TicketsList />
-          </Route>   
+          </Route> 
+          <Route path="/guardian">
+            <ScanGuardian />
+          </Route>  
           <Route path="/">
             <Scan />
           </Route>
