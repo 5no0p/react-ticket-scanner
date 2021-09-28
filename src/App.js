@@ -34,9 +34,9 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/test/:qrcode">
+          {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
-          </Route>
+          </Route> */}
           <Route path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
           </Route>
@@ -46,9 +46,9 @@ function App() {
           <Route path="/tickets">
             <TicketsList />
           </Route> 
-          <Route path="/g">
+          {/* <Route path="/g">
             <ScanGuardian />
-          </Route>  
+          </Route>   */}
           <Route path="/">
             <Scan />
           </Route>
