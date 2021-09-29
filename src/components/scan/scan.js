@@ -49,7 +49,7 @@ class Scan extends Component {
         {this.state.result==="No result"
         ?<p>{this.state.result}</p>
         :<div className="mx-2">
-         {/* <Sound ticketData={true}/> */}
+         <Sound ticketData={true}/>
          <TicketQrcodeDetails ticketQrcode={this.state.result} isSane={this.state.isSane}/>
           </div>
         }
