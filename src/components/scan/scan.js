@@ -1,19 +1,34 @@
 import React, { Component } from 'react'
 import QrReader from 'react-qr-reader'
 import {TicketQrcodeDetails} from './ticketWarper'
+import Alerts from './playMount'
+import Sound from './playSound'
+
+
 
 
 
 class Scan extends Component {
   state = {
-    result: 'No result'
+    result: 'No result',
+    iScan: false,
+    delayTime: true,
+
   }
 
   handleScan = data => {
     if (data) {
       this.setState({
-        result: data
+        result: data,
+        isSane:!this.state.isSane,
       })
+      // setTimeout(() => {
+      //   this.setState({
+      //     isSane:false,
+      //     delayTime:false
+      //   })
+      // }, 500)
+      console.log("scan: ",this.state.isSane)
     }
   }
   handleError = err => {
@@ -34,7 +49,8 @@ class Scan extends Component {
         {this.state.result==="No result"
         ?<p>{this.state.result}</p>
         :<div className="mx-2">
-            <TicketQrcodeDetails ticketQrcode={this.state.result} />
+         {/* <Sound ticketData={true}/> */}
+         <TicketQrcodeDetails ticketQrcode={this.state.result} isSane={this.state.isSane}/>
           </div>
         }
       </div>

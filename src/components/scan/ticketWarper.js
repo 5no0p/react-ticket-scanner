@@ -6,6 +6,9 @@ import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
 
 import {CheckTicket} from './updateTicket'
+import {GetQrcodeById} from '../../features/scan/qrcode.api' //import tickets feching function
+
+
 
 import {Link } from "react-router-dom";
 
@@ -15,33 +18,39 @@ import Sound from './playSound'
 
 import {useMutation} from 'react-query'  //import useMutation
 import {UpdateTicket} from '../../features/ticket/ticket.api'
+import Alerts from './playMount'
+
 
 
 //
 // TODO: make function to display ticket details
-export function TicketQrcodeDetails({ticketQrcode}){
+export function TicketQrcodeDetails({ticketQrcode,isScan}){
 // declear variables
 //queryClient.invalidateQueries('qrcode')
 const [isUpdate, setIsUpdate] = useState(false)
-// declear variable to hold user from query
-  let getUser
 
   let ticketUpdate = {}
-  const mutation = useMutation(usernfo => UpdateTicket(usernfo))
+  
+  const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
+    onSuccess: (data) => {
+      queryClient.fetchQuery(['qrcode',data.data.ticket_qrcode[0].qrcode,localStorage.getItem('token')],
+      ()=>GetQrcodeById(data.data.ticket_qrcode[0].qrcode,localStorage.getItem('token')))
+    }
+  })
 
 // get user query key
   const userqueryKey = "user"
 
 
-const {data,isCached} = GetQrcodeData(ticketQrcode)
+const {ticketData} = GetQrcodeData(ticketQrcode)
 
 
 
 //       make sure to get data object
-const getData = data?('status' in data)?data.data:data:data
+// const getData = data?('status' in data)?data.data:data:data
 
-//       if data holder hold cached data find ticket by uuid
-const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
+// //       if data holder hold cached data find ticket by uuid
+// const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
 console.log("FINAL",ticketData)
 
 
@@ -56,21 +65,6 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.
   mutation.mutate(ticketUpdate)
   setIsUpdate(true)
 }
-
-let valid
-// if(ticketData && ticketData.ticket.validity){
-//   const validity = ticketData.ticket?.validity
-//   console.log("validity warpper: ", validity)
-//   const [valid,expired] = Sound(validity)
-//   validity?valid():expired()
-// }
-
-// const validity = (ticketValidity) => {
-//   console.log("validity validity: ", ticketValidity)
-//   const [valid,expired] = Sound(ticketValidity)
-//   ticketValidity?valid():expired()
-// }
-
 
   return(
     <>
@@ -120,7 +114,7 @@ let valid
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
-      <Sound ticketData={ticketData.ticket.validity}/>
+      <Sound ticketData={ticketData.ticket.validity} isScan={isScan}/>
       {/* <button onClick={validity(ticketData.ticket.validity)}>Boop!</button> */}
     </div>
       }
