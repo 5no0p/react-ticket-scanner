@@ -27,7 +27,7 @@ import Alerts from './playMount'
 export function TicketQrcodeDetails({ticketQrcode,isScan}){
 // declear variables
 //queryClient.invalidateQueries('qrcode')
-const [isUpdate, setIsUpdate] = useState(false)
+const [isUpdate, setIsUpdate] = useState(isScan)
 
   let ticketUpdate = {}
   
@@ -63,7 +63,21 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.
     token:localStorage.getItem('token')
   }
   mutation.mutate(ticketUpdate)
-  setIsUpdate(true)
+  setIsUpdate(!isScan)
+}
+
+const clickHandler = () => {
+  if(ticketData && ticketData.ticket.validity===false && localStorage.getItem('token')){
+    ticketUpdate = {
+      id:ticketData.ticket.uuid,
+      data:{
+        validity:true
+      },
+      token:localStorage.getItem('token')
+    }
+    mutation.mutate(ticketUpdate)
+    setIsUpdate(isScan)
+  }
 }
 
   return(
@@ -115,7 +129,7 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
       {/* <Sound ticketData={ticketData.ticket.validity} isScan={isScan}/> */}
-      <button onClick={mutation.mutate(ticketUpdate)}>Boop!</button>
+      {/* <button onClick={clickHandler}>Boop!</button> */}
     </div>
       }
       
