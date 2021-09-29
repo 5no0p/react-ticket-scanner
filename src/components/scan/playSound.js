@@ -3,7 +3,7 @@ import error_mp3 from '../../assets/sounds/ES_MM_Error.mp3';
 import valid_mp3 from '../../assets/sounds/ES_Multimedia.mp3';
 
 
-export default function Sound(ticketData) {
+export default function Sound({ticketData}) {
 
     console.log("validity: ",ticketData)
     const validSound= new Audio(valid_mp3) //useSound(valid_mp3)
@@ -45,8 +45,9 @@ export default function Sound(ticketData) {
         ticketData===true?playValidSound():playErrorSound()
       }
 
-      // useEffect(()=>{
-      //   playHandler()
-      // },[])
-  return [playValidSound,playErrorSound];
+      useEffect(()=>{
+        playHandler()
+      },[])
+      return <></>
+  //return [playValidSound,playErrorSound];
 }

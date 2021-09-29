@@ -58,18 +58,18 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.
 }
 
 let valid
-if(ticketData && ticketData.ticket.validity){
-  const validity = ticketData.ticket?.validity
-  console.log("validity warpper: ", validity)
-  const [valid,expired] = Sound(validity)
-  validity?valid():expired()
-}
+// if(ticketData && ticketData.ticket.validity){
+//   const validity = ticketData.ticket?.validity
+//   console.log("validity warpper: ", validity)
+//   const [valid,expired] = Sound(validity)
+//   validity?valid():expired()
+// }
 
-const validity = (ticketValidity) => {
-  console.log("validity validity: ", ticketValidity)
-  const [valid,expired] = Sound(ticketValidity)
-  ticketValidity?valid():expired()
-}
+// const validity = (ticketValidity) => {
+//   console.log("validity validity: ", ticketValidity)
+//   const [valid,expired] = Sound(ticketValidity)
+//   ticketValidity?valid():expired()
+// }
 
 
   return(
@@ -120,8 +120,8 @@ const validity = (ticketValidity) => {
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
-      {/* <Sound ticketData={ticketData.ticket.validity}/> */}
-      <button onClick={validity(ticketData.ticket.validity)}>Boop!</button>
+      <Sound ticketData={ticketData.ticket.validity}/>
+      {/* <button onClick={validity(ticketData.ticket.validity)}>Boop!</button> */}
     </div>
       }
       
