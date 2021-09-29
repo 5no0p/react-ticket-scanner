@@ -21,7 +21,7 @@ import {UpdateTicket} from '../../features/ticket/ticket.api'
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode}){
 // declear variables
-queryClient.invalidateQueries('qrcode')
+//queryClient.invalidateQueries('qrcode')
 const [isUpdate, setIsUpdate] = useState(false)
 // declear variable to hold user from query
   let getUser
@@ -57,12 +57,19 @@ if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.
   setIsUpdate(true)
 }
 
-const [valid,expired] = Sound(ticketData)
-      const playHandler = () => {
-        
-      }
-    
+let valid
+if(ticketData && ticketData.ticket.validity){
+  const validity = ticketData.ticket?.validity
+  console.log("validity warpper: ", validity)
+  const [valid,expired] = Sound(validity)
+  validity?valid():expired()
+}
 
+const validity = (ticketValidity) => {
+  console.log("validity validity: ", ticketValidity)
+  const [valid,expired] = Sound(ticketValidity)
+  ticketValidity?valid():expired()
+}
 
 
   return(
@@ -72,7 +79,9 @@ const [valid,expired] = Sound(ticketData)
         FRAME : Ticket Details
       */}
       {ticketData && 
+      
     <div style={{margin: "10vh 1vw"}}>
+      
       <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.ticket.validity===true?"valid":"expired"}
       </div>
@@ -111,8 +120,8 @@ const [valid,expired] = Sound(ticketData)
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
-      
-      <button onClick={valid}>Boop!</button>
+      {/* <Sound ticketData={ticketData.ticket.validity}/> */}
+      <button onClick={validity(ticketData.ticket.validity)}>Boop!</button>
     </div>
       }
       
