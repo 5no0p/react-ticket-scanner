@@ -39,10 +39,10 @@ const [isUpdate, setIsUpdate] = useState(isScan)
   })
 
 
-const {ticketData,isError,error,isLoading,status} = GetQrcodeData(ticketQrcode)
+const {ticketData,isError,error,isLoading,status,data} = GetQrcodeData(ticketQrcode)
 
 
-if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.getItem('token')){
+if(ticketData && ticketData.ticket?.validity===true && !isUpdate && localStorage.getItem('token')){
   ticketUpdate = {
     id:ticketData.ticket.uuid,
     data:{
@@ -73,6 +73,9 @@ if (isLoading) {
 }
 
 if (ticketData){
+  let alart
+  if(ticketData.ticket.validity===true)alart=<Sound ticketData={true}/>
+  if(ticketData.ticket.validity===false)alart=<Sound ticketData={false}/>
   return(
     <>
       {/* Ticket details
@@ -81,7 +84,7 @@ if (ticketData){
       */}
       
     <div style={{margin: "10vh 1vw"}}>
-      
+      {alart}
       <div className={`${ticketData.ticket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.ticket.validity===true?"valid":"expired"}
       </div>
@@ -128,11 +131,14 @@ if (ticketData){
 }
 
 if (isError) {
-  console.log("status: ",status)
+  console.log("status: ",error.response)
   return (<>
     <Sound ticketData={false}/> 
-  <span>Error: {error.message}</span>
-  <div>{ticketQrcode}</div>
+    <div className={`${error.response.status===404?"bg-dark":"bg-warning "} h-auto w-100 d-flex justify-content-center`}>
+      <div className="text-white">Foreign</div>
+    </div>
+    <div className="">{ticketQrcode}</div>
+    
   </>
   )
 }
