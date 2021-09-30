@@ -29,7 +29,7 @@ export const GetQrcodeById = async(id,token) => {
           }
   :header = {}
   const res = await axios.get(`${qrcodeApiUrl}${id}`,header)
-  console.log("axios:qrcode  by id")
+  console.log("axios:qrcode by id: ",res)
   return res
 }
 //

@@ -13,7 +13,8 @@ export const GetQrcodesQueryById = (id,token) => useQuery(['qrcode',id,token],()
   // disable window focus refetching
     refetchOnWindowFocus: false,
     cacheTime:0,
-    refetchOnMount:"always"
+    refetchOnMount:"always",
+    retry:1
   })
 
   export const FetchQrcode = (id,token) => queryClient.fetchQuery(['qrcode',id,token],()=>GetQrcodeById(id,token),{

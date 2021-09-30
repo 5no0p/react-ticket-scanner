@@ -12,10 +12,13 @@ export const loginApiUrl = `${TicketScanerApiV1BaseUrl}auth/login/`
 //
 // TODO: make base api for register
 export const registerApiUrl = `${TicketScanerApiV1BaseUrl}auth/registration/`
+//
+// TODO: make base api for logout
+export const logoutApiUrl = `${TicketScanerApiV1BaseUrl}auth/logout/`
 
 // TODO: make base api for users
 
-export const userApiUrl = `${authApiUrl}/user/`
+export const userApiUrl = `${authApiUrl}user/`
 //
 //  TODO: make api for user
 export const GetUser = async(token) => {
@@ -30,7 +33,7 @@ export const GetUser = async(token) => {
   return res
 }
 //
-//  TODO: make api for logiin
+//  TODO: make api for login
 export const LoginRequest = async(userInfo) => {
     console.log("userInfo: ",userInfo)
     const res = await axios.post(`${loginApiUrl}`,userInfo)
@@ -38,3 +41,11 @@ export const LoginRequest = async(userInfo) => {
     localStorage.setItem('token', res?.data.key)
     return res
   }
+//
+//  TODO: make api for logout
+export const LogoutRequest = async() => {
+  const res = await axios.post(`${logoutApiUrl}`)
+  localStorage.removeItem('token')
+  console.log("axios logout")
+  return res
+}

@@ -22,6 +22,20 @@ export const GetTicketById = async(id) => {
   return res
 }
 
+export const AddTicket = async(info) => {
+  console.log("data update ticket: ",info)
+  const {data,token} = info
+  const res = await axios.post(`${ticketApiUrl}/`,data,
+  {
+    headers: {
+      'Authorization': `Token ${token}` 
+    }
+  }
+  )
+  console.log("axios for update tiket: ",res)
+  return res
+}
+
 export const UpdateTicket = async(data) => {
   console.log("data update ticket: ",data)
   const res = await axios.patch(`${ticketApiUrl}/${data.id}/`,data.data,

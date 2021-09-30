@@ -12,7 +12,7 @@ import Navbar from '../../components/navbar'
 export const TicketsList = () => {
   // TODO: get the data from the query
   //       the data from query are {isLoading, isFetching, data, error}
-  const { isLoading, isFetching, data, error } = TicketsQuery();
+  const { isLoading, isFetching, isError, data, error } = TicketsQuery();
   // TODO: extract tickets data
   //       some times {data} is'n the ticket data so we should be sure we have the tickets data
   const ticketsData = data ? ('status' in data ? data.data : data) : data;
@@ -31,6 +31,15 @@ export const TicketsList = () => {
     error
     ? console.log('Error: ', error)
     : console.log('nothing!!!');
+    
+    if (isLoading) {
+      return <span>Loading...</span>
+    }
+  
+    if (isError) {
+      return <span>Error: {error.message}</span>
+    }
+    
   return (
     <>
       <div>

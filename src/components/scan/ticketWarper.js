@@ -26,7 +26,7 @@ import Alerts from './playMount'
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode,isScan}){
 // declear variables
-//queryClient.invalidateQueries('qrcode')
+
 const [isUpdate, setIsUpdate] = useState(isScan)
 
   let ticketUpdate = {}
@@ -38,20 +38,8 @@ const [isUpdate, setIsUpdate] = useState(isScan)
     }
   })
 
-// get user query key
-  const userqueryKey = "user"
 
-
-const {ticketData} = GetQrcodeData(ticketQrcode)
-
-
-
-//       make sure to get data object
-// const getData = data?('status' in data)?data.data:data:data
-
-// //       if data holder hold cached data find ticket by uuid
-// const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
-console.log("FINAL",ticketData)
+const {ticketData,isError,error,isLoading,status} = GetQrcodeData(ticketQrcode)
 
 
 if(ticketData && ticketData.ticket.validity===true && !isUpdate && localStorage.getItem('token')){
@@ -80,13 +68,17 @@ const clickHandler = () => {
   }
 }
 
+if (isLoading) {
+  return <span>Loading...</span>
+}
+
+if (ticketData){
   return(
     <>
       {/* Ticket details
         UX design url: https://www.figma.com/file/M5CnBCxxjH0MxXmfeuslbY/Ticket-QRcode-Scanner?node-id=42%3A16
         FRAME : Ticket Details
       */}
-      {ticketData && 
       
     <div style={{margin: "10vh 1vw"}}>
       
@@ -128,13 +120,23 @@ const clickHandler = () => {
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
         <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.ticket.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.ticket.uuid}</strong></p></Link></div>
       </div>
-      {/* <Sound ticketData={ticketData.ticket.validity} isScan={isScan}/> */}
-      {/* <button onClick={clickHandler}>Boop!</button> */}
     </div>
-      }
+      
       
     </>
   )
+}
+
+if (isError) {
+  console.log("status: ",status)
+  return (<>
+    <Sound ticketData={false}/> 
+  <span>Error: {error.message}</span>
+  <div>{ticketQrcode}</div>
+  </>
+  )
+}
+  
 }
 
 // export default function TicketQrcodeDetailsWarpper(){

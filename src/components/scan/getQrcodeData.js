@@ -24,13 +24,13 @@ export function GetQrcodeData(ticketQrcode){
         // get the token
           const token = localStorage.getItem('token')??""
         //       send api with ticket uuiid
-          const {data} = GetQrcodesQueryById(ticketQrcode,token)
+          const {data,isFetching,isSuccess,isError,isLoading,error,status} = GetQrcodesQueryById(ticketQrcode,token)
           const getData = data?('status' in data)?data.data:data:data
 
         //       if data holder hold cached data find ticket by uuid
         const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
         //       hold the data object in data holder
-          return {ticketData}
+          return {ticketData,isFetching,isSuccess,isError,error,isLoading,status,data}
           
         //}
 }
