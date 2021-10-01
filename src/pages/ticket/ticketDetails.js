@@ -34,7 +34,7 @@ if(queryClient.getQueryData(queryKey) !== undefined){
 //      no cached data
   isCached = false
 //       send api with ticket uuiid
-  const {data} = TicketByIdQuery(ticketUuid)
+  const {data,isLoading,isError,error} = TicketByIdQuery(ticketUuid)
 //       hold the data object in data holder
   getData = data
   console.log("data from api",getData)
@@ -53,6 +53,23 @@ console.log("FINAL",ticketData)
         UX design url: https://www.figma.com/file/M5CnBCxxjH0MxXmfeuslbY/Ticket-QRcode-Scanner?node-id=42%3A16
         FRAME : Ticket Details
       */}
+      <div>
+      <Navbar />
+      </div>
+      {isLoading && 
+        <>
+           <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+             <Spinner />
+           </div>
+        </>
+      }
+      {isError &&
+        <>
+        <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+          <span>Error: {error.message}</span>
+        </div>
+     </>
+      }
       {ticketData && 
        <div style={{
         margin: "10vh 1vw"

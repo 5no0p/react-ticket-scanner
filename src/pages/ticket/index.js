@@ -1,12 +1,9 @@
-// TODO: import dependences
-//       1.import react
-import React from 'react';
-//        import Link
-import {Link} from "react-router-dom";
-//       2.import tickers query
-import { TicketsQuery } from '../../features/ticket/ticket.query';
-//       3.import navbar
-import Navbar from '../../components/navbar'
+import React from 'react';//import react
+import {Link} from "react-router-dom";//import Link
+import { TicketsQuery } from '../../features/ticket/ticket.query';//import tickers query
+import Navbar from '../../components/navbar';//import navbar 
+import Spinner from '../../components/common/spinner';//import spinner
+ 
 //
 // TODO: make function to display tickers list
 export const TicketsList = () => {
@@ -33,11 +30,29 @@ export const TicketsList = () => {
     : console.log('nothing!!!');
     
     if (isLoading) {
-      return <span>Loading...</span>
+      // return (
+      //   <>
+      //   <div>
+      //     <Navbar />
+      //   </div>
+      //   <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+      //     <Spinner />
+      //   </div>
+      //   </>
+      //   )
     }
   
     if (isError) {
-      return <span>Error: {error.message}</span>
+      // return (
+      //   <>
+      //   <div>
+      //     <Navbar />
+      //   </div>
+      //   <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+      //     <span>Error: {error.message}</span>
+      //   </div>
+      //   </>
+      // )
     }
     
   return (
@@ -45,17 +60,36 @@ export const TicketsList = () => {
       <div>
       <Navbar />
       </div>
-      <div className="" style={{marginTop:"3.75rem"}}>Tickets Page</div>
-      <div>
-        {ticketsData?.map((ticket) => (
-          <ul key={ticket.uuid}>
-            <li>number: <Link to={`/tickets/${ticket.uuid}`}>{ticket.uuid}</Link></li>
-            <li>name: {ticket.name}</li>
-            <li>category: {ticket.category.name}</li>
-            <li>valid: {ticket.validity ? 'valid' : 'expierd'}</li>
-          </ul>
-        ))}
-      </div>
+      {isLoading && 
+        <>
+           <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+             <Spinner />
+           </div>
+        </>
+      }
+      {isError &&
+        <>
+        <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+          <span>Error: {error.message}</span>
+        </div>
+     </>
+      }
+      {ticketsData && 
+            <>
+              <div className="container" style={{marginTop:"3.75rem"}}>Tickets Page</div>
+              <div>
+                {ticketsData?.map((ticket) => (
+                  <ul key={ticket.uuid}>
+                    <li>number: <Link to={`/tickets/${ticket.uuid}`}>{ticket.uuid}</Link></li>
+                    <li>name: {ticket.name}</li>
+                    <li>category: {ticket.category.name}</li>
+                    <li>valid: {ticket.validity ? 'valid' : 'expierd'}</li>
+                  </ul>
+                ))}
+              </div>
+            </>
+      }
+
     </>
   );
 };
