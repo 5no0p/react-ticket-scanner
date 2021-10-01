@@ -7,6 +7,8 @@ import {queryClient} from '../../App'
 import {useParams,useRouteMatch} from "react-router-dom";
 //       4. import TicketByIdQuery
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
+import Navbar from '../../components/navbar';//import navbar 
+import Spinner from '../../components/common/spinner';//import spinner
 
 
 //
@@ -17,7 +19,7 @@ export function TicketDetails({ticketUuid}){
 //      2. declear variable to check cached data
   let isCached = true
 //      3. declear variable to hold data from query
-  let getData
+  let getData,isLoading,isError,error
 //      4.get tickets query key
   const queryKey = "tickets"
 //      
@@ -25,7 +27,7 @@ export function TicketDetails({ticketUuid}){
 //      1.get data from cached tickets query if undefine gi step 2
 if(queryClient.getQueryData(queryKey) !== undefined){
 //      get the data object from cached query  
-  const {data} = queryClient.getQueryData(queryKey)
+  const {isLoading, isError, data, error} = queryClient.getQueryData(queryKey)
 //      hold the data object to data holder
   getData = data
   console.log("data from cashe",getData)
@@ -37,6 +39,9 @@ if(queryClient.getQueryData(queryKey) !== undefined){
   const {data,isLoading,isError,error} = TicketByIdQuery(ticketUuid)
 //       hold the data object in data holder
   getData = data
+  isLoading=isLoading
+  isError=isError
+  error=error
   console.log("data from api",getData)
 }
 
