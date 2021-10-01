@@ -19,7 +19,7 @@ export function TicketDetails({ticketUuid}){
 //      2. declear variable to check cached data
   let isCached = true
 //      3. declear variable to hold data from query
-  let getData,isLoading,isError,error
+  let getData,getIsLoading,getIsError,getEerror
 //      4.get tickets query key
   const queryKey = "tickets"
 //      
@@ -39,12 +39,11 @@ if(queryClient.getQueryData(queryKey) !== undefined){
   const {data,isLoading,isError,error} = TicketByIdQuery(ticketUuid)
 //       hold the data object in data holder
   getData = data
-  isLoading=isLoading
-  isError=isError
-  error=error
+  getIsLoading=isLoading
+  getIsError=isError
+  getEerror=error
   console.log("data from api",getData)
 }
-
 //       make sure to get data object
 const data = getData?('status' in getData)?getData.data:getData:getData
 
@@ -61,17 +60,17 @@ console.log("FINAL",ticketData)
       <div>
       <Navbar />
       </div>
-      {isLoading && 
+      {getIsLoading && 
         <>
            <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
              <Spinner />
            </div>
         </>
       }
-      {isError &&
+      {getIsError &&
         <>
         <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-          <span>Error: {error.message}</span>
+          <span>Error: {getEerror.message}</span>
         </div>
      </>
       }

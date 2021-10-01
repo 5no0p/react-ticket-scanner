@@ -9,7 +9,8 @@ import {queryClient} from '../../App'
 import {Link, useParams} from "react-router-dom";
 //       5. import TicketByIdQuery
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
-
+import Navbar from '../../components/navbar';//import navbar 
+import Spinner from '../../components/common/spinner';//import spinner
 
 //
 // TODO: make function to display ticket details
@@ -20,7 +21,7 @@ export function TicketGeneral(){
 //      2. declear variable to check cached data
   let isCached = true
 //      3. declear variable to hold data from query
-  let getData
+  let getData,getIsLoading,getIsError,getEerror
 //      4.get tickets query key
   const queryKey = "tickets"
 //      
@@ -28,18 +29,26 @@ export function TicketGeneral(){
 //      1.get data from cached tickets query if undefine gi step 2
 if(queryClient.getQueryData(queryKey) !== undefined){
 //      get the data object from cached query  
-  const {data} = queryClient.getQueryData(queryKey)
+  const {isLoading, isError, data, error} = queryClient.getQueryData(queryKey)
 //      hold the data object to data holder
   getData = data
+  getData = data
+  getIsLoading=isLoading
+  getIsError=isError
+  getEerror=error
   console.log("data from cashe",getData)
 //      2. make api request to get ticket details
 }else{
 //      no cached data
   isCached = false
 //       send api with ticket uuiid
-  const {data} = TicketByIdQuery(ticketUuid)
+  const {isLoading, isError, data, error} = TicketByIdQuery(ticketUuid)
 //       hold the data object in data holder
   getData = data
+  getData = data
+  getIsLoading=isLoading
+  getIsError=isError
+  getEerror=error
   console.log("data from api",getData)
 }
 
@@ -58,6 +67,23 @@ console.log("FINAL",ticketData)
         UX design url: https://www.figma.com/file/M5CnBCxxjH0MxXmfeuslbY/Ticket-QRcode-Scanner?node-id=42%3A16
         FRAME : Ticket Details
       */}
+      <div>
+      <Navbar />
+      </div>
+      {getIsLoading && 
+        <>
+           <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+             <Spinner />
+           </div>
+        </>
+      }
+      {getIsError &&
+        <>
+        <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+          <span>Error: {getEerror.message}</span>
+        </div>
+     </>
+      }
       {ticketData && 
       <div style={{marginTop:"3.75rem"}}>
       <div className="row">
@@ -79,7 +105,7 @@ console.log("FINAL",ticketData)
                 </div>
                 <div className="Extra-warper">
                     <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
-                    <div>{/* ticket nuumber data*/}<p><strong>{ticketData.extral_info.Table}</strong></p></div>
+                    <div>{/* ticket nuumber data*/}<p><strong>{ticketData.table}</strong></p></div>
                 </div>
             </div>
           </div>
