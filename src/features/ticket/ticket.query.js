@@ -12,5 +12,5 @@ export const TicketsQuery = () => useQuery('tickets',GetTickets,{
 export const TicketByIdQuery = (id) => useQuery(['ticket',id],()=>GetTicketById(id),{
   // disable window focus refetching
     refetchOnWindowFocus: false,
-    retry:3,
+    retry:1,
   })

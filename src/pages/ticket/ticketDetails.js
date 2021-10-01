@@ -134,7 +134,7 @@ console.log("FINAL",ticketData)
 
       <div>{/* ticket more details */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
-        <div>{/* ticket nuumber data*/}<p><strong>{ticketData.extral_info.Table}</strong></p></div>
+        <div>{/* ticket nuumber data*/}<p><strong>{ticketData.table}</strong></p></div>
       </div>
     </div>
 
