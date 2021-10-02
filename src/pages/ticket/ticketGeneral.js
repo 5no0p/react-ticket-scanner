@@ -62,14 +62,7 @@ console.log("FINAL",ticketData)
 
  
   return(
-    <>
-      {/* Ticket details
-        UX design url: https://www.figma.com/file/M5CnBCxxjH0MxXmfeuslbY/Ticket-QRcode-Scanner?node-id=42%3A16
-        FRAME : Ticket Details
-      */}
-      <div>
-      <Navbar />
-      </div>
+    <>      
       {getIsLoading && 
         <>
            <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
@@ -86,37 +79,22 @@ console.log("FINAL",ticketData)
       }
       {ticketData && 
       <div style={{marginTop:"3.75rem"}}>
-      <div className="row">
-        <div className="col-9 d-flex align-items-center">{/* event name */}
-          <div className="ticket-warper">{/* ticket event warper*/}
-            <div>{/* event name tage*/}
-            <p className="m-0"><small>Event</small></p>
-            </div>
-            <div>{/* event name data*/}
-              <p><strong>{ticketData.category.event.name}</strong></p>
-            </div>
-            </div>
+        <div className="card">
+        <div className="card-header text-center">
+        {ticketData.category.event.name}
         </div>
-          <div className="col d-flex justify-content-end">{/* ticket date */}
-            <div className="ticket-warper">{/* ticket date warper*/}
-                <div className="Category-warper">
-                    <div>{/* ticket category tage*/}<p className="m-0"><small>Category</small></p></div>
-                    <div>{/* ticket category data*/}<p><strong>{ticketData.category.name}</strong></p></div>
-                </div>
-                <div className="Extra-warper">
-                    <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
-                    <div>{/* ticket nuumber data*/}<p><strong>{ticketData.table}</strong></p></div>
-                </div>
-            </div>
+        <div className="d-flex justify-content-center my-4"><QRCode value={ticketData.qrcode}/></div>
+          <div className="card-body text-center">
+            <h5 className="card-title" style={{backgroundColor:`${ticketData.category.color}`,color:'white'}}>
+              {ticketData.category.name}</h5>
+            <p className="card-text">{ticketData.uuid}</p>
+            {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           </div>
-      </div>
-
-      <div className="d-flex justify-content-center">{/* ticket QRcode image */}(<QRCode value={ticketData.ticket_qrcode[0].qrcode}/></div>
-
-      <div>{/* ticket more details */}
-        <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Details</small></p></div>
-        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{"-->"}</strong></p></Link></div>
-      </div>
+          <div className="card-footer text-muted">
+            T-<strong>{ticketData.table}</strong>
+          </div>
+        </div>
+      
     </div>
     
       }

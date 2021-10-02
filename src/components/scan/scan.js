@@ -37,12 +37,13 @@ class Scan extends Component {
   render() {
     return (
       <>
-      <div className="mt-5">
+      <div className="mt-5 container">
         <QrReader
           delay={300}
           onError={this.handleError}
           onScan={this.handleScan}
           style={{ width: '100%' }}
+          className="d-flex flex-column min-vh-50 justify-content-center align-items-center"
         />
       </div>
       <div className="mt-4">

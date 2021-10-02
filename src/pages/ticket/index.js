@@ -57,9 +57,7 @@ export const TicketsList = () => {
     
   return (
     <>
-      <div>
-      <Navbar />
-      </div>
+      
       {isLoading && 
         <>
            <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">

@@ -15,6 +15,21 @@ export const GetTickets = async() => {
   return res
 }
 
+export const GetTicketByQrcode = async(id,token) => {
+  console.log("qrcode: ",id)
+  let header
+  localStorage.getItem('token')
+  ?header = {
+    headers: {
+      'Authorization': `Token ${token}` 
+            }
+          }
+  :header = {}
+  const res = await axios.get(`${ticketApiUrl}?search=${id}`,header)
+  console.log("axios by qrcode")
+  return res
+}
+
 export const GetTicketById = async(id) => {
   console.log("id: ",id)
   const res = await axios.get(`${ticketApiUrl}/${id}`)

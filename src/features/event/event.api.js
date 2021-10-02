@@ -1,13 +1,21 @@
-import { useQuery } from "react-query";
+
 import axios from "axios";
 
-export const fetchEvents = async () => {
-    const res = await axios('https://ticket-scanner.herokuapp.com/api/v1/events/');
-    return await res
+import {TicketScanerApiV1BaseUrl} from '../../services/api.urls'
+
+
+export const eventApiUrl = `${TicketScanerApiV1BaseUrl}events`
+
+
+export const GetEvents = async () => {
+    console.log("get event axios")
+    const res = await axios(`${eventApiUrl}`);
+    return res
 }
 
-export const GetEvents = () => useQuery('events',fetchEvents,  { 
-    refetchOnWindowFocus: false ,
-    //refetchOnMount: true,
+export const GetEventById = async (id) => {
+    console.log("get event by id: ",id)
+    const res = await axios(`${eventApiUrl}/${id}`);
+    return res
+}
 
-})

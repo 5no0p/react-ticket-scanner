@@ -57,9 +57,7 @@ console.log("FINAL",ticketData)
         UX design url: https://www.figma.com/file/M5CnBCxxjH0MxXmfeuslbY/Ticket-QRcode-Scanner?node-id=42%3A16
         FRAME : Ticket Details
       */}
-      <div>
-      <Navbar />
-      </div>
+      
       {getIsLoading && 
         <>
            <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">

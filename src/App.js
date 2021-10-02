@@ -20,6 +20,8 @@ import Navbar from './components/navbar'
 import {Login} from './components/login/login'
 import PrivateRoute from './components/common/privetRout'
 import NoFoundComponent from './components/common/noFound'
+import { EventsList } from './pages/event';
+import EventGeneralWarpper from './pages/event/eventGeneral';
 
 export const queryClient = new QueryClient() 
 
@@ -33,9 +35,9 @@ function App() {
       <AlertProvider template={AlertTemplate}>
   
       <QueryClientProvider client={queryClient}> 
-      {/* <div>
-      <Navbar />
-      </div> */}
+      <div>
+        <Navbar />
+      </div>
       <Switch>
           <Route exact path="/login">
             <Login />
@@ -54,6 +56,12 @@ function App() {
           </Route>
           <Route exact path="/tickets">
             <TicketsList />
+          </Route> 
+          <Route exact path="/Events/:eventUuid">
+            <EventGeneralWarpper />
+          </Route> 
+          <Route exact path="/Events">
+            <EventsList />
           </Route> 
           <Route exact path="/g">
             <ScanGuardian />

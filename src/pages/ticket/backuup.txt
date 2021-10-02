@@ -1,45 +1,31 @@
-<div style={{marginTop:"3.75rem"}}>
-        <div>
-          <div>{/* event name */}
+<div className="row">
+        <div className="col-9 d-flex align-items-center">{/* event name */}
+          <div className="ticket-warper">{/* ticket event warper*/}
             <div>{/* event name tage*/}
-              Event
+            <p className="m-0"><small>Event</small></p>
             </div>
             <div>{/* event name data*/}
-              {ticketData.category.event.name}
-          </div>
+              <p><strong>{ticketData.category.event.name}</strong></p>
+            </div>
+            </div>
         </div>
-        <div>{/* ticket date */}
-          <div>{/* ticket date tage*/}
-            Date
+          <div className="col d-flex justify-content-end">{/* ticket date */}
+            <div className="ticket-warper">{/* ticket date warper*/}
+                <div className="Category-warper">
+                    <div>{/* ticket category tage*/}<p className="m-0"><small>Category</small></p></div>
+                    <div>{/* ticket category data*/}<p><strong>{ticketData.category.name}</strong></p></div>
+                </div>
+                <div className="Extra-warper">
+                    <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
+                    <div>{/* ticket nuumber data*/}<p><strong>{ticketData.table}</strong></p></div>
+                </div>
+            </div>
           </div>
-          <div>{/* ticket date data*/}
-            {ticketData.payment_info.purchased_at}
-          </div></div>
-        </div>
+      </div>
 
-        <div>
-          <div>{/* ticket payment */}
-            <div>{/* ticket payment tage*/}Payment</div>
-            <div>{/* ticket payment data*/}{ticketData.payment_info.amount_of_payment}</div>
-          </div>
-          <div>{/* ticket category */}
-            <div>{/* ticket category tage*/}Category</div>
-            <div>{/* ticket category data*/}{ticketData.category.name}</div>
-          </div>
-        </div>
+      <div className="d-flex justify-content-center">(<QRCode value={ticketData.ticket_qrcode[0].qrcode}/></div>
 
-        <div>{/* ticket name */}
-          <div>{/* ticket name tage*/}
-            Name
-          </div>
-          <div>{/* ticket name data*/}
-            {ticketData.name}
-          </div></div>
-        <div>{/* ticket number */}
-          <div>{/* ticket nuumber tage*/}Number</div>
-          <div>{/* ticket nuumber data*/}{ticketData.uuid}</div></div>
-
-        <div>{/* ticket QRcode image */}{ticketData.ticket_qrcode[0].qrimage}</div>
-
-        <div>{/* ticket more details */}{ticketData.extral_info.Table}</div>
+      <div>{/* ticket more details */}
+        <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Details</small></p></div>
+        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{"-->"}</strong></p></Link></div>
       </div>

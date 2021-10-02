@@ -14,3 +14,9 @@ export const TicketByIdQuery = (id) => useQuery(['ticket',id],()=>GetTicketById(
     refetchOnWindowFocus: false,
     retry:1,
   })
+
+export const TicketByQrcodeQuery = (id,token) => useQuery(['ticket',id,token],()=>GetTicketById(id,token),{
+  // disable window focus refetching
+    refetchOnWindowFocus: false,
+    retry:1,
+  })
