@@ -56,7 +56,7 @@ if(queryClient.getQueryData(queryKey) !== undefined){
 const data = getData?('status' in getData)?getData.data:getData:getData
 
 //       if data holder hold cached data find ticket by uuid
-const ticketData = isCached?data?.find(d => d.uuid === ticketUuid):data
+const ticketData = isCached?data?.find(d => d.qrcode === ticketUuid):data
 console.log("FINAL",ticketData)
 
 
@@ -87,7 +87,9 @@ console.log("FINAL",ticketData)
           <div className="card-body text-center">
             <h5 className="card-title" style={{backgroundColor:`${ticketData.category.color}`,color:'white'}}>
               {ticketData.category.name}</h5>
-            <p className="card-text">{ticketData.uuid}</p>
+              <Link to={`/tickets/${ticketData.qrcode}/details`} style={{ textDecoration: 'none',color: 'inherit', }}>
+              <p className="card-text">{ticketData.qrcode}</p></Link>
+            
             {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           </div>
           <div className="card-footer text-muted">

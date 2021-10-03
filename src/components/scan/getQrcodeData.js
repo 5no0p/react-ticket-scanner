@@ -1,6 +1,7 @@
 
 import {queryClient} from '../../App' //import queryClient
-import { TicketByQrcodeQuery } from '../../features/ticket/ticket.query'
+import { GetTicketById } from '../../features/ticket/ticket.api'
+import { TicketByIdQuery } from '../../features/ticket/ticket.query'
 
 
 // function to get data
@@ -24,13 +25,16 @@ export function GetQrcodeData(ticketQrcode){
         // get the token
           const token = localStorage.getItem('token')??""
         //       send api with ticket uuiid
-          const {data,isFetching,isSuccess,isError,isLoading,error,status} = TicketByQrcodeQuery(ticketQrcode,token)
+          const {data,isFetching,isSuccess,isError,isLoading,error,status,isFetched} = queryClient.fetchQuery(['ticket',ticketQrcode],()=>GetTicketById(ticketQrcode))
           const getData = data?('status' in data)?data.data:data:data
+          
 
         //       if data holder hold cached data find ticket by uuid
         const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
+        //console.log("getData: ",ticketData)
+        
         //       hold the data object in data holder
-          return {ticketData,isFetching,isSuccess,isError,error,isLoading,status,data}
+          return {ticketData,isFetched,isSuccess,isError,error,isLoading,status,data}
           
         //}
 }

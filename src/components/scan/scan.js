@@ -19,15 +19,10 @@ class Scan extends Component {
   handleScan = data => {
     if (data) {
       this.setState({
+        isSane:true,
         result: data,
-        isSane:!this.state.isSane,
+        
       })
-      // setTimeout(() => {
-      //   this.setState({
-      //     isSane:false,
-      //     delayTime:false
-      //   })
-      // }, 500)
       console.log("scan: ",this.state.isSane)
     }
   }
@@ -51,7 +46,7 @@ class Scan extends Component {
         ?<p>{this.state.result}</p>
         :<div className="mx-2">
          {/* <Sound ticketData={true}/> */}
-         <TicketQrcodeDetails ticketQrcode={this.state.result} isSane={this.state.isSane}/>
+         <TicketQrcodeDetails ticketQrcode={this.state.result} isScan={this.state.isSane}/>
           </div>
         }
       </div>

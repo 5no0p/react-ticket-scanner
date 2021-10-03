@@ -12,9 +12,10 @@ import Spinner from '../../components/common/spinner';//import spinner
 
 
 //
-// TODO: make function to display ticket details
 export function TicketDetails({ticketUuid}){
-// TODO: declear variables
+
+  let pra = useParams();
+  ticketUuid = ticketUuid?ticketUuid:pra.ticketUuid
 
 //      2. declear variable to check cached data
   let isCached = true
@@ -96,7 +97,7 @@ console.log("FINAL",ticketData)
                 <p className="m-0"><small>Date</small></p>
               </div>
               <div>{/* ticket date data*/}
-              <p><strong>{new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).format(new Date(ticketData.payment_info.purchased_at))}</strong></p>
+              <p><strong>{ticketData.payment_info?new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).format(new Date(ticketData.payment_info?.purchased_at)):null}</strong></p>
               </div>
             </div>
           </div>
@@ -106,7 +107,7 @@ console.log("FINAL",ticketData)
         <div className="col-9">{/* ticket payment */}
           <div className="ticket-warper">{/* ticket Payment warper*/}
             <div>{/* ticket payment tage*/}<p className="m-0"><small>Payment</small></p></div>
-            <div>{/* ticket payment data*/}<p><strong>{ticketData.payment_info.amount_of_payment}</strong></p></div>
+            <div>{/* ticket payment data*/}<p><strong>{ticketData.payment_info?.amount_of_payment}</strong></p></div>
           </div>
         </div>
         <div className="col d-flex justify-content-end">{/* ticket category */}

@@ -61,8 +61,8 @@ export const TicketsList = () => {
                     </thead>
                     <tbody>
                 {ticketsData?.map((ticket) => (
-                  <tr className="text-center" key={ticket.uuid}>
-                    <td><Link to={`/tickets/${ticket.uuid}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.uuid}</Link></td>
+                  <tr className="text-center" key={ticket.qrcode}>
+                    <td><Link to={`/tickets/${ticket.qrcode}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.qrcode}</Link></td>
                     <td>{ticket.name}</td>
                     <td>{ticket.category.name}</td>
                     <td>{ticket.validity ? 'valid' : 'expierd'}</td>

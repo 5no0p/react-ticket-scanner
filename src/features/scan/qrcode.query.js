@@ -16,11 +16,6 @@ export const GetQrcodesQueryById = (id,token) => useQuery(['qrcode',id,token],()
     retry:1
   })
 
-  export const FetchQrcode = (id,token) => queryClient.fetchQuery(['qrcode',id,token],()=>GetQrcodeById(id,token),{
-    // disable window focus refetching
-     
-    })
-
   export const ScanlogsQuery = () => useQuery('scanlogs', GetScanlogs, {
     refetchOnWindowFocus: false,
   })

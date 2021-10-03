@@ -53,7 +53,7 @@ export const AddScanlog = async(log_data,token) => {
   const res = await axios.post(scanlogApiUrl,log_data,
     {
       headers: {
-        'Authorization': `Token ${token}` 
+        'Authorization': `Token ${localStorage.getItem('token')}` 
       }
     }
     )
