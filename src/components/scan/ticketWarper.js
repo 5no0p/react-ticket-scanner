@@ -6,7 +6,7 @@ import {queryClient} from '../../App'
 //       3. import GetQrcodesQueryById
 
 import {CheckTicket} from './updateTicket'
-import {GetQrcodeById} from '../../features/scan/qrcode.api' //import tickets feching function
+import {AddScanlog, GetQrcodeById} from '../../features/scan/qrcode.api' //import tickets feching function
 
 
 
@@ -38,6 +38,8 @@ const [isUpdate, setIsUpdate] = useState(isScan)
     }
   })
 
+  const logMutation = useMutation(logInfo => AddScanlog(logInfo))
+
 
 const {ticketData,isError,error,isLoading,status,data} = GetQrcodeData(ticketQrcode)
 
@@ -57,11 +59,35 @@ if(ticketData && ticketData?.validity===true && !isUpdate && localStorage.getIte
 if (isLoading) {
   return <span>Loading...</span>
 }
+if (isError) {
+  console.log("status: ",error.response)
+  return (<>
+    <Sound ticketData={false}/> 
+    <div className={`${error.response.status===404?"bg-dark":"bg-warning "} h-auto w-100 d-flex justify-content-center`}>
+      <div className="text-white">Foreign</div>
+    </div>
+    <div className="">{ticketQrcode}</div>
+    
+  </>
+  )
+}
 
 if (ticketData){
   let alart
+  let status
   if(ticketData.validity===true)alart=<Sound ticketData={true}/>
   if(ticketData.validity===false)alart=<Sound ticketData={false}/>
+
+  const today = new Date(),
+  time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+  const scanLog = {
+    "status_recorded":ticketData.validity===true?'P':'E',
+    "ticket":`${ticketData.uuid}`,
+    "scan_time":time,
+  }
+  logMutation.mutate(scanLog)
+
+
   return(
     <>
       {/* Ticket details
@@ -116,18 +142,7 @@ if (ticketData){
   )
 }
 
-if (isError) {
-  console.log("status: ",error.response)
-  return (<>
-    <Sound ticketData={false}/> 
-    <div className={`${error.response.status===404?"bg-dark":"bg-warning "} h-auto w-100 d-flex justify-content-center`}>
-      <div className="text-white">Foreign</div>
-    </div>
-    <div className="">{ticketQrcode}</div>
-    
-  </>
-  )
-}
+
   
 }
 

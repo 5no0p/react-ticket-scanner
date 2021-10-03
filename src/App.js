@@ -22,6 +22,9 @@ import PrivateRoute from './components/common/privetRout'
 import NoFoundComponent from './components/common/noFound'
 import { EventsList } from './pages/event';
 import EventGeneralWarpper from './pages/event/eventGeneral';
+import EventTicketsWarpper from './pages/event/eventTickets';
+import './App.css'
+import { ScanlogsList } from './pages/scanLogs';
 
 export const queryClient = new QueryClient() 
 
@@ -57,14 +60,17 @@ function App() {
           <Route exact path="/tickets">
             <TicketsList />
           </Route> 
-          <Route exact path="/Events/:eventUuid">
+          <Route exact path="/events/:eventUuid/tickets">
+            <EventTicketsWarpper />
+          </Route> 
+          <Route exact path="/events/:eventUuid">
             <EventGeneralWarpper />
           </Route> 
-          <Route exact path="/Events">
+          <Route exact path="/events">
             <EventsList />
           </Route> 
-          <Route exact path="/g">
-            <ScanGuardian />
+          <Route exact path="/scanlogs">
+            <ScanlogsList />
           </Route>  
           <Route exact path="/">
             <Scan />

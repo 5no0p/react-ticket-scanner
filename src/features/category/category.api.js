@@ -19,6 +19,13 @@ export const GetCategories = async() => {
     return res
   }
 
+  export const GetCategoriesEvent = async(id) => {
+    console.log("id: ",id)
+    const res = await axios.get(`${CategoryApiUrl}?event__uuid=${id}`)
+    console.log("axios by categories event")
+    return res
+  }
+
   export const AddCategory = async(info) => {
     console.log("data update ticket: ",info)
     const {data,token} = info

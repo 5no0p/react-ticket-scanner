@@ -1,6 +1,6 @@
 // TODO: import dependences
 import {useQuery} from 'react-query'  //import useQuery
-import {GetQrcodes,GetQrcodeById} from './qrcode.api' //import tickets feching function
+import {GetQrcodes,GetQrcodeById, GetScanlogs, GetScanlogsById} from './qrcode.api' //import tickets feching function
 import {queryClient} from '../../App'
 //
 // TODO: make qrcodes query
@@ -12,7 +12,6 @@ export const GetQrcodesQuery = () => useQuery('qrcodes',GetQrcodes,{
 export const GetQrcodesQueryById = (id,token) => useQuery(['qrcode',id,token],()=>GetQrcodeById(id,token),{
   // disable window focus refetching
     refetchOnWindowFocus: false,
-    cacheTime:0,
     refetchOnMount:"always",
     retry:1
   })
@@ -21,3 +20,13 @@ export const GetQrcodesQueryById = (id,token) => useQuery(['qrcode',id,token],()
     // disable window focus refetching
      
     })
+
+  export const ScanlogsQuery = () => useQuery('scanlogs', GetScanlogs, {
+    refetchOnWindowFocus: false,
+  })
+
+  export const ScanlogsByIdQuery = (id) => useQuery(['scanlog', id], ()=> GetScanlogsById(id),{
+    refetchOnWindowFocus: false,
+  })
+
+  

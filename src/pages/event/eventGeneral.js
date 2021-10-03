@@ -21,7 +21,7 @@ export function EventGeneral(){
 //      3. declear variable to hold data from query
   let getData,getIsLoading,getIsError,getEerror
 //      4.get tickets query key
-  const queryKey = "tickets"
+  const queryKey = "events"
 //      
 // TODO: check if data is in query cache, if not make api request
 //      1.get data from cached tickets query if undefine gi step 2
@@ -56,8 +56,9 @@ const data = getData?('status' in getData)?getData.data:getData:getData
 //       if data holder hold cached data find ticket by uuid
 const eventData = isCached?data?.find(d => d.uuid === eventUuid):data
 console.log("FINAL",eventData)
-let startAt = new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).format(new Date(JSON.parse(eventData.active_in).lower))
-let endIn = new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).format(new Date(JSON.parse(eventData.active_in).upper))
+let startAt = eventData? new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit',hour: 'numeric', minute: 'numeric'}).format(new Date(JSON.parse(eventData.active_in).lower)):""
+let endIn = eventData? new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit',hour: 'numeric', minute: 'numeric', timeZone: 'Africa/Cairo',
+}).format(new Date(JSON.parse(eventData.active_in).upper)):""
 
  
   return(
@@ -71,16 +72,20 @@ let endIn = new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).form
       }
       {getIsError &&
         <>
+        
         <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
           <span>Error: {getEerror.message}</span>
         </div>
      </>
       }
       {eventData && 
-      <div style={{marginTop:"3.75rem"}}>
+      <div className="container" style={{marginTop:"3.75rem"}}>
         <div className="card">
-        <div className="card-header text-center">
-            {startAt} - {endIn}
+        <div className="card-header text-center d-flex justify-content-evenly">
+          <div>{startAt} </div>
+          
+          <div>{endIn}</div>
+            
         
         </div>
           <div className="card-body text-center">
@@ -88,8 +93,9 @@ let endIn = new Intl.DateTimeFormat('en-GB', {month:'short',day:'2-digit'}).form
             <p className="card-text">{eventData.discripton}</p>
             {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           </div>
-          <div className="card-footer text-muted">
-            by-<strong>{eventData.owner.username}</strong>
+          <div className="card-footer text-muted d-flex justify-content-between">
+           <p> by-<strong>{eventData.owner.username}</strong></p>
+           <Link to={location => `${location.pathname}/tickets`} style={{ textDecoration: 'none',color: 'inherit', }}>Buy Ticket</Link>
           </div>
         </div>
       

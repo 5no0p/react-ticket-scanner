@@ -5,7 +5,7 @@ const NoFoundComponent = () => {
     let history = useHistory();
         setTimeout(() => {
             history.push("/")
-      }, 500)
+      }, 3000)
 
         return(
             <>

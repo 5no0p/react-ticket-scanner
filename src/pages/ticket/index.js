@@ -29,32 +29,6 @@ export const TicketsList = () => {
     ? console.log('Error: ', error)
     : console.log('nothing!!!');
     
-    if (isLoading) {
-      // return (
-      //   <>
-      //   <div>
-      //     <Navbar />
-      //   </div>
-      //   <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-      //     <Spinner />
-      //   </div>
-      //   </>
-      //   )
-    }
-  
-    if (isError) {
-      // return (
-      //   <>
-      //   <div>
-      //     <Navbar />
-      //   </div>
-      //   <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-      //     <span>Error: {error.message}</span>
-      //   </div>
-      //   </>
-      // )
-    }
-    
   return (
     <>
       
@@ -76,14 +50,26 @@ export const TicketsList = () => {
             <>
               <div className="container" style={{marginTop:"3.75rem"}}>Tickets Page</div>
               <div>
+              <table className="table">
+                    <thead>
+                      <tr className="text-center">
+                        <th scope="col">Number</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Validity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                 {ticketsData?.map((ticket) => (
-                  <ul key={ticket.uuid}>
-                    <li>number: <Link to={`/tickets/${ticket.uuid}`}>{ticket.uuid}</Link></li>
-                    <li>name: {ticket.name}</li>
-                    <li>category: {ticket.category.name}</li>
-                    <li>valid: {ticket.validity ? 'valid' : 'expierd'}</li>
-                  </ul>
+                  <tr className="text-center" key={ticket.uuid}>
+                    <td><Link to={`/tickets/${ticket.uuid}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.uuid}</Link></td>
+                    <td>{ticket.name}</td>
+                    <td>{ticket.category.name}</td>
+                    <td>{ticket.validity ? 'valid' : 'expierd'}</td>
+                  </tr>
                 ))}
+                </tbody>
+                </table>
               </div>
             </>
       }

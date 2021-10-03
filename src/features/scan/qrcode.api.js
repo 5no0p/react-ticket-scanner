@@ -39,6 +39,14 @@ export const GetScanlogs = async() => {
   console.log("axios")
   return res
 }
+
+export const GetScanlogsById = async(id) => {
+  const res = await axios.get(`${scanlogApiUrl}${id}`)
+  console.log("axios")
+  return res
+}
+
+// TODO: make api for scanlog user
 //
 //  TODO: make api to add scanlog
 export const AddScanlog = async(log_data,token) => {
@@ -49,6 +57,6 @@ export const AddScanlog = async(log_data,token) => {
       }
     }
     )
-  console.log("axios")
+  console.log("axios AddScanlog")
   return res
 }

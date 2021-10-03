@@ -8,7 +8,7 @@ export const EventsQuery = () => useQuery('events',GetEvents,  {
 
 })
 
-export const EventByIdQuery = (id) => useQuery(['events',id],() => GetEventById(id),  { 
+export const EventByIdQuery = (id) => useQuery(['event',id],() => GetEventById(id),  { 
     refetchOnWindowFocus: false ,
     //refetchOnMount: true,
 
