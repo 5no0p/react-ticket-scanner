@@ -17,7 +17,7 @@ export const GetQrcodesQueryById = (id,token) => useQuery(['qrcode',id,token],()
   })
 
   export const ScanlogsQuery = () => useQuery('scanlogs', GetScanlogs, {
-    refetchOnWindowFocus: false,
+    //refetchOnWindowFocus: false,
   })
 
   export const ScanlogsByIdQuery = (id) => useQuery(['scanlog', id], ()=> GetScanlogsById(id),{
