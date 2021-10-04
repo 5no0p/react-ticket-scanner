@@ -72,20 +72,21 @@ if (ticketData){
   // if(ticketData.validity===true)alart=<Sound ticketData={true}/>
   // if(ticketData.validity===false)alart=<Sound ticketData={false}/>
   alart = ticketData.validity===true?<Sound ticketData={true}/>:<Sound ticketData={false}/>
-//   console.log("log :::",log)
+ 
+  console.log("log :::",log)
 
-// if(log){
-//   console.log("log")
-//   const today = new Date(),
-//   time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-//   const scanLog = {
-//     "status_recorded":ticketData.validity===true?'P':'E',
-//     "ticket":`${ticketData.uuid}`,
-//     "scan_time":time,
-//   }
-//   logMutation.mutate(scanLog)
-//   setLog(!isScan)
-// }
+if(log){
+  console.log("log")
+  const today = new Date(),
+  time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+  const scanLog = {
+    "status_recorded":ticketData.validity===true?'P':'E',
+    "ticket":`${ticketData.uuid}`,
+    "scan_time":time,
+  }
+  logMutation.mutate(scanLog)
+  setLog(!isScan)
+}
   
 console.log("check===>",ticketData.validity===true)
   if(ticketData.validity===true && isUpdate && localStorage.getItem('token'))
