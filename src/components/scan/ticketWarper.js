@@ -16,7 +16,7 @@ import {GetQrcodeData} from './getQrcodeData'
 import Sound from './playSound'
 
 import {useMutation} from 'react-query'  //import useMutation
-import {GetTicketById, UpdateTicket} from '../../features/ticket/ticket.api'
+import {GetTicketById, UpdateTicket, GetTicketByQrcode} from '../../features/ticket/ticket.api'
 
 
 
@@ -24,25 +24,41 @@ import {GetTicketById, UpdateTicket} from '../../features/ticket/ticket.api'
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode,isScan}){
 // declear variables
-
+console.log("isScan: ",isScan)
 const [isUpdate, setIsUpdate] = useState(isScan)
 const [log, setLog] = useState(isScan)
-
+const [updating, setUpdating] = useState('')
+console.log("isUpdate: ",isUpdate)
   let ticketUpdate = {}
+  const {ticketData,isError,error,isLoading,isFetched,data} = GetQrcodeData(ticketQrcode)
   
   const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
+    onMutate: () => {
+        setUpdating('updating...')
+        setIsUpdate(!isScan)
+    },
     onSuccess: (data) => {
-      queryClient.fetchQuery(['ticket',data.data.qrcode],
-      ()=>GetTicketById(data.data.qrcode,localStorage.getItem('token')))
+      queryClient.fetchQuery(['ticket_qrcode',data.data.qrcode,localStorage.getItem('token')],
+      ()=>GetTicketByQrcode(data.data.qrcode,localStorage.getItem('token')))
+      setUpdating('updated')
+      
+    },
+    onError: (error) => {
+      setUpdating('Update Error: ',error)
     }
   })
 
-  const logMutation = useMutation(logInfo => AddScanlog(logInfo))
+  const logMutation = useMutation(logInfo => AddScanlog(logInfo),{
+    // onSuccess: () => {
+    //   queryClient.fetchQuery(['ticket',ticketData.qrcode],
+    //   ()=>GetTicketById(ticketData.qrcode,localStorage.getItem('token')))
+    // }
+  })
 
 
-const {ticketData,isError,error,isLoading,isFetched,data} = GetQrcodeData(ticketQrcode)
 
-//console.log('Final: ',ticketData)
+
+console.log('Final: ',ticketData)
 
 if(ticketData){
   
@@ -92,7 +108,7 @@ console.log("check===>",ticketData.validity===true)
   if(ticketData.validity===true && isUpdate && localStorage.getItem('token'))
   {
     ticketUpdate = {
-    id:ticketData.qrcode,
+    id:ticketData.tid,
     data:{
       validity:false
     },
@@ -113,7 +129,8 @@ console.log("check===>",ticketData.validity===true)
       */}
       
     <div style={{margin: "10vh 1vw"}}>
-      {alart}
+      {/* {alart} */}
+      <p>{isUpdate?'':`${updating}`}</p>
       <div className={`${ticketData.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {ticketData.validity===true?"valid":"expired"}
       </div>
@@ -150,7 +167,7 @@ console.log("check===>",ticketData.validity===true)
       </div>
       <div>{/* ticket number */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
-        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.uuid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.uuid}</strong></p></Link></div>
+        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.tid}</strong></p></Link></div>
       </div>
     </div>
       

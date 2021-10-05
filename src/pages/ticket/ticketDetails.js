@@ -77,7 +77,9 @@ console.log("FINAL",ticketData)
        <div style={{
         margin: "10vh 1vw"
       }}>
-      <div className={`${ticketData.validity===true?"bg-success":"bg-danger"} min-vh-1 w-100 d-flex justify-content-center`}>
+        <div className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center">
+          <div>
+      <div className={`${ticketData.validity===true?"bg-success":"bg-danger"} d-flex justify-content-center`}>
       {ticketData.validity?"valid":"expired"}
       </div>
       <div className="row">
@@ -127,12 +129,14 @@ console.log("FINAL",ticketData)
         </div></div>
       <div>{/* ticket number */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
-        <div>{/* ticket nuumber data*/}<p><strong>{ticketData.uuid}</strong></p></div>
+        <div>{/* ticket nuumber data*/}<p><strong>{ticketData.tid}</strong></p></div>
       </div>
 
       <div>{/* ticket more details */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Table</small></p></div>
         <div>{/* ticket nuumber data*/}<p><strong>{ticketData.table}</strong></p></div>
+      </div>
+      </div>
       </div>
     </div>
 

@@ -1,6 +1,6 @@
 // TODO: import dependences
-import {useQuery} from 'react-query'  //import useQuery
-import {GetTickets, GetTicketById, GetTicketByQrcode} from './ticket.api' //import tickets feching function
+import {useQuery,useMutation} from 'react-query'  //import useQuery
+import {GetTickets, GetTicketById, GetTicketByQrcode, UpdateTicket} from './ticket.api' //import tickets feching function
 //
 // TODO: make tickets query
 export const TicketsQuery = () => useQuery('tickets',GetTickets,{
@@ -20,3 +20,17 @@ export const TicketByQrcodeQuery = (id,token) => useQuery(['ticket_qrcode',id,to
     refetchOnWindowFocus: false,
     retry:1,
   })
+
+export const  TicketMutation = (ticketInfo) => {
+
+  return useMutation(ticket => UpdateTicket(ticket),{
+    onSuccess: (data) => {
+      // queryClient.fetchQuery(['ticket',data.data.qrcode],
+      // ()=>GetTicketById(data.data.qrcode,localStorage.getItem('token')))
+    }
+  })
+
+  //return mutation.mutate(ticketInfo)
+
+}
+

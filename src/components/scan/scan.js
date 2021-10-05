@@ -32,13 +32,13 @@ class Scan extends Component {
   render() {
     return (
       <>
-      <div className="mt-5 container">
+      <div className="mt-5 container d-flex flex-column min-vh-25 justify-content-center align-items-center">
         <QrReader
           delay={300}
           onError={this.handleError}
           onScan={this.handleScan}
-          style={{ width: '100%' }}
-          className="d-flex flex-column min-vh-50 justify-content-center align-items-center"
+          style={{ width: '50vh' }}
+          
         />
       </div>
       <div className="mt-4">
@@ -46,7 +46,13 @@ class Scan extends Component {
         ?<p>{this.state.result}</p>
         :<div className="mx-2">
          {/* <Sound ticketData={true}/> */}
+         {this.state.isSane
+         ?
+         (<>
+         <Sound ticketData={true}/> 
          <TicketQrcodeDetails ticketQrcode={this.state.result} isScan={this.state.isSane}/>
+         </>)
+         :''}
           </div>
         }
       </div>

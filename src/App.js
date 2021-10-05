@@ -12,7 +12,7 @@ import AlertTemplate from 'react-alert-template-basic'
 import {TicketsList} from './pages/ticket/index'
 import TicketDetailsWarpper from './pages/ticket/ticketDetails'
 import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
-import TicketQrcodeDetailsWarpper from './features/test/qrTicketWarper'
+import Websoket from './features/test/websoket'
 import Auth from './features/test/authTest'
 import Scan from './components/scan/scan'
 import ScanGuardian from './components/scan/scanGardian'
@@ -48,8 +48,8 @@ function App() {
           {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route> */}
-          <PrivateRoute path="/test/auth">
-            <Auth />
+          <PrivateRoute path="/wb">
+            <Websoket />
           </PrivateRoute>
           <Route exact path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
