@@ -167,7 +167,7 @@ console.log("check===>",ticketData.validity===true)
       </div>
       <div>{/* ticket number */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
-        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.uuid}</strong></p></Link></div>
+        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.tid}</strong></p></Link></div>
       </div>
     </div>
       
