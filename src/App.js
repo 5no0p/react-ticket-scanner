@@ -48,9 +48,9 @@ function App() {
           {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route> */}
-          <PrivateRoute path="/wb">
+          {/* <PrivateRoute path="/wb">
             <Websoket />
-          </PrivateRoute>
+          </PrivateRoute> */}
           <Route exact path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
           </Route>
@@ -69,9 +69,9 @@ function App() {
           <Route exact path="/events">
             <EventsList />
           </Route> 
-          <Route exact path="/scanlogs">
+          {/* <Route exact path="/scanlogs">
             <ScanlogsList />
-          </Route>  
+          </Route>   */}
           <Route exact path="/">
             <Scan />
           </Route>
