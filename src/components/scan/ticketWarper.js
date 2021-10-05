@@ -35,13 +35,12 @@ console.log("isUpdate: ",isUpdate)
   const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
     onMutate: () => {
         setUpdating('updating...')
-        setIsUpdate(!isScan)
     },
-    onSuccess: (data) => {
-      queryClient.fetchQuery(['ticket_qrcode',data.data.qrcode,localStorage.getItem('token')],
+    onSuccess: async (data) => {
+      await queryClient.fetchQuery(['ticket_qrcode',data.data.qrcode],
       ()=>GetTicketByQrcode(data.data.qrcode,localStorage.getItem('token')))
       setUpdating('updated')
-      
+      setIsUpdate(isScan)     
     },
     onError: (error) => {
       setUpdating('Update Error: ',error)
@@ -115,8 +114,13 @@ console.log("check===>",ticketData.validity===true)
     token:localStorage.getItem('token')
   }
   console.log("isUpdate===>",ticketData.validity)
-  mutation.mutate(ticketUpdate)
   setIsUpdate(!isScan)
+  mutation.mutate(ticketUpdate,{
+    onSettled:()=>{
+      //setIsUpdate(isScan)
+    }
+  })
+  
   console.log("isUpdate :::",isUpdate)
 }
 

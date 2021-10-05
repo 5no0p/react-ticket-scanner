@@ -7,13 +7,12 @@ class ScanGuardian extends Component {
     result: 'No result'
   }
 
+  
+
   handleScan = data => {
     if (data) {
       this.setState({
-        result: {
-          data:data,
-          
-        }
+        result:data
       })
     }
   }
@@ -28,7 +27,7 @@ class ScanGuardian extends Component {
           delay={300}
           onError={this.handleError}
           onScan={this.handleScan}
-          style={{ width: '100%' }}
+          style={{ width: '50%' }}
         />
       </div>
       <div className="mt-4">
