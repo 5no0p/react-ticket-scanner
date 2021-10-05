@@ -1,7 +1,7 @@
 
 import {queryClient} from '../../App' //import queryClient
 import { GetTicketById } from '../../features/ticket/ticket.api'
-import { TicketByIdQuery } from '../../features/ticket/ticket.query'
+import { TicketByIdQuery, TicketByQrcodeQuery } from '../../features/ticket/ticket.query'
 
 
 // function to get data
@@ -25,7 +25,7 @@ export function GetQrcodeData(ticketQrcode){
         // get the token
           const token = localStorage.getItem('token')??""
         //       send api with ticket uuiid
-          const {data,isFetching,isSuccess,isError,isLoading,error,status,isFetched} = TicketByIdQuery(ticketQrcode)
+          const {data,isFetching,isSuccess,isError,isLoading,error,status,isFetched} = TicketByQrcodeQuery(ticketQrcode,token)
           const getData = data?('status' in data)?data.data:data:data
           
 

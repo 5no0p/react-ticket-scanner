@@ -49,8 +49,8 @@ export const TicketsList = () => {
       {ticketsData && 
             <>
               <div className="container" style={{marginTop:"3.75rem"}}>Tickets Page</div>
-              <div>
-              <table className="table">
+              <div className="mx-5 justify-content-center">
+              <table className="table table-striped">
                     <thead>
                       <tr className="text-center">
                         <th scope="col">Number</th>
@@ -61,8 +61,8 @@ export const TicketsList = () => {
                     </thead>
                     <tbody>
                 {ticketsData?.map((ticket) => (
-                  <tr className="text-center" key={ticket.qrcode}>
-                    <td><Link to={`/tickets/${ticket.qrcode}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.qrcode}</Link></td>
+                  <tr className="text-center" key={ticket.tid}>
+                    <td><Link to={`/tickets/${ticket.tid}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.tid}</Link></td>
                     <td>{ticket.name}</td>
                     <td>{ticket.category.name}</td>
                     <td>{ticket.validity ? 'valid' : 'expierd'}</td>

@@ -7,6 +7,9 @@ import {TicketScanerApiV1BaseUrl} from '../../services/api.urls'
 // TODO: make base api for tickers
 
 export const ticketApiUrl = `${TicketScanerApiV1BaseUrl}tickets`
+
+export const qrcodeApiUrl = `${TicketScanerApiV1BaseUrl}qrcodes`
+
 //
 //  TODO: make api for tickits
 export const GetTickets = async() => {
@@ -25,7 +28,7 @@ export const GetTicketByQrcode = async(id,token) => {
             }
           }
   :header = {}
-  const res = await axios.get(`${ticketApiUrl}?search=${id}`,header)
+  const res = await axios.get(`${qrcodeApiUrl}/${id}`,header)
   console.log("axios by qrcode")
   return res
 }

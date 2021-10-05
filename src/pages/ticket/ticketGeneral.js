@@ -9,7 +9,6 @@ import {queryClient} from '../../App'
 import {Link, useParams} from "react-router-dom";
 //       5. import TicketByIdQuery
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
-import Navbar from '../../components/navbar';//import navbar 
 import Spinner from '../../components/common/spinner';//import spinner
 
 //
@@ -56,7 +55,7 @@ if(queryClient.getQueryData(queryKey) !== undefined){
 const data = getData?('status' in getData)?getData.data:getData:getData
 
 //       if data holder hold cached data find ticket by uuid
-const ticketData = isCached?data?.find(d => d.qrcode === ticketUuid):data
+const ticketData = isCached?data?.find(d => d.tid === ticketUuid):data
 console.log("FINAL",ticketData)
 
 
@@ -78,7 +77,7 @@ console.log("FINAL",ticketData)
      </>
       }
       {ticketData && 
-      <div style={{marginTop:"3.75rem"}}>
+      <div className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center"style={{marginTop:"3.75rem"}}>
         <div className="card">
         <div className="card-header text-center">
         {ticketData.category.event.name}
@@ -87,8 +86,8 @@ console.log("FINAL",ticketData)
           <div className="card-body text-center">
             <h5 className="card-title" style={{backgroundColor:`${ticketData.category.color}`,color:'white'}}>
               {ticketData.category.name}</h5>
-              <Link to={`/tickets/${ticketData.qrcode}/details`} style={{ textDecoration: 'none',color: 'inherit', }}>
-              <p className="card-text">{ticketData.qrcode}</p></Link>
+              <Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}>
+              <p className="card-text">{ticketData.tid}</p></Link>
             
             {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           </div>
