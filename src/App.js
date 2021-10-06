@@ -66,9 +66,9 @@ function App() {
           <Route exact path="/events/:eventUuid">
             <EventGeneralWarpper />
           </Route> 
-          <PrivateRoute exact path="/events">
+          <Route exact path="/events">
             <EventsList />
-          </PrivateRoute> 
+          </Route> 
           <Route exact path="/scanlogs">
             <ScanlogsList />
           </Route>  

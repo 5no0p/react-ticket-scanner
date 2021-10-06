@@ -6,4 +6,5 @@ import {GetUser} from './user.api' //import user feching function
 export const UserQuery = (token) => useQuery(['user',token],()=>GetUser(token),{
 // disable window focus refetching
   refetchOnWindowFocus: false,
+  retry: 1,
 }) 
