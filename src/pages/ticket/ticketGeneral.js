@@ -77,7 +77,7 @@ console.log("FINAL",ticketData)
      </>
       }
       {ticketData && 
-      <div className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center"style={{marginTop:"3.75rem"}}>
+      <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center"style={{marginTop:"3.75rem"}}>
         <div className="card">
         <div className="card-header text-center">
         {ticketData.category.event.name}

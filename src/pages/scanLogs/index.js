@@ -1,11 +1,17 @@
-import React from 'react';//import react
+import React,{useState} from 'react';//import react
 import Spinner from '../../components/common/spinner';//import spinner
 import { ScanlogsQuery } from '../../features/scan/qrcode.query';
  
 //
 export const ScanlogsList = () => {
+  const [page, setPage] = useState(1)
   //       the data from query are {isLoading, isFetching, data, error}
-  const { isLoading, isFetching, isError, data, error } = ScanlogsQuery();
+  const { isLoading,
+    isError,
+    error,
+    data,
+    isFetching,
+    isPreviousData, } = ScanlogsQuery(page);
   //       some times {data} is'n the event data so we should be sure we have the events data
   const scanLogsData = data ? ('status' in data ? data.data : data) : data;
 
@@ -53,7 +59,7 @@ export const ScanlogsList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                {scanLogsData?.map((SlData) => (
+                {scanLogsData?.results.map((SlData) => (
                       <tr key={SlData.id} className={SlData.status_recorded==='P'?'table-success':'E'?'table-danger':'I'?'table-warning':'N'?'table-dark':'table-light'}>
                         <td>{SlData.ticket.uuid}</td>
                         <td>{SlData.status_recorded==='P'?'Pass':'E'?'Expired':'I'?'Issue':'N'?'Null':`${SlData.status_recorded}`}</td>
@@ -64,6 +70,26 @@ export const ScanlogsList = () => {
                 </tbody>
                 </table>
               </div>
+              <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div className="btn-group me-2" role="group" aria-label="First group">
+                  <button type="button" className="btn btn-primary"aria-hidden="true" onClick={() => {
+                  if(scanLogsData.previous)
+                  setPage(old => Math.max(old - 1, 0))
+                  }}
+                disabled={page === 1}>&laquo;</button>
+                  <button type="button" className="btn btn-primary">{page}</button>
+                  {/* <button type="button" className="btn btn-primary">3</button> */}
+                  <button type="button" className="btn btn-primary" disabled={scanLogsData.next===null} aria-hidden="true" onClick={() => {
+                  if (scanLogsData.next) {
+                    setPage(old => old + 1)
+                  }
+                }}>&raquo;</button>
+                </div>
+                <div className="btn-group" role="group" aria-label="Third group">
+                {isFetching ? <Spinner />: null}{' '}
+                </div>
+              </div>
+
             </>
       }
 

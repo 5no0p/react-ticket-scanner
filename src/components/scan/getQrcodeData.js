@@ -7,20 +7,22 @@ import { TicketByIdQuery, TicketByQrcodeQuery } from '../../features/ticket/tick
 // function to get data
 export function GetQrcodeData(ticketQrcode){
         // get qrcodes query key
-          const queryKey = "qrcodes"
+          const queryKey = "ticket_qrcode"
           //queryClient.invalidateQueries('qrcode')
           
-    // if(queryClient.getQueryData(queryKey) !== undefined){
-    //     //      get the data object from cached query  
-    //       const {data} = queryClient.getQueryData(queryKey)
-    //     //      data was cached
-    //       const isCached = true
-    //       console.log("data from cashe",data)
-    //     //      return object with data and chached status
-    //       return {data,isCached}
-    //     //      make api request to get ticket details
-    //     }else{
-        //      no cached data
+    if(queryClient.getQueryData(queryKey) !== undefined){
+          const token = localStorage.getItem('token')??""
+        //      get the data object from cached query  
+          const {data,isSuccess,isError,isLoading,error,status} = queryClient.getQueryData([queryKey,ticketQrcode])
+        //      data was cached
+          const isCached = true
+          const ticketData = data
+          console.log("data from cashe",data)
+        //      return object with data and chached status
+          return {ticketData,isSuccess,isError,isLoading,error,status,isCached}
+        //      make api request to get ticket details
+        }else{
+        //     no cached data
         const isCached = false
         // get the token
           const token = localStorage.getItem('token')??""
@@ -31,10 +33,10 @@ export function GetQrcodeData(ticketQrcode){
 
         //       if data holder hold cached data find ticket by uuid
         const ticketData = isCached?getData?.find(d => d.qrcode === ticketQrcode):getData
-        //console.log("getData: ",ticketData)
+        console.log("data from api: ",ticketData)
         
         //       hold the data object in data holder
-          return {ticketData,isFetched,isSuccess,isError,error,isLoading,status,data}
+          return {ticketData,isFetched,isSuccess,isError,error,isLoading,status,data,isCached}
           
-        //}
+        }
 }

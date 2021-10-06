@@ -24,21 +24,23 @@ import {GetTicketById, UpdateTicket, GetTicketByQrcode} from '../../features/tic
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode,isScan}){
 // declear variables
-console.log("isScan: ",isScan)
+//console.log("isScan: ",isScan)
 const [isUpdate, setIsUpdate] = useState(isScan)
 const [log, setLog] = useState(isScan)
 const [updating, setUpdating] = useState('')
-console.log("isUpdate: ",isUpdate)
+//console.log("isUpdate: ",isUpdate)
   let ticketUpdate = {}
-  const {ticketData,isError,error,isLoading,isFetched,data} = GetQrcodeData(ticketQrcode)
+  const {ticketData,isError,error,isLoading,isCached} = GetQrcodeData(ticketQrcode)
   
   const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
     onMutate: () => {
         setUpdating('updating...')
+        setIsUpdate(!isScan)   
     },
     onSuccess: async (data) => {
-      await queryClient.fetchQuery(['ticket_qrcode',data.data.qrcode],
-      ()=>GetTicketByQrcode(data.data.qrcode,localStorage.getItem('token')))
+      // await queryClient.fetchQuery(['ticket_qrcode',data.data.qrcode],
+      // ()=>GetTicketByQrcode(data.data.qrcode,localStorage.getItem('token')))
+      await queryClient.setQueryData(['ticket_qrcode',data.data.qrcode], data)
       setUpdating('updated')
       setIsUpdate(isScan)     
     },
@@ -57,20 +59,20 @@ console.log("isUpdate: ",isUpdate)
 
 
 
-console.log('Final: ',ticketData)
+//console.log('Final: ',ticketData)
 
 if(ticketData){
   
 }
 
 
-if (isLoading)console.log("loading...")
+if (isLoading)//console.log("loading...")
 
 if (isLoading) {
   return <span>Loading...</span>
 }
 if (isError) {
-  console.log("status: ",error.response)
+  //console.log("status: ",error.response)
   return (<>
     <Sound ticketData={false}/> 
     <div className={`${error?.response?.status===404?"bg-dark":"bg-warning "} h-auto w-100 d-flex justify-content-center`}>
@@ -84,14 +86,12 @@ if (isError) {
 
 if (ticketData){
   let alart
-  // if(ticketData.validity===true)alart=<Sound ticketData={true}/>
-  // if(ticketData.validity===false)alart=<Sound ticketData={false}/>
   alart = ticketData.validity===true?<Sound ticketData={true}/>:<Sound ticketData={false}/>
  
-  console.log("log :::",log)
+  //console.log("log :::",log)
 
 if(log){
-  console.log("log")
+  //console.log("log")
   const today = new Date(),
   time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
   const scanLog = {
@@ -103,7 +103,7 @@ if(log){
   setLog(!isScan)
 }
   
-console.log("check===>",ticketData.validity===true)
+//console.log("check===>",ticketData.validity===true)
   if(ticketData.validity===true && isUpdate && localStorage.getItem('token'))
   {
     ticketUpdate = {
@@ -113,15 +113,17 @@ console.log("check===>",ticketData.validity===true)
     },
     token:localStorage.getItem('token')
   }
-  console.log("isUpdate===>",ticketData.validity)
+  //console.log("isUpdate===>",ticketData.validity)
   setIsUpdate(!isScan)
   mutation.mutate(ticketUpdate,{
     onSettled:()=>{
       //setIsUpdate(isScan)
     }
   })
+  setIsUpdate(!isScan)
+
   
-  console.log("isUpdate :::",isUpdate)
+  //console.log("isUpdate :::",isUpdate)
 }
 
 

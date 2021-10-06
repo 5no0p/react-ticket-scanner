@@ -3,6 +3,8 @@ import QrReader from 'react-qr-reader'
 import {TicketQrcodeDetails} from './ticketWarper'
 import Alerts from './playMount'
 import Sound from './playSound'
+import { queryClient } from '../../App'
+import { GetTicketByQrcode } from '../../features/ticket/ticket.api'
 
 
 
@@ -12,8 +14,6 @@ class Scan extends Component {
   state = {
     result: 'No result',
     iScan: false,
-    delayTime: true,
-
   }
 
   handleScan = data => {
@@ -21,7 +21,6 @@ class Scan extends Component {
       this.setState({
         isSane:true,
         result: data,
-        
       })
       console.log("scan: ",this.state.isSane)
     }
