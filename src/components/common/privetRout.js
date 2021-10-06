@@ -1,17 +1,23 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { UserQuery } from '../../features/user/user.query';
 
 
 function PrivateRoute({ children, ...rest }) {
-
+  const token = localStorage.getItem('token')
+  const {data,isLoading,isError,error} = UserQuery(token)
   const auth = localStorage.getItem('token')
     return (
-      
-      <Route
+      <>
+      {isLoading
+      ?<div>Loading...</div>
+      :isError
+      ?<div>Error: {error}</div>
+      :<Route
         {...rest}
         render={
           ({ location }) => (
-            auth
+            data
               ? (
                 children
               ) : (
@@ -25,6 +31,8 @@ function PrivateRoute({ children, ...rest }) {
               ))
         }
       />
+    }
+    </>
     );
   }
 

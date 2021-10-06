@@ -29,9 +29,9 @@ import { ScanlogsList } from './pages/scanLogs';
 export const queryClient = new QueryClient() 
 
 function App() {
-  const data = queryClient.getQueryData(['user',localStorage.getItem('token')])
-  const auth = data?.data?.username
-  console.log("auth login: ",auth)
+  // const data = queryClient.getQueryData(['user',localStorage.getItem('token')])
+  // const auth = data?.data?.username
+  // console.log("auth login: ",auth)
   return (
     <>
       <Router>
@@ -66,9 +66,9 @@ function App() {
           <Route exact path="/events/:eventUuid">
             <EventGeneralWarpper />
           </Route> 
-          <Route exact path="/events">
+          <PrivateRoute exact path="/events">
             <EventsList />
-          </Route> 
+          </PrivateRoute> 
           <Route exact path="/scanlogs">
             <ScanlogsList />
           </Route>  
