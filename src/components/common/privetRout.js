@@ -8,21 +8,21 @@ function PrivateRoute({ children, ...rest }) {
   const token = localStorage.getItem('token')
   const {data,isLoading,isError,error} = UserQuery(token)
 
-  if(data?.status === 200){
-    setAuth(true)
-  }
-  console.log("user data: ",children)
+  // if(data?.status === 200){
+  //   setAuth(true)
+  // }
+  console.log("user data: ",data)
     return (
       <>
       {isLoading
       ?<div>Loading...</div>
       // :isError
-      // ?<div>Error: {`${error.respons}`}</div>
+      // ?<div>Error: {`${error}`}</div>
       :<Route
         {...rest}
         render={
           ({ location }) => (
-            !isError || data
+            data
               ? (
                 children
               ) : (
