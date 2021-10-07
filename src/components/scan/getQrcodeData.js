@@ -27,7 +27,7 @@ export function GetQrcodeData(ticketQrcode){
         // get the token
           const token = localStorage.getItem('token')??""
         //       send api with ticket uuiid
-          const {data,isFetching,isSuccess,isError,isLoading,error,status,isFetched} = TicketByQrcodeQuery(ticketQrcode,token)
+          const {data,isFetching,isSuccess,isError,isLoading,error,status,isFetched} = TicketByQrcodeQuery(ticketQrcode)
           const getData = data?('status' in data)?data.data:data:data
           
 
