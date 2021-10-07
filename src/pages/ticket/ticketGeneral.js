@@ -1,6 +1,6 @@
 // TODO: impotr dependences
 //       1.import react
-import React from 'react'
+import React, { createRef, useState } from 'react'
 //       2. import QR code generator
 import QRCode from "react-qr-code";
 //       3. import queryClient
@@ -10,6 +10,7 @@ import {Link, useParams} from "react-router-dom";
 //       5. import TicketByIdQuery
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
 import Spinner from '../../components/common/spinner';//import spinner
+import { useScreenshot } from 'use-react-screenshot'
 
 //
 // TODO: make function to display ticket details
@@ -58,6 +59,10 @@ const data = getData?('status' in getData)?getData.data:getData:getData
 const ticketData = isCached?data?.find(d => d.tid === ticketUuid):data
 console.log("FINAL",ticketData)
 
+const [width,setWidth] = useState('100px')
+const ref = createRef(null)
+const [image, takeScreenshot] = useScreenshot()
+const getImage = () => takeScreenshot(ref.current)
 
  
   return(
@@ -77,8 +82,15 @@ console.log("FINAL",ticketData)
      </>
       }
       {ticketData && 
+      <>
+      {/* <div>
+      <button style={{ marginBottom: '10px' }} onClick={getImage}>
+        Take screenshot
+      </button>
+    </div>
+    <img width={width} src={image} alt={'Screenshot'} /> */}
       <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center"style={{marginTop:"3.75rem"}}>
-        <div className="card">
+        <div className="card" ref={ref}>
         <div className="card-header text-center">
         {ticketData.category.event.name}
         </div>
@@ -86,6 +98,7 @@ console.log("FINAL",ticketData)
           <div className="card-body text-center">
             <h5 className="card-title" style={{backgroundColor:`${ticketData.category.color}`,color:'white'}}>
               {ticketData.category.name}</h5>
+              <h5 className="card-text">{ticketData.name}</h5>
               <Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}>
               <p className="card-text">{ticketData.tid}</p></Link>
             
@@ -97,7 +110,7 @@ console.log("FINAL",ticketData)
         </div>
       
     </div>
-    
+    </>
       }
       
     </>

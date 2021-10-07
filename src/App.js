@@ -25,6 +25,7 @@ import EventGeneralWarpper from './pages/event/eventGeneral';
 import EventTicketsWarpper from './pages/event/eventTickets';
 import './App.css'
 import { ScanlogsList } from './pages/scanLogs';
+import ScreenShot from './features/test/screenshot';
 
 export const queryClient = new QueryClient() 
 
@@ -71,7 +72,10 @@ function App() {
           </PrivateRoute> 
           <Route exact path="/scanlogs">
             <ScanlogsList />
-          </Route>  
+          </Route> 
+          {/* <Route exact path="/screen">
+            <ScreenShot />
+          </Route>    */}
           <Route exact path="/">
             <Scan />
           </Route>
