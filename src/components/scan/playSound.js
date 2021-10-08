@@ -8,7 +8,9 @@ export default function Sound({ticketData}) {
     console.log("validity: ",ticketData)
     const validSound= new Audio(valid_mp3) //useSound(valid_mp3)
     const erroreSound= new Audio(error_mp3) //useSound(error_mp3)
+    const randomSound= new Audio()
 
+    randomSound.play()
     // validSound.muted = true
     // erroreSound.muted = true
 

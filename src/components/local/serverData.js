@@ -66,6 +66,19 @@ const LocalData = () => {
         localStorage.setItem('tickets_file',JSON.stringify(localData))
         console.log("file: updated",localData)
       }
+
+      const downloadLocal = async () => {
+        const fileName = "file";
+        const json =  localStorage.getItem('updated_tickets')
+        const blob = new Blob([json],{type:'application/json'});
+        const href = await URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = href;
+        link.download = fileName + ".json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } 
     
     useEffect(() => {
         if (isSuccess) {
@@ -104,6 +117,9 @@ const LocalData = () => {
                         {mergeFiles?<button className="btn btn-outline-secondary" type="button" onClick={merge}>Merge local data</button>:null}
                     </div>  
                 </div>:null}
+                <div className="row my-2">
+                    <div className="col" ><button className="btn btn-primary" onClick={downloadLocal}>Download Updated Data</button></div>   
+                </div>
             </div>
         </div>
         </>
