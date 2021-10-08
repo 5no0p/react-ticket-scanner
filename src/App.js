@@ -29,6 +29,9 @@ import ScreenShot from './features/test/screenshot';
 import DownloadJson from './features/test/downloadJson';
 import ReadJsonFile from './features/test/readJson';
 import ScanLocal from './components/scan/scanLocal';
+import LocalData from './components/local/serverData';
+import { LogoutRequest } from './features/user/user.api';
+import LogOut from './components/login/logout';
 
 export const queryClient = new QueryClient() 
 
@@ -48,6 +51,9 @@ function App() {
       <Switch>
           <Route exact path="/login">
             <Login />
+          </Route>
+          <Route exact path="/logout">
+            <LogOut />
           </Route>
           {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
@@ -86,6 +92,9 @@ function App() {
             <ReadJsonFile />
           </Route>
           <Route exact path="/local">
+            <LocalData />
+          </Route>      
+          <Route exact path="/local/scan">
             <ScanLocal />
           </Route>      
           <Route exact path="/">

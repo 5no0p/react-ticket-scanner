@@ -7,7 +7,7 @@ export function TicketLocalQrcodeDetails({ticketQrcode,isScan}){
     const [validity, setValidity] = useState(false)
  
     const ticketData = JSON.parse(localStorage.getItem('updated_tickets'))?.find(obj => obj.qrcode === ticketQrcode)?JSON.parse(localStorage.getItem('updated_tickets')).find(obj => obj.qrcode === ticketQrcode):JSON.parse(localStorage.getItem('tickets_file'))?.find(obj => obj.qrcode === ticketQrcode)
-    console.log("local ticket: ",JSON.parse(localStorage.getItem('updated_tickets')).find(obj => obj.qrcode === ticketQrcode))
+    console.log("local ticket: ",JSON.parse(localStorage.getItem('updated_tickets'))?.find(obj => obj.qrcode === ticketQrcode))
     console.log("validity: ",validity)
    
 
@@ -30,9 +30,9 @@ export function TicketLocalQrcodeDetails({ticketQrcode,isScan}){
         <>
         
         <div style={{margin: "10vh 1vw"}}>
-            {ticketData.validity===true
+            {!JSON.parse(localStorage.getItem('updated_tickets'))?.find(obj => obj.qrcode === ticketData.qrcode)
                 ?  <div className="mt-3">
-                        <button className={`btn btn-labeled btn-primery`}style={{ marginBottom: '10px' }} onClick={update}>
+                        <button className="btn btn-labeled btn-success"style={{ marginBottom: '10px' }} onClick={update}>
                         Update Ticket 
                         {/* <span className="btn-label"><i className="fa fa-whatsapp"></i></span> */}
                         </button>

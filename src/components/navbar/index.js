@@ -3,6 +3,9 @@ import qrIcon from '../../assets/icons/qr-code-svgrepo-com.svg'
 
 // TODO: make function to display navbar
 const Nav = () => {
+
+  const token = localStorage.getItem('token')
+
   return(
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,6 +24,23 @@ const Nav = () => {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/tickets">Tickets</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="/local">Local Data</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="/local/scan">Local Scan</a>
+              </li>
+              {token
+              ? <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="/logout">Logout</a>
+                </li>
+              :<li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="/login">Login</a>
+            </li>
+              
+            }
+
+
               {/* <li className="nav-item">
                 <a className="nav-link" href="#">Link</a>
               </li>

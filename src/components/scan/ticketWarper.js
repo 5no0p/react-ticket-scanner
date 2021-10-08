@@ -114,8 +114,17 @@ if(log){
   }
   //console.log("isUpdate===>",ticketData.validity)
   setIsUpdate(!isScan)
+
+  if (!JSON.parse(localStorage.getItem('tickets_file'))?.find(obj => obj.qrcode === ticketData.qrcode)) {
+    const oldData = JSON.parse(localStorage.getItem('tickets_file'))
+    oldData.push(ticketData)
+    localStorage.setItem('tickets_file')
+  }    
+  
   const update = JSON.parse(localStorage.getItem('tickets_file'))?.map(obj => obj.qrcode === ticketData.qrcode?{...obj,validity:false}:obj)
-  if(update)localStorage.setItem('tickets_file',JSON.stringify(update))
+    if(update)localStorage.setItem('tickets_file',JSON.stringify(update))
+  
+  
   mutation.mutate(ticketUpdate,{
     onSettled:()=>{
       //setIsUpdate(isScan)

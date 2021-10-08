@@ -18,6 +18,12 @@ export const GetTickets = async() => {
   return res
 }
 
+export const GetTicketsViaQrcode = async() => {
+  const res = await axios.get(qrcodeApiUrl)
+  console.log("axios")
+  return res.data
+}
+
 export const GetTicketByQrcode = async(id,token) => {
   console.log("qrcode: ",id)
   let header

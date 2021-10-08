@@ -7,16 +7,21 @@ import { LogoutRequest } from "../../features/user/user.api";
 const LogOut = () => {
     let history = useHistory();
 
-    const mutation = useMutation(LogoutRequest,{
+    const mutation = useMutation(()=>LogoutRequest(),{
         onSuccess: async() => {
-          await queryClient.fetchQuery('user')
-          history.push('/')
+          //await queryClient.fetchQuery('user')
+          history.push('/login')
           
         }
       })
-    mutation.mutate()
+    
+      localStorage.getItem('token')?mutation.mutate():history.push('/login')
       return(
-          <></>
+          <>
+          {/* <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="/login">Login</a>
+          </li> */}
+          </>
       )
 }
 

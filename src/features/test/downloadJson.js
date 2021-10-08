@@ -57,7 +57,7 @@ const DownloadJson = () => {
   }
 
   const toLocal = () => {
-    localStorage.setItem('tickets_file',files)
+    localStorage.setItem('tickets',files)
     console.log("data localstorage")
   }
     
