@@ -1,4 +1,3 @@
-// TODO: impotr dependences
 //       1.import react
 import React, { createRef, useState } from 'react'
 //       2. import QR code generator
@@ -11,11 +10,22 @@ import {Link, useParams} from "react-router-dom";
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
 import Spinner from '../../components/common/spinner';//import spinner
 import { useScreenshot } from 'use-react-screenshot'
+import { copyImageToClipboard } from 'copy-image-clipboard'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { UpdateTicket } from '../../features/ticket/ticket.api';
+import { useMutation } from 'react-query';
+
 
 //
-// TODO: make function to display ticket details
 export function TicketGeneral(){
-// TODO: declear variables
+const [number, setNumber] = useState('')
+const [message, setMessage] = useState('')
+const [copyNotify, setCopyNotify] = useState(false)
+const [takeImage, setTakeImage] = useState(false)
+const [updating, setUpdating] = useState('')
+const ref = createRef(null)
+const [image, takeScreenshot] = useScreenshot()
 //      1.get the ticket uuid
   let { ticketUuid } = useParams();
 //      2. declear variable to check cached data
@@ -25,9 +35,23 @@ export function TicketGeneral(){
 //      4.get tickets query key
   const queryKey = "tickets"
 //      
-// TODO: check if data is in query cache, if not make api request
+
+const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
+  onMutate: () => {
+      setUpdating('updating...')
+         
+  },
+  onSuccess: async (data) => {
+    await queryClient.setQueryData(['ticket',data.data.tid], data)
+    setUpdating('updated')     
+  },
+  onError: (error) => {
+    setUpdating('Update Error: ',error)
+  }
+})
 //      1.get data from cached tickets query if undefine gi step 2
 if(queryClient.getQueryData(queryKey) !== undefined){
+
 //      get the data object from cached query  
   const {isLoading, isError, data, error} = queryClient.getQueryData(queryKey)
 //      hold the data object to data holder
@@ -59,10 +83,48 @@ const data = getData?('status' in getData)?getData.data:getData:getData
 const ticketData = isCached?data?.find(d => d.tid === ticketUuid):data
 console.log("FINAL",ticketData)
 
-const [width,setWidth] = useState('100px')
-const ref = createRef(null)
-const [image, takeScreenshot] = useScreenshot()
-const getImage = () => takeScreenshot(ref.current)
+//if(ticketData?.phone){setNumber(ticketData.phone)}
+
+const getImage = async () => {
+  takeScreenshot(ref.current)
+  setTakeImage(true)
+}
+
+const updateSend = () => {
+  let ticketUpdate = {
+    id:ticketData.tid,
+    data:{
+      isSend:true
+    },
+    token:localStorage.getItem('token')
+  }
+  mutation.mutate(ticketUpdate)
+
+}
+console.log('phone',ticketData?.phone.length)
+
+const URL = 'https://wa.me';
+
+if(takeImage){
+  if(image)
+  copyImageToClipboard(image)
+      .then(() => {
+      console.log('Image Copied')
+      setNumber(ticketData.phone.substr(1,ticketData.phone.length));
+      let url = `${URL}/${number}`;
+      if (message) {
+        url += `?text=${encodeURI(message)}`;
+      }
+      if(ticketData.phone.length<10){
+        setCopyNotify(true)
+      }else{
+        window.open(url)
+      }
+      })
+      .catch((e) => {
+      console.log('Error: ', e.message)
+      })
+}
 
  
   return(
@@ -82,33 +144,40 @@ const getImage = () => takeScreenshot(ref.current)
      </>
       }
       {ticketData && 
+     
       <>
-      {/* <div>
-      <button style={{ marginBottom: '10px' }} onClick={getImage}>
-        Take screenshot
-      </button>
-    </div>
-    <img width={width} src={image} alt={'Screenshot'} /> */}
-      <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center"style={{marginTop:"3.75rem"}}>
-        <div className="card" ref={ref}>
-        <div className="card-header text-center">
-        {ticketData.category.event.name}
+      <div className="container">
+        <div className="mt-3">
+          <button className={`btn btn-labeled btn-success`}style={{ marginBottom: '10px' }} onClick={getImage}>
+          Send Screenshot <span className="btn-label"><i className="fa fa-whatsapp"></i></span>
+          </button>
+          <span><p>{copyNotify?"Copied to Clipboard":""}</p></span>
+          <button className={`btn btn-labeled btn-primary`}style={{ marginBottom: '10px' }} onClick={updateSend}>
+          Confirm
+          </button>
+          <span><p>{updating}</p></span>
         </div>
-        <div className="d-flex justify-content-center my-4"><QRCode value={ticketData.qrcode}/></div>
-          <div className="card-body text-center">
-            <h5 className="card-title" style={{backgroundColor:`${ticketData.category.color}`,color:'white'}}>
-              {ticketData.category.name}</h5>
-              <h5 className="card-text">{ticketData.name}</h5>
-              <Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}>
-              <p className="card-text">{ticketData.tid}</p></Link>
-            
-            {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+        <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center"style={{marginTop:"3.75rem"}}>
+          <div className="card" ref={ref}>
+          <div className="card-header text-center">
+          {ticketData.category.event.name}
           </div>
-          <div className="card-footer text-muted">
-            T-<strong>{ticketData.table}</strong>
+          <div className="d-flex justify-content-center my-4"><QRCode value={ticketData.qrcode}/></div>
+            <div className="card-body text-center">
+              <h5 className="card-title" style={{backgroundColor:`${ticketData.category.color}`,color:'white'}}>
+                {ticketData.category.name}</h5>
+                <h5 className="card-text">{ticketData.name}</h5>
+                <Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}>
+                <p className="card-text">{ticketData.tid}</p></Link>
+              
+              {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+            </div>
+            <div className="card-footer text-muted">
+              T-<strong>{ticketData.table}</strong>
+            </div>
           </div>
-        </div>
-      
+        
+      </div>
     </div>
     </>
       }
@@ -123,6 +192,8 @@ export default function TicketGeneralWarpper(){
     <>
     <div>
     <TicketGeneral />
+    <ToastContainer />
+
     </div>
     </>
     

@@ -26,6 +26,9 @@ import EventTicketsWarpper from './pages/event/eventTickets';
 import './App.css'
 import { ScanlogsList } from './pages/scanLogs';
 import ScreenShot from './features/test/screenshot';
+import DownloadJson from './features/test/downloadJson';
+import ReadJsonFile from './features/test/readJson';
+import ScanLocal from './components/scan/scanLocal';
 
 export const queryClient = new QueryClient() 
 
@@ -73,9 +76,18 @@ function App() {
           <Route exact path="/scanlogs">
             <ScanlogsList />
           </Route> 
-          {/* <Route exact path="/screen">
+          <Route exact path="/screen">
             <ScreenShot />
-          </Route>    */}
+          </Route> 
+          <Route exact path="/d">
+            <DownloadJson />
+          </Route>
+          <Route exact path="/l">
+            <ReadJsonFile />
+          </Route>
+          <Route exact path="/local">
+            <ScanLocal />
+          </Route>      
           <Route exact path="/">
             <Scan />
           </Route>

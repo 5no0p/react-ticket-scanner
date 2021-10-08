@@ -50,10 +50,9 @@ const [updating, setUpdating] = useState('')
   })
 
   const logMutation = useMutation(logInfo => AddScanlog(logInfo),{
-    // onSuccess: () => {
-    //   queryClient.fetchQuery(['ticket',ticketData.qrcode],
-    //   ()=>GetTicketById(ticketData.qrcode,localStorage.getItem('token')))
-    // }
+    onSuccess: (data) => {
+      console.log("log Data: ",data)
+    }
   })
 
 
@@ -115,6 +114,8 @@ if(log){
   }
   //console.log("isUpdate===>",ticketData.validity)
   setIsUpdate(!isScan)
+  const update = JSON.parse(localStorage.getItem('tickets_file'))?.map(obj => obj.qrcode === ticketData.qrcode?{...obj,validity:false}:obj)
+  if(update)localStorage.setItem('tickets_file',JSON.stringify(update))
   mutation.mutate(ticketUpdate,{
     onSettled:()=>{
       //setIsUpdate(isScan)

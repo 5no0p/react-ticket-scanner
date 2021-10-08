@@ -60,6 +60,7 @@ export const TicketsList = () => {
                         <th scope="col">Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Validity</th>
+                        <th scope="col">Send</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -69,6 +70,7 @@ export const TicketsList = () => {
                     <td>{ticket.name}</td>
                     <td>{ticket.category.name}</td>
                     <td>{ticket.validity ? 'valid' : 'expierd'}</td>
+                    <td>{ticket.isSend ? <i className="fa fa-check"></i>: <i className="fa fa-exclamation-circle"></i>}</td>
                   </tr>
                 ))}
                 </tbody>
