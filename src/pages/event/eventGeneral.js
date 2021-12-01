@@ -3,7 +3,7 @@
 import React from 'react'
 //       2. import QR code generator
 //       3. import queryClient
-import {queryClient} from '../../App'
+import {queryClient} from '../../index'
 //       4. import useParams
 import {Link, useParams} from "react-router-dom";
 //       5. import TicketByIdQuery

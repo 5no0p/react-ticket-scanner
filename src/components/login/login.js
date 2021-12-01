@@ -1,27 +1,29 @@
 // TODO: impotr dependences
 
-import React, {useState} from 'react'//import react
+import React, {useState,useEffect} from 'react'//import react
 import { useHistory,useParams } from "react-router-dom";//import useHistory
-import {useMutation} from 'react-query'  //import useMutation
-import {LoginRequest} from '../../features/user/user.api' //import user feching function
-import {queryClient} from '../../App' //import queryClient
+import {useMutation, useQuery} from 'react-query'  //import useMutation
+import {GetUser, LoginRequest} from '../../features/user/user.api' //import user feching function
+import {queryClient} from '../../index' //import queryClient
 
 
 
 export function Login() {
+    const [auth, setauth] = useState(queryClient.getQueryData(['user']))
     let history = useHistory();
 
-    const data = queryClient.getQueryData(['user',localStorage.getItem('token')])
-    const auth = data?.data?.username
+    const data = queryClient.getQueryData(['user'])
     
-    console.log("return path: ",history.location)
+    
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const mutation = useMutation(usernfo => LoginRequest(usernfo),
         {
-            onSuccess: () => {
-                console.log("redirect")
+            onSuccess: async ({data}) => {
+                localStorage.setItem('token',data.key)
+                const res = await queryClient.setQueryData('user',() => GetUser(localStorage.getItem('token')))
+                
                if(history.location.state !== undefined) 
                {
                    history.push(`${history.location.state.from.pathname}`)
@@ -39,13 +41,17 @@ export function Login() {
             "password":password
         }
         mutation.mutate(usernfo)
-        console.log('auth res',mutation)
         
         }
         
-        if(localStorage.getItem('token')){
-            
+       if(auth){
+        if(history.location.state !== undefined) 
+       {
+           history.push(`${history.location.state.from.pathname}`)
+        }else{
+            history.push('/')
         }
+       }
         
             return(
                 <>
@@ -58,7 +64,7 @@ export function Login() {
                         className="form-control" 
                         id="exampleInputUser"
                         value={username} 
-                        onChange={e=>(setUsername(e.target.value),console.log("username: ",username))}
+                        onChange={e=>(setUsername(e.target.value))}
                         />
                         
                     </div>

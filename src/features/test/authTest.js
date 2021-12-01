@@ -1,6 +1,6 @@
 import {UserQuery} from '../user/user.query'
 import {LogoutRequest} from '../user/user.api'
-import {queryClient} from '../../App'
+import {queryClient} from '../../index'
 import {useMutation} from 'react-query'  //import useMutation
 import { useHistory,Redirect } from "react-router-dom";//import useHistory
 

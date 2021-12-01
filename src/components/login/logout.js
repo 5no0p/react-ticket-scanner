@@ -9,7 +9,7 @@ const LogOut = () => {
 
     const mutation = useMutation(LogoutRequest,{
         onSuccess: async() => {
-          await queryClient.fetchQuery('user')
+          //await queryClient.fetchQuery('user')
           history.push('/')
           
         }

@@ -1,6 +1,6 @@
 // TODO: import dependences
 import {useQuery,useMutation} from 'react-query'  //import useQuery
-import {GetTickets, GetTicketById, GetTicketByQrcode, UpdateTicket} from './ticket.api' //import tickets feching function
+import {GetTickets, GetTicketById, GetTicketByQrcode, UpdateTicket, GetTicketByPage} from './ticket.api' //import tickets feching function
 //
 // TODO: make tickets query
 export const TicketsQuery = () => useQuery('tickets',GetTickets,{
@@ -14,6 +14,12 @@ export const TicketByIdQuery = (id) => useQuery(['ticket',id],()=>GetTicketById(
     refetchOnWindowFocus: false,
     retry:1,
   })
+
+  export const TicketByPageQuery = (page) => useQuery(['ticket',{page:page}],()=>GetTicketByPage(page),{
+    // disable window focus refetching
+      refetchOnWindowFocus: false,
+      retry:1,
+    })
 
 export const TicketByQrcodeQuery = (id,token) => useQuery(['ticket_qrcode',id,token],()=>GetTicketByQrcode(id,token),{
   // disable window focus refetching

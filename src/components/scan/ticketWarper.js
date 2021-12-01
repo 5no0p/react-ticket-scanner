@@ -2,7 +2,7 @@
 //       1.import react
 import React,{useState} from 'react'
 //       2. import queryClient
-import {queryClient} from '../../App'
+import {queryClient} from '../../index'
 //       3. import GetQrcodesQueryById
 
 import {AddScanlog, GetQrcodeById} from '../../features/scan/qrcode.api' //import tickets feching function

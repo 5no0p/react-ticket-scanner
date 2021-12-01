@@ -40,6 +40,12 @@ export const GetTicketById = async(id) => {
   return res
 }
 
+export const GetTicketByPage = async(page) => {
+  const res = await axios.get(`${ticketApiUrl}?p=${page}`)
+  console.log("axios ticket page")
+  return await res.data
+}
+
 export const AddTicket = async(info) => {
   console.log("data update ticket: ",info)
   const {data,token} = info

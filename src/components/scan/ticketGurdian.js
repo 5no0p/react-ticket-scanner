@@ -1,7 +1,7 @@
 // TODO: impotr dependences
 //       1.import react
 import React,{useState} from 'react'
-import {queryClient} from '../../App'
+import {queryClient} from '../../index'
 import { GetQrcodesQueryById } from '../../features/scan/qrcode.query' //import GetQrcodesQueryById
 
 import {GetQrcodeData} from './getQrcodeData'

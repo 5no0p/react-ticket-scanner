@@ -1,10 +1,14 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import {queryClient} from '../../index' //import queryClient
+import {useQuery} from "react-query";
+import { GetUser } from '../../features/user/user.api';
 
 
-function PrivateRoute({ children, ...rest }) {
 
-  const auth = localStorage.getItem('token')
+function PrivateRoute({ children,  ...rest }) {
+    const [auth, setauth] = useState(queryClient.getQueryData(['user']))
+
     return (
       
       <Route

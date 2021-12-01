@@ -1,5 +1,5 @@
 import React from 'react'
-import {QueryClient, QueryClientProvider} from "react-query";
+import {useQuery} from "react-query";
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,6 +15,7 @@ import TicketGeneralWarpper from './pages/ticket/ticketGeneral'
 import Websoket from './features/test/websoket'
 import Auth from './features/test/authTest'
 import Scan from './components/scan/scan'
+import Home from './components/home'
 import ScanGuardian from './components/scan/scanGardian'
 import Navbar from './components/navbar'
 import {Login} from './components/login/login'
@@ -25,19 +26,29 @@ import EventGeneralWarpper from './pages/event/eventGeneral';
 import EventTicketsWarpper from './pages/event/eventTickets';
 import './App.css'
 import { ScanlogsList } from './pages/scanLogs';
-
-export const queryClient = new QueryClient() 
+import { GetUser } from './features/user/user.api';
+import Tickets from './components/form/Tickets'
 
 function App() {
-  const data = queryClient.getQueryData(['user',localStorage.getItem('token')])
+  const {data, isLoading} = useQuery('user',() => GetUser(localStorage.getItem('token')),{
+    // disable window focus refetching
+      refetchOnWindowFocus: false,
+      retry:1
+    })
   const auth = data?.data?.username
   console.log("auth login: ",auth)
+  if(isLoading) {
+    return(
+      <>
+      loading.....
+      </>
+    )
+  }
   return (
     <>
       <Router>
       <AlertProvider template={AlertTemplate}>
   
-      <QueryClientProvider client={queryClient}> 
       <div>
         <Navbar />
       </div>
@@ -48,8 +59,8 @@ function App() {
           {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route> */}
-          <PrivateRoute path="/wb">
-            <Websoket />
+          <PrivateRoute path="/ct" auth={auth}>
+            <Tickets />
           </PrivateRoute>
           <Route exact path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
@@ -72,15 +83,17 @@ function App() {
           <Route exact path="/scanlogs">
             <ScanlogsList />
           </Route>  
-          <Route exact path="/">
+          <Route exact path="/scan">
             <Scan />
+          </Route>
+          <Route exact path="/">
+            <Home />
           </Route>
           <Route path="*">
             <NoFoundComponent />
           </Route>
         </Switch>  
         
-      </QueryClientProvider>
       </AlertProvider>
       </Router>
     </>

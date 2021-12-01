@@ -2,7 +2,7 @@
 //       1.import react
 import React from 'react'
 //       2. import queryClient
-import {queryClient} from '../../App'
+import {queryClient} from '../../index'
 //       3. import useParams
 import {useParams,useRouteMatch} from "react-router-dom";
 //       4. import TicketByIdQuery

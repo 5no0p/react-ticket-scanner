@@ -1,18 +1,21 @@
-import React from 'react';//import react
+import React,{useState} from 'react';//import react
 import {Link} from "react-router-dom";//import Link
-import { TicketsQuery } from '../../features/ticket/ticket.query';//import tickers query
+import { TicketsQuery,TicketByPageQuery } from '../../features/ticket/ticket.query';//import tickers query
 import Navbar from '../../components/navbar';//import navbar 
 import Spinner from '../../components/common/spinner';//import spinner
  
 //
 // TODO: make function to display tickers list
 export const TicketsList = () => {
+  const [page, setPage] = useState(1)
+
   // TODO: get the data from the query
   //       the data from query are {isLoading, isFetching, data, error}
-  const { isLoading, isFetching, isError, data, error } = TicketsQuery();
+  const { isLoading, isFetching, isError, data, error } = TicketByPageQuery(page);
   // TODO: extract tickets data
   //       some times {data} is'n the ticket data so we should be sure we have the tickets data
   const ticketsData = data ? ('status' in data ? data.data : data) : data;
+  console.log(ticketsData)
 
   // TODO: checking the status and console log it
   //       1.check if is loading, true: console log ("Loading..."), false: go step 2
@@ -60,7 +63,7 @@ export const TicketsList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                {ticketsData?.map((ticket) => (
+                {ticketsData?.results.map((ticket) => (
                   <tr className="text-center" key={ticket.tid}>
                     <td><Link to={`/tickets/${ticket.tid}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.tid}</Link></td>
                     <td>{ticket.name}</td>
@@ -70,6 +73,25 @@ export const TicketsList = () => {
                 ))}
                 </tbody>
                 </table>
+              </div>
+              <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div className="btn-group me-2" role="group" aria-label="First group">
+                  <button type="button" className="btn btn-primary"aria-hidden="true" onClick={() => {
+                  if(ticketsData.previous)
+                  setPage(old => Math.max(old - 1, 0))
+                  }}
+                disabled={page === 1}>&laquo;</button>
+                  <button type="button" className="btn btn-primary">{page}</button>
+                  {/* <button type="button" className="btn btn-primary">3</button> */}
+                  <button type="button" className="btn btn-primary" disabled={ticketsData.next===null} aria-hidden="true" onClick={() => {
+                  if (ticketsData.next) {
+                    setPage(old => old + 1)
+                  }
+                }}>&raquo;</button>
+                </div>
+                <div className="btn-group" role="group" aria-label="Third group">
+                {isFetching ? <Spinner />: null}{' '}
+                </div>
               </div>
             </>
       }
