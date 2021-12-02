@@ -63,7 +63,10 @@ export const TicketsList = () => {
       {ticketsData && 
             <>
               <div className="container" style={{marginTop:"3.75rem"}}></div>
-              <div className="mx-5 w-25">
+              <div className="mx-5 d-flex flex-row justify-content-between">
+                <button className={`btn btn-labeled btn-primary`} disabled={true} style={{ marginBottom: '10px' }}>
+                  Create Tickets
+                </button>
                 <Select 
                     options={pageOptions} 
                     getOptionLabel={option => option.key}

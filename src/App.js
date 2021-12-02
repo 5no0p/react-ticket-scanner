@@ -59,18 +59,18 @@ function App() {
           {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route> */}
-          <PrivateRoute path="/ct" auth={auth}>
+          {/* <PrivateRoute path="/ct" auth={auth}>
             <Tickets />
-          </PrivateRoute>
+          </PrivateRoute> */}
           <Route exact path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
           </Route>
           <Route exact path="/tickets/:ticketUuid">
             <TicketGeneralWarpper />
           </Route>
-          <Route exact path="/tickets">
+          <PrivateRoute exact path="/tickets">
             <TicketsList />
-          </Route> 
+          </PrivateRoute> 
           <Route exact path="/events/:eventUuid/tickets">
             <EventTicketsWarpper />
           </Route> 

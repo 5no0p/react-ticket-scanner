@@ -17,6 +17,8 @@ import Spinner from '../../components/common/spinner';//import spinner
 // TODO: make function to display ticket details
 export function TicketGeneral(){
   const [updating, setUpdating] = useState('')
+  const [auth, setauth] = useState(queryClient.getQueryData(['user']))
+  console.log('auth_ticket: ',auth)
 // TODO: declear variables
 //      1.get the ticket uuid
   let { ticketUuid } = useParams();
@@ -106,8 +108,8 @@ const updateSend = () => {
       {ticketData && 
       <>
         <div className="mt-3 mx-3">
-          <button className={`btn btn-labeled btn-primary`}style={{ marginBottom: '10px' }} onClick={updateSend}>
-          Confirm
+          <button className={`btn btn-labeled btn-primary`} disabled={ticketData.isSend===true} style={{ marginBottom: '10px' }} onClick={updateSend}>
+          {ticketData?.isSend?'Confirmed':'Confirm'}
           </button>
           <span><p>{updating}</p></span>
         </div>

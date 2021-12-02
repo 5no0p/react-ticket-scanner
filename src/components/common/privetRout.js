@@ -8,6 +8,7 @@ import { GetUser } from '../../features/user/user.api';
 
 function PrivateRoute({ children,  ...rest }) {
     const [auth, setauth] = useState(queryClient.getQueryData(['user']))
+    //console.log("auth_privet: ",auth)
 
     return (
       
