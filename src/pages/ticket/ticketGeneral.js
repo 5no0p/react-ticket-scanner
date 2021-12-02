@@ -1,8 +1,9 @@
 // TODO: impotr dependences
 //       1.import react
-import React,{useState} from 'react'
+import React,{useState,createRef,useEffect} from 'react'
 //       2. import QR code generator
 import QRCode from "react-qr-code";
+import html2canvas from 'html2canvas';
 import { useMutation } from 'react-query';
 //       3. import queryClient
 import {queryClient} from '../../index'
@@ -19,7 +20,7 @@ export function TicketGeneral(){
   const [updating, setUpdating] = useState('')
   const [auth, setauth] = useState(queryClient.getQueryData(['user']))
   const permision = auth.data.groups.find(ele => ele.permissions.find(cose=>cose.codename=='change_ticket'))?true:false
-// TODO: declear variables
+  const ref = createRef(null)
 //      1.get the ticket uuid
   let { ticketUuid } = useParams();
 //      2. declear variable to check cached data
@@ -88,6 +89,24 @@ const updateSend = () => {
   mutation.mutate(ticketUpdate)
 
 }
+const handleDownloadImage = async () => {
+  const element = ref.current;
+  const canvas = await html2canvas(element);
+
+  const data = canvas.toDataURL(`${ticketData.number}/jpg`);
+  const link = document.createElement('a');
+
+  if (typeof link.download === 'string') {
+    link.href = data;
+    link.download = `${ticketData.number}.jpg`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    window.open(data);
+  }
+};
  
   return(
     <>      
@@ -112,8 +131,11 @@ const updateSend = () => {
           {ticketData?.isSend?'Confirmed':'Confirm'}
           </button>
           <span><p>{updating}</p></span>
+          <button className='btn btn-labeled btn-primary' style={{ marginBottom: '10px' }} onClick={handleDownloadImage}>
+            Download Ticket
+          </button>
         </div>
-      <div className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center"style={{marginTop:"3.75rem"}}>
+      <div ref={ref} className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center"style={{marginTop:"3.75rem"}}>
         <div className="card">
         <div className="card-header text-center">
         {ticketData.category.event.name}
