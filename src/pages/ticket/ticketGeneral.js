@@ -18,7 +18,7 @@ import Spinner from '../../components/common/spinner';//import spinner
 export function TicketGeneral(){
   const [updating, setUpdating] = useState('')
   const [auth, setauth] = useState(queryClient.getQueryData(['user']))
-  console.log('auth_ticket: ',auth)
+  const permision = auth.data.groups.find(ele => ele.permissions.find(cose=>cose.codename=='change_ticket'))?true:false
 // TODO: declear variables
 //      1.get the ticket uuid
   let { ticketUuid } = useParams();
@@ -105,10 +105,10 @@ const updateSend = () => {
         </div>
      </>
       }
-      {ticketData && 
+      {ticketData &&
       <>
         <div className="mt-3 mx-3">
-          <button className={`btn btn-labeled btn-primary`} disabled={ticketData.isSend===true} style={{ marginBottom: '10px' }} onClick={updateSend}>
+          <button className={`btn btn-labeled btn-primary`} disabled={ticketData.isSend || !permision} style={{ marginBottom: '10px' }} onClick={updateSend}>
           {ticketData?.isSend?'Confirmed':'Confirm'}
           </button>
           <span><p>{updating}</p></span>
@@ -128,7 +128,7 @@ const updateSend = () => {
             {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
           </div>
           <div className="card-footer text-muted">
-            T-<strong>{ticketData.table}</strong>
+            T-<strong>{ticketData.number}</strong>
           </div>
         </div>
       

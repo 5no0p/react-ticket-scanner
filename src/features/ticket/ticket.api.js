@@ -60,6 +60,18 @@ export const AddTicket = async(info) => {
   return res
 }
 
+export const AddMultiTicket = async(info) => {
+  const data = info
+  const res = await axios.post(`${ticketApiUrl}/multi/`,data,
+  {
+    headers: {
+      'Authorization': `Token ${localStorage.getItem('token')}` 
+    }
+  }
+  )
+  return res
+}
+
 export const UpdateTicket = async(data) => {
   console.log("data update ticket: ",data)
   const res = await axios.patch(`${ticketApiUrl}/${data.id}/`,data.data,

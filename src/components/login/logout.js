@@ -7,9 +7,9 @@ import { LogoutRequest } from "../../features/user/user.api";
 const LogOut = () => {
     let history = useHistory();
 
+
     const mutation = useMutation(LogoutRequest,{
-        onSuccess: async() => {
-          //await queryClient.fetchQuery('user')
+        onSuccess: () => {
           history.push('/')
           
         }

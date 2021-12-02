@@ -4,6 +4,9 @@ import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import FormikControl from './utils/FormikControl'
 import {GetCategories , AddCategory} from '../../features/category/category.api' //import tickets feching function
+import {AddMultiTicket} from '../../features/ticket/ticket.api' //import tickets feching function
+import Spinner from '../common/spinner'
+
 
 const initialValues = {
     category:'',
@@ -18,6 +21,15 @@ const validationSchema = Yup.object({
 
 function FormItems(props){
     const {Categories} = props
+    const [CategoryOptions, setCategoryOptions] = useState([{key: 'Select Category', value: ''}])
+    //const CategoryOptions = Categories.data.map(cate => ({ key: cate.name, value: cate.name}))
+    useEffect(() => {
+        setCategoryOptions([{key: 'Select Category', value: ''}])
+        Categories.data.map(cate => {
+            setCategoryOptions([...CategoryOptions,{ key: cate.name, value: cate.name}])
+        })
+    }, [Categories])
+    console.log(CategoryOptions)
 
     return(
         <>
@@ -25,29 +37,44 @@ function FormItems(props){
                 control='select'
                 label='Category'
                 name='category'
-                options={Categories}
+                options={CategoryOptions}
+                className='mb-3 form-control'
             />
             <FormikControl 
                 control='input'
                 type='number'
                 label='Count'
                 name='count'
+                className='mb-3 form-control'
             />
             <FormikControl 
                 control='input'
                 type='number'
                 label='Id'
                 name='id'
+                className='mb-3 form-control'
             />
         </>
     )
 }
 
 function Tickets() {
-    const [category, setCategory] = useState()
-    const CreateTicketQuery = useMutation(AddCategory(),{
+    const [inProsess, setInProsess] = useState(false)
+    const [messeage, setMesseage] = useState('')
+
+    const CreateTicketQuery = useMutation(AddMultiTicket,{
+        onMutate:()=>{
+            setInProsess(true)
+        },
+        onSuccess:()=>{
+            setMesseage('Success')
+        },
         onError: (data) => {
-            console.log(data)
+            setMesseage('Error: ',data)
+
+        },
+        onSettled:()=>{
+            setInProsess(false)
         }
     })
     const { data, isLoading} = useQuery('categories',GetCategories,{
@@ -59,19 +86,11 @@ function Tickets() {
         CreateTicketQuery.mutate(values)
     }
 
-    useEffect(() => {
-        if(data){
-            category=[]
-            data.data.map(cate => category.push({ key: cate, value: cate}))
-            setCategory(category)
-        }
-    }, [isLoading])
-
     if(isLoading){
         return <div>Loading...</div>
     }
     return (
-        <div>
+        <div className='mx-5 d-flex justify-content-center'>
             <Formik 
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -79,8 +98,11 @@ function Tickets() {
             >
                 {formik => (
                     <Form>
-                        <FormItems Categories={category} />
-                        <button type='submit'>Submit</button>
+                        <FormItems Categories={data} />
+                        <button className='btn btn-labeled btn-primary' type='submit'>Submit</button>
+                        <div className="btn-group ms-3" role="group" aria-label="Third group">
+                            {inProsess ? <Spinner />: messeage}{' '}
+                        </div>
                     </Form>
                 )}
             </Formik>            

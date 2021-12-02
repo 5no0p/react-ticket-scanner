@@ -19,6 +19,7 @@ import Home from './components/home'
 import ScanGuardian from './components/scan/scanGardian'
 import Navbar from './components/navbar'
 import {Login} from './components/login/login'
+import LogOut from './components/login/logout'
 import PrivateRoute from './components/common/privetRout'
 import NoFoundComponent from './components/common/noFound'
 import { EventsList } from './pages/event';
@@ -56,18 +57,21 @@ function App() {
           <Route exact path="/login">
             <Login />
           </Route>
+          <Route exact path="/logout">
+            <LogOut />
+          </Route>
           {/* <Route path="/test/:qrcode">
             <TicketQrcodeDetailsWarpper />
           </Route> */}
-          {/* <PrivateRoute path="/ct" auth={auth}>
+          <PrivateRoute path="/ct" auth={auth}>
             <Tickets />
-          </PrivateRoute> */}
-          <Route exact path="/tickets/:ticketUuid/details">
+          </PrivateRoute>
+          <PrivateRoute exact path="/tickets/:ticketUuid/details">
             <TicketDetailsWarpper />
-          </Route>
-          <Route exact path="/tickets/:ticketUuid">
+          </PrivateRoute>
+          <PrivateRoute exact path="/tickets/:ticketUuid">
             <TicketGeneralWarpper />
-          </Route>
+          </PrivateRoute>
           <PrivateRoute exact path="/tickets">
             <TicketsList />
           </PrivateRoute> 
@@ -80,12 +84,12 @@ function App() {
           <Route exact path="/events">
             <EventsList />
           </Route> 
-          <Route exact path="/scanlogs">
+          <PrivateRoute exact path="/scanlogs">
             <ScanlogsList />
-          </Route>  
-          <Route exact path="/scan">
+          </PrivateRoute>  
+          <PrivateRoute exact path="/scan">
             <Scan />
-          </Route>
+          </PrivateRoute>
           <Route exact path="/">
             <Home />
           </Route>

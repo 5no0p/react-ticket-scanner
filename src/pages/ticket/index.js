@@ -1,14 +1,21 @@
 import React,{useState, useEffect} from 'react';//import react
 import {Link} from "react-router-dom";//import Link
+import Modal from 'react-modal'
 import { TicketsQuery,TicketByPageQuery } from '../../features/ticket/ticket.query';//import tickers query
 import Select from 'react-select'
 import Spinner from '../../components/common/spinner';//import spinner
+import Tickets from '../../components/form/Tickets';
+import {queryClient} from '../../index'
 
-//
+Modal.setAppElement('#root')
 // TODO: make function to display tickers list
 export const TicketsList = () => {
   const [page, setPage] = useState(1)
   const [pageOptions, setPageOptions] = useState()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [auth, setauth] = useState(queryClient.getQueryData(['user']))
+  const permision = auth?.data?.groups?.find(ele => ele.permissions.find(cose=>cose.codename=='add_ticket'))?true:false
+  console.log('aut_tikit',permision)
 
 
   // TODO: get the data from the query
@@ -64,8 +71,10 @@ export const TicketsList = () => {
             <>
               <div className="container" style={{marginTop:"3.75rem"}}></div>
               <div className="mx-5 d-flex flex-row justify-content-between">
-                <button className={`btn btn-labeled btn-primary`} disabled={true} style={{ marginBottom: '10px' }}>
-                  Create Tickets
+                <button className={`btn btn-labeled btn-primary`} disabled={!permision} style={{ marginBottom: '10px' }} onClick={()=>setIsModalOpen(true)}>
+                  {/* <Link to='ct/' style={{ textDecoration: 'none',color: 'inherit', }}> */}
+                     Create Tickets
+                  {/* </Link> */}
                 </button>
                 <Select 
                     options={pageOptions} 
@@ -135,6 +144,17 @@ export const TicketsList = () => {
                 {isFetching ? <Spinner />: null}{' '}
                 </div>
               </div>
+              <Modal isOpen={isModalOpen}>
+                  <div className='position-relative my-3'>
+                  <div className='position-absolute top-0 start-0'>
+                    <button className='btn-close' aria-label='Close' onClick={()=> setIsModalOpen(false)}></button>
+                  </div>
+                  <Tickets />
+                  </div>
+                  
+                  
+                  
+              </Modal>
             </>
       }
 
