@@ -135,7 +135,7 @@ const handleDownloadImage = async () => {
             Download Ticket
           </button>
         </div>
-      <div ref={ref} className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center"style={{marginTop:"3.75rem"}}>
+      <div ref={ref} className="row row-cols-1 row-cols-md-3 g-4 justify-content-center"style={{marginTop:"3.75rem"}}>
         <div className="card">
         <div className="card-header text-center">
         {ticketData.category.event.name}
