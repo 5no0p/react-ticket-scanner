@@ -1,19 +1,22 @@
 // TODO: impotr dependences
 //       1.import react
-import React from 'react'
+import React,{useState} from 'react'
 //       2. import QR code generator
 import QRCode from "react-qr-code";
+import { useMutation } from 'react-query';
 //       3. import queryClient
 import {queryClient} from '../../index'
 //       4. import useParams
 import {Link, useParams} from "react-router-dom";
 //       5. import TicketByIdQuery
 import { TicketByIdQuery } from '../../features/ticket/ticket.query';
+import { UpdateTicket } from '../../features/ticket/ticket.api';
 import Spinner from '../../components/common/spinner';//import spinner
 
 //
 // TODO: make function to display ticket details
 export function TicketGeneral(){
+  const [updating, setUpdating] = useState('')
 // TODO: declear variables
 //      1.get the ticket uuid
   let { ticketUuid } = useParams();
@@ -23,6 +26,20 @@ export function TicketGeneral(){
   let getData,getIsLoading,getIsError,getEerror
 //      4.get tickets query key
   const queryKey = "tickets"
+
+  const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
+    onMutate: () => {
+        setUpdating('updating...')
+           
+    },
+    onSuccess: async (data) => {
+      await queryClient.setQueryData(['ticket',data.data.tid], data)
+      setUpdating('updated')     
+    },
+    onError: (error) => {
+      setUpdating('Update Error: ',error)
+    }
+  })
 //      
 // TODO: check if data is in query cache, if not make api request
 //      1.get data from cached tickets query if undefine gi step 2
@@ -58,7 +75,17 @@ const data = getData?('status' in getData)?getData.data:getData:getData
 const ticketData = isCached?data?.find(d => d.tid === ticketUuid):data
 console.log("FINAL",ticketData)
 
+const updateSend = () => {
+  let ticketUpdate = {
+    id:ticketData.tid,
+    data:{
+      isSend:true
+    },
+    token:localStorage.getItem('token')
+  }
+  mutation.mutate(ticketUpdate)
 
+}
  
   return(
     <>      
@@ -77,6 +104,13 @@ console.log("FINAL",ticketData)
      </>
       }
       {ticketData && 
+      <>
+        <div className="mt-3 mx-3">
+          <button className={`btn btn-labeled btn-primary`}style={{ marginBottom: '10px' }} onClick={updateSend}>
+          Confirm
+          </button>
+          <span><p>{updating}</p></span>
+        </div>
       <div className="row row-cols-1 row-cols-md-3 g-4 mx-5 justify-content-center"style={{marginTop:"3.75rem"}}>
         <div className="card">
         <div className="card-header text-center">
@@ -97,7 +131,7 @@ console.log("FINAL",ticketData)
         </div>
       
     </div>
-    
+    </>
       }
       
     </>
