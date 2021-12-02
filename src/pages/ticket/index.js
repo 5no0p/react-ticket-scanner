@@ -99,7 +99,7 @@ export const TicketsList = () => {
                 {ticketsData?.results.map((ticket) => (
                   <tr className="text-center" key={ticket.tid}>
                     <td><Link to={`/tickets/${ticket.tid}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.number}</Link></td>
-                    <td>{ticket.name}</td>
+                    <td><Link to={`/tickets/${ticket.tid}`} style={{ textDecoration: 'none',color: 'inherit', }}>{ticket.name}</Link></td>
                     <td>{ticket.category.name}</td>
                     <td>{ticket.validity ? 'valid' : 'expierd'}</td>
                     <td>{ticket.isSend ? <i className="fa fa-check"></i>: <i className="fa fa-exclamation-circle"></i>}</td>
