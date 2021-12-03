@@ -117,9 +117,9 @@ if(log){
     <div style={{margin: "10vh 1vw"}}>
       {/* {alart} */}
       <p>{updating}</p>
-      <button className={`btn btn-labeled btn-primary mb-3 ${isUpdate && updating==='updated'?'':'d-none'}`} disabled={!validity} onClick={()=>setValidity(dataTicket.validity)}>confirm</button>
-      <div className={`${validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
-        {validity===true?"valid":"expired"}
+      {/* <button className={`btn btn-labeled btn-primary mb-3 ${isUpdate && updating==='updated'?'':'d-none'}`} disabled={!validity} onClick={()=>setValidity(dataTicket.validity)}>confirm</button> */}
+      <div className={`${dataTicket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
+        {dataTicket.validity===true?"valid":"expired"}
       </div>
       <div className="row">
         <div className="col-9">{/* event name */}
