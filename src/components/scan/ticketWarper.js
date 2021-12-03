@@ -1,6 +1,6 @@
 // TODO: impotr dependences
 //       1.import react
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../index'
 //       3. import GetQrcodesQueryById
@@ -24,54 +24,46 @@ import {GetTicketById, UpdateTicket, GetTicketByQrcode} from '../../features/tic
 // TODO: make function to display ticket details
 export function TicketQrcodeDetails({ticketQrcode,isScan}){
 // declear variables
-console.log("isScan: ",isScan)
 const [isUpdate, setIsUpdate] = useState(isScan)
 const [log, setLog] = useState(isScan)
 const [updating, setUpdating] = useState('')
-console.log("isUpdate: ",isUpdate)
+const [ dataTicket, setDataTicket ] = useState(null)
+const [ validity, setValidity ] = useState()
+
   let ticketUpdate = {}
   const {ticketData,isError,error,isLoading,isFetched,data} = GetQrcodeData(ticketQrcode)
-  
   const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
     onMutate: () => {
         setUpdating('updating...')
         setIsUpdate(!isScan)
     },
     onSuccess: (data) => {
-      queryClient.fetchQuery(['ticket_qrcode',data.data.qrcode,localStorage.getItem('token')],
-      ()=>GetTicketByQrcode(data.data.qrcode,localStorage.getItem('token')))
+      setDataTicket({...dataTicket,validity:false})
       setUpdating('updated')
       
     },
     onError: (error) => {
       setUpdating('Update Error: ',error)
+    },
+    onSettled: () => {
+      setIsUpdate(isScan)
+
     }
   })
 
-  const logMutation = useMutation(logInfo => AddScanlog(logInfo),{
-    // onSuccess: () => {
-    //   queryClient.fetchQuery(['ticket',ticketData.qrcode],
-    //   ()=>GetTicketById(ticketData.qrcode,localStorage.getItem('token')))
-    // }
-  })
+  const logMutation = useMutation(logInfo => AddScanlog(logInfo))
 
-
-
-
-console.log('Final: ',ticketData)
-
-if(ticketData){
-  
-}
-
-
-if (isLoading)console.log("loading...")
+  useEffect(() => {
+    if(ticketData){
+      setDataTicket(ticketData)
+      setValidity(ticketData.validity)
+    }
+  }, [ticketData])
 
 if (isLoading) {
   return <span>Loading...</span>
 }
 if (isError) {
-  console.log("status: ",error.response)
   return (<>
     <Sound ticketData={false}/> 
     <div className={`${error?.response?.status===404?"bg-dark":"bg-warning "} h-auto w-100 d-flex justify-content-center`}>
@@ -83,41 +75,35 @@ if (isError) {
   )
 }
 
-if (ticketData){
+if (dataTicket){
   let alart
-  // if(ticketData.validity===true)alart=<Sound ticketData={true}/>
-  // if(ticketData.validity===false)alart=<Sound ticketData={false}/>
-  alart = ticketData.validity===true?<Sound ticketData={true}/>:<Sound ticketData={false}/>
+  // if(dataTicket.validity===true)alart=<Sound dataTicket={true}/>
+  // if(dataTicket.validity===false)alart=<Sound dataTicket={false}/>
+  alart = dataTicket.validity===true?<Sound dataTicket={true}/>:<Sound dataTicket={false}/>
  
-  console.log("log :::",log)
-
 if(log){
-  console.log("log")
   const today = new Date(),
   time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
   const scanLog = {
-    "status_recorded":ticketData.validity===true?'P':'E',
-    "ticket":`${ticketData.uuid}`,
+    "status_recorded":dataTicket.validity===true?'P':'E',
+    "ticket":`${dataTicket.uuid}`,
     "scan_time":time,
   }
   logMutation.mutate(scanLog)
   setLog(!isScan)
 }
   
-console.log("check===>",ticketData.validity===true)
-  if(ticketData.validity===true && isUpdate && localStorage.getItem('token'))
+  if(dataTicket.validity===true && isUpdate && localStorage.getItem('token'))
   {
     ticketUpdate = {
-    id:ticketData.tid,
+    id:dataTicket.tid,
     data:{
       validity:false
     },
     token:localStorage.getItem('token')
   }
-  console.log("isUpdate===>",ticketData.validity)
   mutation.mutate(ticketUpdate)
   setIsUpdate(!isScan)
-  console.log("isUpdate :::",isUpdate)
 }
 
 
@@ -130,9 +116,10 @@ console.log("check===>",ticketData.validity===true)
       
     <div style={{margin: "10vh 1vw"}}>
       {/* {alart} */}
-      <p>{isUpdate?'':`${updating}`}</p>
-      <div className={`${ticketData.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
-        {ticketData.validity===true?"valid":"expired"}
+      <p>{updating}</p>
+      <button className={`btn btn-labeled btn-primary mb-3 ${isUpdate && updating==='updated'?'':'d-none'}`} disabled={!validity} onClick={()=>setValidity(dataTicket.validity)}>confirm</button>
+      <div className={`${validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
+        {validity===true?"valid":"expired"}
       </div>
       <div className="row">
         <div className="col-9">{/* event name */}
@@ -141,17 +128,17 @@ console.log("check===>",ticketData.validity===true)
             <p className="m-0"><small>Event</small></p>
             </div>
             <div>{/* event name data*/}
-              <p><strong>{ticketData.category.event.name}</strong></p>
+              <p><strong>{dataTicket.category.event.name}</strong></p>
             </div>
             </div>
         </div>
         <div className="col d-flex justify-content-end">{/* ticket date */}
             <div className="ticket-warper">{/* ticket date warper*/}
                 <div className="Category-warper">
-                    <div>{/* ticket category data*/}<p><strong>{ticketData.category.name}</strong></p></div>
+                    <div>{/* ticket category data*/}<p><strong>{dataTicket.category.name}</strong></p></div>
                 </div>
                 <div className="Extra-warper">
-                    <div>{/* ticket nuumber data*/}<p><strong>T-{ticketData.table}</strong></p></div>
+                    <div>{/* ticket nuumber data*/}<p><strong>T-{dataTicket.table}</strong></p></div>
                 </div>
             </div>
           </div>
@@ -162,12 +149,12 @@ console.log("check===>",ticketData.validity===true)
           <p className="m-0"><small>Name</small></p>
         </div>
         <div>{/* ticket name data*/}
-          <p><strong>{ticketData.name}</strong></p>
+          <p><strong>{dataTicket.name}</strong></p>
         </div>
       </div>
       <div>{/* ticket number */}
         <div>{/* ticket nuumber tage*/}<p className="m-0"><small>Number</small></p></div>
-        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${ticketData.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{ticketData.tid}</strong></p></Link></div>
+        <div>{/* ticket nuumber data*/}<Link to={`/tickets/${dataTicket.tid}/details`} style={{ textDecoration: 'none',color: 'inherit', }}><p><strong>{dataTicket.tid}</strong></p></Link></div>
       </div>
     </div>
       

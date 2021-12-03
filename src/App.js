@@ -72,9 +72,9 @@ function App() {
           <PrivateRoute exact path="/tickets/:ticketUuid">
             <TicketGeneralWarpper />
           </PrivateRoute>
-          <PrivateRoute exact path="/tickets">
+          <Route exact path="/tickets">
             <TicketsList />
-          </PrivateRoute> 
+          </Route> 
           <Route exact path="/events/:eventUuid/tickets">
             <EventTicketsWarpper />
           </Route> 
