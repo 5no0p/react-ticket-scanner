@@ -11,12 +11,14 @@ import Spinner from '../common/spinner'
 const initialValues = {
     category:'',
     id:'',
-    count:''
+    count:'',
+    name:''
 }
 const validationSchema = Yup.object({
     category: Yup.string().required('Required'),
     id: Yup.number().required('Required'),
     count: Yup.number().required('Required'),
+    name: Yup.string().required('Required'),
 })
 
 function FormItems(props){
@@ -24,12 +26,15 @@ function FormItems(props){
     const [CategoryOptions, setCategoryOptions] = useState([{key: 'Select Category', value: ''}])
     //const CategoryOptions = Categories.data.map(cate => ({ key: cate.name, value: cate.name}))
     useEffect(() => {
-        setCategoryOptions([{key: 'Select Category', value: ''}])
-        Categories.data.map(cate => {
-            setCategoryOptions([...CategoryOptions,{ key: cate.name, value: cate.name}])
-        })
+        // setCategoryOptions([{key: 'Select Category', value: ''}])
+        const c = Categories.data.map(cate => ({ key: cate.name, value: cate.name}))
+        const cc = [{key: 'Select Category', value: ''},...c]
+        console.log('c',cc)
+       
+        setCategoryOptions(cc)
+        
     }, [Categories])
-    console.log(CategoryOptions)
+    console.log('CategoryOptions',CategoryOptions)
 
     return(
         <>
@@ -52,6 +57,13 @@ function FormItems(props){
                 type='number'
                 label='Id'
                 name='id'
+                className='mb-3 form-control'
+            />
+            <FormikControl 
+                control='input'
+                type='text'
+                label='Name'
+                name='name'
                 className='mb-3 form-control'
             />
         </>
