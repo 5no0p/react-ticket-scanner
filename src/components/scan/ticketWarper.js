@@ -1,6 +1,6 @@
 // TODO: impotr dependences
 //       1.import react
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useMemo} from 'react'
 //       2. import queryClient
 import {queryClient} from '../../index'
 //       3. import GetQrcodesQueryById
@@ -31,6 +31,17 @@ const [ dataTicket, setDataTicket ] = useState(null)
 const [ validity, setValidity ] = useState()
 
   let ticketUpdate = {}
+  const auth = queryClient.getQueryData(['user'])
+  const permissions = useMemo(() => {
+    const getPermissions = (user) => {
+      const userGroups = user.data.groups;
+      const checkUserPermissions = obj => obj.codename === "change_ticket";
+      return userGroups.map(el => el.permissions.some(checkUserPermissions)).includes(true)
+   
+    }
+    return getPermissions(auth)
+  },[])
+  console.log('permissions',permissions)
   const {ticketData,isError,error,isLoading,isFetched,data} = GetQrcodeData(ticketQrcode)
   const mutation = useMutation(usernfo => UpdateTicket(usernfo),{
     onMutate: () => {
@@ -57,6 +68,7 @@ const [ validity, setValidity ] = useState()
     if(ticketData){
       setDataTicket(ticketData)
       setValidity(ticketData.validity)
+      setUpdating('')
     }
   }, [ticketData])
 
@@ -93,7 +105,7 @@ if(log){
   setLog(!isScan)
 }
   
-  if(dataTicket.validity===true && isUpdate && localStorage.getItem('token'))
+  if(dataTicket.validity===true && isUpdate && localStorage.getItem('token') && permissions)
   {
     ticketUpdate = {
     id:dataTicket.tid,
@@ -118,7 +130,7 @@ if(log){
       {/* {alart} */}
       <p>{updating}</p>
       {/* <button className={`btn btn-labeled btn-primary mb-3 ${isUpdate && updating==='updated'?'':'d-none'}`} disabled={!validity} onClick={()=>setValidity(dataTicket.validity)}>confirm</button> */}
-      <div className={`${dataTicket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
+      <div className={`${dataTicket.validity===true?permissions?"bg-primary":"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {dataTicket.validity===true?"valid":"expired"}
       </div>
       <div className="row">

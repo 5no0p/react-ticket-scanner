@@ -29,7 +29,7 @@ export const GetUser = async(token) => {
       }
     }
     )
-  console.log("axios user")
+  console.log("axios user",res)
   return res
 }
 //
