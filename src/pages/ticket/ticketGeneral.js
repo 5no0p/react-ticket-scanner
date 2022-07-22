@@ -18,8 +18,8 @@ import Spinner from '../../components/common/spinner';//import spinner
 // TODO: make function to display ticket details
 export function TicketGeneral(){
   const [updating, setUpdating] = useState('')
-  const [auth, setauth] = useState(queryClient.getQueryData(['user']))
-  const permision = auth.data.groups.find(ele => ele.permissions.find(cose=>cose.codename=='change_ticket'))?true:false
+  const auth = queryClient.getQueryData(['user'])
+  const permision = auth.data?.groups?.find(ele => ele.permissions.find(cose=>cose.codename ==='change_ticket'))?true:false
   const ref = createRef(null)
 //      1.get the ticket uuid
   let { ticketUuid } = useParams();

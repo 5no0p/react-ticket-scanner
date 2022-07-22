@@ -22,7 +22,7 @@ export function Login() {
         {
             onSuccess: async ({data}) => {
                 localStorage.setItem('token',data.key)
-                const res = await queryClient.setQueryData('user',() => GetUser(localStorage.getItem('token')))
+                const res = await queryClient.setQueryData(['user'],() => GetUser(data.key))
                 
                if(history.location.state !== undefined) 
                {

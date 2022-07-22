@@ -31,7 +31,7 @@ import { GetUser } from './features/user/user.api';
 import Tickets from './components/form/Tickets'
 
 function App() {
-  const {data, isLoading} = useQuery('user',() => GetUser(localStorage.getItem('token')),{
+  const {data, isLoading} = useQuery(['user'],() => GetUser(localStorage.getItem('token')),{
     // disable window focus refetching
       refetchOnWindowFocus: false,
       retry:1
