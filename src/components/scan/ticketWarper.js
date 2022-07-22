@@ -35,8 +35,12 @@ const [ validity, setValidity ] = useState()
   const permissions = useMemo(() => {
     const getPermissions = (user) => {
       const userGroups = user.data.groups;
-      const checkUserPermissions = obj => obj.codename === "change_ticket";
-      return userGroups.map(el => el.permissions.some(checkUserPermissions)).includes(true)
+      const checkerPermissions = obj => obj.codename === "change_checked_status";
+      const validityPermissions = obj => obj.codename === "change_validity_status";
+      return {
+        validity:userGroups.map(el => el.permissions.some(validityPermissions)).includes(true),
+        checked:userGroups.map(el => el.permissions.some(checkerPermissions)).includes(true)
+      }
    
     }
     return getPermissions(auth)
@@ -105,12 +109,13 @@ if(log){
   setLog(!isScan)
 }
   
-  if(dataTicket.validity===true && isUpdate && localStorage.getItem('token') && permissions)
+  if(dataTicket.validity===true && isUpdate && localStorage.getItem('token') && permissions.validity)
   {
     ticketUpdate = {
     id:dataTicket.tid,
     data:{
-      validity:false
+      validity:false,
+      is_checked:true
     },
     token:localStorage.getItem('token')
   }
@@ -130,9 +135,12 @@ if(log){
       {/* {alart} */}
       <p>{updating}</p>
       {/* <button className={`btn btn-labeled btn-primary mb-3 ${isUpdate && updating==='updated'?'':'d-none'}`} disabled={!validity} onClick={()=>setValidity(dataTicket.validity)}>confirm</button> */}
-      <div className={`${dataTicket.validity===true?permissions?"bg-primary":"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
+      {permissions.validity===true && <div className={`${dataTicket.validity===true?"bg-success":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
         {dataTicket.validity===true?"valid":"expired"}
-      </div>
+      </div>}
+      {permissions.checked===true && <div className={`${dataTicket.is_checked===true?"bg-primary":"bg-danger"} h-auto w-100 d-flex justify-content-center`}>
+        {dataTicket.is_checked===true?"checked":"not checked"}
+      </div>}
       <div className="row">
         <div className="col-9">{/* event name */}
           <div className="ticket-warper">{/* ticket event warper*/}
