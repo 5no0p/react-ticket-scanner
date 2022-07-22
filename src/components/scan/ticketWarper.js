@@ -30,16 +30,17 @@ const [updating, setUpdating] = useState('')
 const [ dataTicket, setDataTicket ] = useState(null)
 const [ validity, setValidity ] = useState()
 
+
   let ticketUpdate = {}
   const auth = queryClient.getQueryData(['user'])
   const permissions = useMemo(() => {
     const getPermissions = (user) => {
-      const userGroups = user.data.groups;
+      const userGroups = user.data?.groups;
       const checkerPermissions = obj => obj.codename === "change_checked_status";
       const validityPermissions = obj => obj.codename === "change_validity_status";
       return {
-        validity:userGroups.map(el => el.permissions.some(validityPermissions)).includes(true),
-        checked:userGroups.map(el => el.permissions.some(checkerPermissions)).includes(true)
+        validity:userGroups?.map(el => el.permissions.some(validityPermissions)).includes(true),
+        checked:userGroups?.map(el => el.permissions.some(checkerPermissions)).includes(true)
       }
    
     }
@@ -75,6 +76,8 @@ const [ validity, setValidity ] = useState()
       setUpdating('')
     }
   }, [ticketData])
+
+
 
 if (isLoading) {
   return <span>Loading...</span>

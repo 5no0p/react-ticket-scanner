@@ -35,18 +35,22 @@ const Nav = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/scan">Scan</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/tickets">Tickets</a>
-              </li>
+              
 
               {
                 auth
-                ?<li className="nav-item">
+                ?
+                  <>
+                  <li className="nav-item">
+                    <a className="nav-link active" aria-current="page" href="/scan">Scan</a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link active" aria-current="page" href="/tickets">Tickets</a>
+                  </li>
+                  <li className="nav-item">
                     <p className="nav-link active" aria-current="page" onClick={()=>mutation.mutate()}>Logout</p>
                   </li>
+                  </>
                 :<li className="nav-item">
                   <a className="nav-link active" aria-current="page" href="/login" >Login</a>
                 </li>
